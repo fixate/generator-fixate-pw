@@ -1,13 +1,15 @@
 gitUtils = require './lib/git-utils'
 myUtils = require './lib/utils'
 yeoman = require 'yeoman-generator'
+shell = require 'shelljs'
+path = require 'path'
 
 module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	constructor: (args, options, config) ->
 		super args, options, config
 
-		@on "end", ->
-			@installDependencies skipInstall: options["skip-install"]
+		# @on "end", ->
+		#   @installDependencies skipInstall: options["skip-install"]
 
 		@pkg = myUtils.loadJSON("../package.json", __dirname)
 		@settings = myUtils.loadJSON("./settings.json", __dirname)
@@ -34,7 +36,11 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			repo_path = gitUtils.fetch @settings.github.processwire, @pwBranch
 
 			console.log "Copying processwire install..."
-			@copy "#{repo_path}", "src/"
+# http://stackoverflow.com/questions/160608/how-to-do-a-git-export-like-svn-export
+			debugger
+			@directory "#{repo_path}", "src/"
+			# Remove .git from dest
+			shell.rm '-rf', path.join(@destinationRoot(), 'src/.git')
 
 		setupSourceJs = =>
 

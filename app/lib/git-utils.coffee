@@ -12,7 +12,7 @@ class GitUtils
 			shell.pushd cached_dir
 			shell.exec "git co #{branch}"
 			shell.exec "git pull"
-			shell.popd
+			shell.popd()
 		else
 			shell.exec "git clone #{repo_url} -b #{branch} #{cached_dir}"
 
