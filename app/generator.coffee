@@ -28,24 +28,23 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			cb()
 
 	app: =>
-		cb = @async()
-
-		setupProcesswire = (callback) =>
+		setupProcesswire = =>
+			@mkdir 'src'
 			console.log "Fetching repo #{@settings.github.processwire}..."
 			repo_path = gitUtils.fetch @settings.github.processwire, @pwBranch
-			console.log 'done'
-			debugger
 
-		setupSourceJs = (callback) =>
+			console.log "Copying processwire install..."
+			@copy "#{repo_path}", "src/"
 
-		setupStyleguide = (callback) =>
+		setupSourceJs = =>
+
+		setupStyleguide = =>
 
 		# Call helpers
-		setupProcesswire =>
-			setupSourceJs =>
-				setupStyleguide =>
-					@copy "_package.json", "package.json"
-					cb()
+		setupProcesswire()
+		setupSourceJs()
+		setupStyleguide()
+		@copy "_package.json", "package.json"
 
 	projectfiles: =>
 		@copy "_Gruntfile.coffee", "Gruntfile.coffee"

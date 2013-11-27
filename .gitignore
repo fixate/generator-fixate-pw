@@ -1,6 +1,6 @@
 node_modules/
 temp/
-.cached/
+.gitcache/
 
 lib-cov
 *.seed

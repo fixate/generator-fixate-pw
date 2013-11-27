@@ -19,7 +19,7 @@ class GitUtils
 		cached_dir
 
 GitUtils.giturl = 'https://github.com/{url}.git'
-GitUtils.cache_dir = path.resolve(path.join(__dirname, '../../.cached'))
+GitUtils.cache_dir = path.resolve(path.join(__dirname, '../templates/.gitcache'))
 
 fs.mkdirSync(GitUtils.cache_dir, 0o777, true) unless fs.existsSync(GitUtils.cache_dir)
 
