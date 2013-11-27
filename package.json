@@ -1,0 +1,43 @@
+{
+  "name": "generator-fixate-pw",
+  "version": "0.0.0",
+  "description": "A generator for Yeoman",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://github.com/fixate/generator-fixate-pw",
+  "bugs": "https://github.com/fixate/generator-fixate-pw/issues",
+  "author": {
+    "name": "Fixate Web and Design",
+    "email": "admin@fixate.it",
+    "url": "https://github.com/fixate"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fixate/generator-fixate-pw.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.14.0",
+		"shelljs": "~0.2.6",
+		"node-fs": "~0.1.7"
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+	"github": {
+		"processwire": "ryancramerdesign/ProcessWire",
+		"pwboilerplate": "fixate/pw-boilerplate",
+		"sourcejs": "sourcejs/Source"
+	}
+}
