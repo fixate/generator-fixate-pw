@@ -1,7 +1,6 @@
 # generator-fixate-pw [![Build Status](https://secure.travis-ci.org/fixate/generator-fixate-pw.png?branch=master)](https://travis-ci.org/fixate/generator-fixate-pw)
 
-A generator for [Yeoman](http://yeoman.io).
-
+[Yeoman](http://yeoman.io) generator for processwire / sourcejs / fixate styleguide.
 
 ## Getting Started
 
@@ -45,3 +44,4 @@ If you'd like to get to know Yeoman better and meet some of his friends, [Grunt]
 ## License
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
+
