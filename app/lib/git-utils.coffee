@@ -1,26 +1,31 @@
 path = require 'path'
-fs = require 'node-fs'
+fs = require 'fs'
 shell = require 'shelljs'
 
 class GitUtils
-	@fetch: (github, branch, cb) ->
-		branch ||= 'master'
-		repo_url = GitUtils.giturl.replace('{url}', github)
-		cached_dir = path.join(GitUtils.cache_dir, github)
+	@cacheRepo: (repo_url) ->
+		cached_dir = path.join(GitUtils.cache_dir, @pathFromUrl(repo_url))
 
-		if fs.existsSync(cached_dir)
-			shell.pushd cached_dir
-			shell.exec "git co #{branch}"
-			shell.exec "git pull"
-			shell.popd()
-		else
-			shell.exec "git clone #{repo_url} -b #{branch} #{cached_dir}"
+		unless fs.existsSync(cached_dir)
+			GitUtils.exec "git clone #{repo_url} #{cached_dir}"
 
 		cached_dir
 
-GitUtils.giturl = 'https://github.com/{url}.git'
-GitUtils.cache_dir = path.resolve(path.join(__dirname, '../templates/.gitcache'))
+	@pathFromUrl: (gitUrl) ->
+		parts = gitUrl.split('://')[1].split('/')
+		path.join(parts[1], parts[2].split('.')[0])
 
-fs.mkdirSync(GitUtils.cache_dir, 0o777, true) unless fs.existsSync(GitUtils.cache_dir)
+	@exec: (cmd) ->
+		if shell.exec(cmd).code != 0
+			throw "Error: #{cmd} failed!"
+
+	@export: (repo_path, dest_root, branch = 'master') ->
+		shell.pushd repo_path
+		GitUtils.exec "git pull origin #{branch}"
+		GitUtils.exec "git checkout #{branch}"
+		GitUtils.exec "git archive #{branch} | tar -x -C #{dest_root}"
+		shell.popd()
+
+GitUtils.cache_dir = path.resolve(path.join(__dirname, '../templates/.gitcache'))
 
 module.exports = GitUtils

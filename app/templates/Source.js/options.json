@@ -1,0 +1,16 @@
+{
+	"description": "This options.json overrides and extends core options.json file",
+
+	"common": {
+		"pathToSpecs": "../styleguide"
+	},
+
+	"grunt" : {
+        "server": {
+            "pathToDir": "<%= serverPath %>",
+            "host": "localhost",
+            "port": "9000",
+            "key": "keyInFile.ftppass"
+        }
+    }
+}

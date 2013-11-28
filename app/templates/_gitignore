@@ -1,0 +1,33 @@
+.DS_STORE
+config.rb
+projects/*.sublime-workspace
+.sass-cache/
+
+# ignore Source.js
+Source.js
+
+# ignore grunt files
+node_modules
+npm-debug.log
+
+# ProcessWire
+#ignore ProcessWire files and folders
+*.old
+*.old/*
+*.new
+*.new/*
+old
+old/*
+*.1
+*.1/*
+sess_*
+*.cache
+*.swp
+*.swo
+*.sh
+**/site/config-dev.php
+**/site/assets/logs/**
+**/site/assets/files/**
+**/site/assets/sessions/**
+**/site/assets/cache/**
+**/site/assets/installed.php

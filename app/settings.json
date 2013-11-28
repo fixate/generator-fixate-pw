@@ -1,7 +1,9 @@
 {
 	"github": {
 		"processwire": "ryancramerdesign/ProcessWire",
-		"pwboilerplate": "fixate/pw-boilerplate",
-		"sourcejs": "sourcejs/Source"
+		"processwireTeflon": "somatonic/teflon-admin-theme-pw2",
+		"pwBoilerplate": "fixate/pw-boilerplate",
+		"sourcejs": "sourcejs/Source",
+		"styleguide": "larrybotha/styleguide"
 	}
 }
