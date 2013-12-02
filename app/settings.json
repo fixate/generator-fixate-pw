@@ -3,7 +3,8 @@
 		"processwire": "ryancramerdesign/ProcessWire",
 		"processwireTeflon": "somatonic/teflon-admin-theme-pw2",
 		"pwBoilerplate": "fixate/pw-boilerplate",
-		"sourcejs": "sourcejs/Source",
+		"sourcejs": "fixate/Source",
+		"sourcejsBoilerplate": "fixate/sourcejs-boilerplate",
 		"styleguide": "larrybotha/styleguide"
 	}
 }

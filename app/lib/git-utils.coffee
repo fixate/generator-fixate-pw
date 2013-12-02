@@ -19,6 +19,9 @@ class GitUtils
 		if shell.exec(cmd).code != 0
 			throw "Error: #{cmd} failed!"
 
+	@init: () ->
+		GitUtils.exec "git init"
+
 	@export: (repo_path, dest_root, branch = 'master') ->
 		shell.pushd repo_path
 		GitUtils.exec "git pull origin #{branch}"

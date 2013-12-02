@@ -2,6 +2,7 @@ GitUtils = require './lib/git-utils'
 myUtils = require './lib/utils'
 yeoman = require 'yeoman-generator'
 shell = require 'shelljs'
+fs = require 'fs'
 path = require 'path'
 
 module.exports = class FixatePwGenerator extends yeoman.generators.Base
@@ -115,6 +116,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			@log.ok('OK')
 
+		############### SourceJS Boilerplate ###############
+		setupSourceJsBoilerplate = =>
+			@log.info "Installing SourceJS Boilerplate..."
+			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejsBoilerplate)
+			GitUtils.export repo_path, dest('styleguide/')
+			@log.ok('OK')
+
 		############### Styleguide ###############
 		setupStyleguide = =>
 			@log.info "Installing styleguide..."
@@ -124,16 +132,26 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
 			GitUtils.export repo_path, dest('styleguide/data/docs'), @props.sgBranch
 
+			at dest('styleguide/data/docs'), ->
+				# Delete all files in the root
+				shell.ls('-A', '.').forEach (file)->
+					shell.rm file if fs.lstatSync(file).isFile()
+
 			# This just doesn't work...
 			# [user, repo] = @settings.github.styleguide.split('/')
 			# @remote user, repo, @props.sgBranch, (err, remote) ->
-			#   remote.directory '.', 'styleguide/data/docs/'
+			#   remo80te.directory '.', 'styleguide/data/docs/'
+
+		setupGit= =>
+			GitUtils.init(dest())
 
 		# Main
 		setupRepo()
 		setupProcesswire()
 		setupSourceJs()
+		setupSourceJsBoilerplate()
 		setupStyleguide()
+		setupGit()
 
 	projectfiles: =>
 		@copy "_Gruntfile.coffee", "Gruntfile.coffee"
