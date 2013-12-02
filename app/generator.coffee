@@ -144,6 +144,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 		setupGit= =>
 			GitUtils.init(dest())
+			GitUtils.exec 'npm install'
 
 		# Main
 		setupRepo()

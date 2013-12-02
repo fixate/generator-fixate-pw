@@ -74,6 +74,17 @@ module.exports = (grunt) ->
         options:
           stdout:true
 
+		# Coffee script
+		coffee:
+			dist:
+				files: [{
+					expand: true
+					cwd: '<%= pkg.path.coffee %>'
+					src: '{,*/}*.coffee'
+					dest: '<%= pkg.path.js %>'
+					ext: '.js'
+				}]
+
     # Watch configuration
     watch:
       gruntfile:
@@ -85,6 +96,9 @@ module.exports = (grunt) ->
           '!<%= pkg.path.scss %>/docs/**/*.scss'
           ],
         tasks: ['sass']
+			coffee:
+				files: ['<%= pkg.path.coffee %>/{,*/}*.coffee'],
+				tasks: ['coffee:dist']
       kss:
         files: [
           '<%= pkg.path.scss %>/docs/**/*.scss',

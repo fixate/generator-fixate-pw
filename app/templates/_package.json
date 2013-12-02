@@ -22,6 +22,7 @@
 		"scss": "src/site/templates/assets/css/sass",
 		"css": "src/site/templates/assets/css",
 		"img": "src/site/templates/assets/img",
+		"coffee": "src/site/templates/assets/coffee",
 		"js": "src/site/templates/assets/js",
 		"theme": "src/site/templates"
 	}
