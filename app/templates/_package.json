@@ -28,7 +28,7 @@
 		"theme": "src/site/templates"
 	},
   "domain": {
-    "name": "[yourdomain.com]",
-    "username": "[ssh_username]"
+    "name": "your_domain",
+    "username": "ssh_username"
   }
 }
