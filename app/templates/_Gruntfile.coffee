@@ -121,6 +121,10 @@ module.exports = (grunt) ->
 				files: ['<%= pkg.path.coffee %>/{,*/}*.coffee'],
 				tasks: ['coffee:dist']
 
+
+    #*------------------------------------*\
+    #   $CONTRIB-UGLIFY
+    #*------------------------------------*/
     uglify:
       target:
         files:
