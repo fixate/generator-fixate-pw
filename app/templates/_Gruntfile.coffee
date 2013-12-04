@@ -128,7 +128,7 @@ module.exports = (grunt) ->
     uglify:
       target:
         files:
-          '<%= pkg.path.js %>/main.js'
+          '<%= pkg.path.js %>/main.min.js': '<%= pkg.path.js %>/main.js'
 
 
     #*------------------------------------*\
