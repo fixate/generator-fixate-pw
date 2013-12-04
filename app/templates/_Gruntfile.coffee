@@ -2,7 +2,9 @@ module.exports = (grunt) ->
 
   pkg = grunt.file.readJSON('package.json')
 
-  # Load dependancies
+  #*------------------------------------*\
+  #   $LOAD DEPENDENCIES
+  #*------------------------------------*/
   dependencies = Object.keys(pkg.devDependencies).filter (o) ->
     /^grunt-.+/.test(o)
 
@@ -20,7 +22,9 @@ module.exports = (grunt) ->
     # Project configuration
     # ---------------------
 
-    # Coffee Lint
+    #*------------------------------------*\
+    #   $COFFEELINT
+    #*------------------------------------*/
     coffeelint:
       gruntfile:
         src: 'gruntfile.coffee'
@@ -28,7 +32,10 @@ module.exports = (grunt) ->
           max_line_length:
             level: 'ignore'
 
-    # Manage Sass compilation
+
+    #*------------------------------------*\
+    #   $CONTRIB-SASS
+    #*------------------------------------*/
     sass:
       dist:
         options:
@@ -37,7 +44,10 @@ module.exports = (grunt) ->
         files:
           '<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss'
 
-    # Optimise images
+
+    #*------------------------------------*\
+    #   $IMAGEOPTIM
+    #*------------------------------------*/
     imageoptim:
       files: [
         '<%= pkg.path.img %>'
@@ -50,7 +60,10 @@ module.exports = (grunt) ->
         # quit all apps after optimisation
         quitAfter: true
 
-    # Optimise SVG's
+
+    #*------------------------------------*\
+    #   $SVGMIN
+    #*------------------------------------*/
     svgmin:
       options:
         plugins: [{
@@ -64,9 +77,11 @@ module.exports = (grunt) ->
           dest: '<%= pkg.path.img %>'
         }]
 
-    # Execute shell commands
+
+    #*------------------------------------*\
+    #   $SHELL
+    #*------------------------------------*/
     shell:
-      # Generate relative symlinks from styleguide to theme
       dist:
         command: [
           'say "hello"'
@@ -74,7 +89,10 @@ module.exports = (grunt) ->
         options:
           stdout:true
 
-		# Coffee script
+
+    #*------------------------------------*\
+    #   $CONTRIB-COFFEE
+    #*------------------------------------*/
 		coffee:
 			dist:
 				files: [{
@@ -85,7 +103,10 @@ module.exports = (grunt) ->
 					ext: '.js'
 				}]
 
-    # Watch configuration
+
+    #*------------------------------------*\
+    #   $CONTRIB-WATCH
+    #*------------------------------------*/
     watch:
       gruntfile:
         files: 'Gruntfile.coffee',
@@ -99,18 +120,71 @@ module.exports = (grunt) ->
 			coffee:
 				files: ['<%= pkg.path.coffee %>/{,*/}*.coffee'],
 				tasks: ['coffee:dist']
-      kss:
-        files: [
-          '<%= pkg.path.scss %>/docs/**/*.scss',
-          'styleguide/template/**/*.*'
-        ],
-        tasks: ['kss']
 
     uglify:
       target:
         files:
           '<%= pkg.path.js %>/main.js'
 
-  # Alias the `test` task to run the `mocha` task instead
+
+    #*------------------------------------*\
+    #   $RSYNC
+    #*------------------------------------*/
+    # rsync files to and from production
+    rsync:
+      options:
+        args: ["--archive", "--itemize-changes", "--progress", "--compress"]
+        exclude: [".git*", ".DS_STORE", "*.scss", "node_modules", "config-dev.php", ".sass-cache", "*.js.map", "*.coffee"]
+        recursive: true
+
+      # dry-run down
+      downdry:
+        options:
+          args: ["--dry-run", "--verbose"]
+          src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
+          dest: "src"
+          syncDestIgnoreExcl: true
+
+      # sync local with remote
+      down:
+        options:
+          src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
+          dest: "src"
+          syncDestIgnoreExcl: true
+
+      # dry-run up
+      updrystaging:
+        options:
+          args: ["--dry-run", "--verbose"]
+          src: "src/"
+          dest: "public_html/staging.<%= pkg.domain.name %>"
+          host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+
+      # sync remote with local
+      upstaging:
+        options:
+          src: "src/"
+          dest: "public_html/staging.<%= pkg.domain.name %>"
+          host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+
+      # dry-run up
+      updry:
+        options:
+          args: ["--dry-run", "--verbose"]
+          src: "src/"
+          dest: "public_html"
+          host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+
+      # sync remote with local
+      up:
+        options:
+          src: "src/"
+          dest: "public_html"
+          host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+
+
+  #*------------------------------------*\
+  #   $TASKS
+  #*------------------------------------*/
   grunt.registerTask('default', ['watch'])
   grunt.registerTask('optim', ['imageoptim', 'svgmin'])
