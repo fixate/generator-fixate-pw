@@ -9,8 +9,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	constructor: (args, options, config) ->
 		super args, options, config
 
-		# @on "end", ->
-		#   @installDependencies skipInstall: options["skip-install"]
+		@on "end", ->
+			@installDependencies skipInstall: options["skip-install"]
 
 		@pkg = myUtils.loadJSON("../package.json", __dirname)
 		@settings = myUtils.loadJSON("./settings.json", __dirname)
@@ -144,7 +144,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 		setupGit= =>
 			GitUtils.init(dest())
-			GitUtils.exec 'npm install'
 
 		# Main
 		setupRepo()
