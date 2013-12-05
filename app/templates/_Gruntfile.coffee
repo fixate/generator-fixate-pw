@@ -54,7 +54,7 @@ module.exports = (grunt) ->
         imageAlpha: true,
         # jpegMini: true,
         quitAfter: true
-      files:
+      src:
         ['<%= pkg.path.img %>']
 
 
