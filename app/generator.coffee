@@ -111,8 +111,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.mv 'public', '../styleguide'
 				shell.rm 'user/options/options.json',
 
+			# Make dir for styleguide css
+			@mkdir 'Source.js/data/docs/css/'
+
 			@template 'Source.js/options.json', 'Source.js/user/options/options.json',
 				serverPath: dest('Source.js/')
+
+			@copy('Source.js/core/css/core/core.css', 'Source.js/core/css/core/core.css')
 
 			@log.ok('OK')
 

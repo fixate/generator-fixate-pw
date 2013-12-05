@@ -42,7 +42,8 @@ module.exports = (grunt) ->
 					quiet: false,
 					cacheLocation: '<%= pkg.path.scss %>/.sass-cache'
 				files:
-					'<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss'
+					'<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss',
+					'<%= pkg.path.styleguidecss %>/style.css': '<%= pkg.path.scss %>/style.scss'
 
 
 		#*------------------------------------*\
@@ -113,7 +114,7 @@ module.exports = (grunt) ->
 				tasks: ['coffeelint']
 			css:
 				files: [
-					'<%= pkg.path.scss %>/{,*/}*.scss',
+					'<%= pkg.path.scss %>/{,*/}*.scss'
 					],
 				tasks: ['sass']
 			coffee:
