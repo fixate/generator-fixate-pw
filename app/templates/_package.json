@@ -20,8 +20,9 @@
     "grunt-rsync": "~0.2.1"
 	},
 	"path": {
-		"scss": "src/site/templates/assets/css/sass",
+		"scss": "styleguide/data/docs/sass",
 		"css": "src/site/templates/assets/css",
+		"styleguidecss": "styleguide/data/docs/css",
 		"img": "src/site/templates/assets/img",
 		"coffee": "src/site/templates/assets/coffee",
 		"js": "src/site/templates/assets/js",
