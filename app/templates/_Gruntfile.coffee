@@ -231,7 +231,7 @@ module.exports = (grunt) ->
     rsync:
       options:
         args: ["--archive", "--itemize-changes", "--progress", "--compress"]
-        exclude: [".git*", ".DS_STORE", "*.scss", "node_modules", "config-dev.php", ".sass-cache", "*.js.map", "*.coffee"]
+        exclude: [".git*", ".DS_STORE", "*.scss", "node_modules", "config-dev.php", "local-config.php", "debug-bar", ".sass-cache", "*.js.map", "sess_*", "logs/*", "cache/*"]
         recursive: true
 
       # dry-run down
@@ -285,75 +285,3 @@ module.exports = (grunt) ->
   #*------------------------------------*/
   grunt.registerTask('default', ['watch'])
   grunt.registerTask('optim', ['imageoptim', 'svgmin'])
-=======
-		#*------------------------------------*\
-		#   $CONTRIB-UGLIFY
-		#*------------------------------------*/
-		uglify:
-			target:
-				files:
-					'<%= pkg.path.js %>/main.min.js': '<%= pkg.path.js %>/main.js'
-
-
-		#*------------------------------------*\
-		#   $RSYNC
-		#*------------------------------------*/
-		# rsync files to and from production
-		rsync:
-			options:
-				args: ["--archive", "--itemize-changes", "--progress", "--compress"]
-				exclude: [".git*", ".DS_STORE", "*.scss", "node_modules", "config-dev.php", ".sass-cache", "*.js.map", "*.coffee"]
-				recursive: true
-
-			# dry-run down
-			downdry:
-				options:
-					args: ["--dry-run", "--verbose"]
-					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
-					dest: "src"
-					syncDestIgnoreExcl: true
-
-			# sync local with remote
-			down:
-				options:
-					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
-					dest: "src"
-					syncDestIgnoreExcl: true
-
-			# dry-run up
-			updrystaging:
-				options:
-					args: ["--dry-run", "--verbose"]
-					src: "src/"
-					dest: "public_html/staging.<%= pkg.domain.name %>"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
-
-			# sync remote with local
-			upstaging:
-				options:
-					src: "src/"
-					dest: "public_html/staging.<%= pkg.domain.name %>"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
-
-			# dry-run up
-			updry:
-				options:
-					args: ["--dry-run", "--verbose"]
-					src: "src/"
-					dest: "public_html"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
-
-			# sync remote with local
-			up:
-				options:
-					src: "src/"
-					dest: "public_html"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
-
-
-	#*------------------------------------*\
-	#   $TASKS
-	#*------------------------------------*/
-	grunt.registerTask('default', ['watch'])
-	grunt.registerTask('optim', ['imageoptim', 'svgmin'])
->>>>>>> 79cac2f8d6795e194071fe27736abdb6ab85787d
