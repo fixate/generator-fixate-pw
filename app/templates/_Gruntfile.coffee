@@ -114,11 +114,11 @@ module.exports = (grunt) ->
 				tasks: ['coffeelint']
 			css:
 				files: [
-					'<%= pkg.path.scss %>/{,*/}*.scss'
+					'<%= pkg.path.scss %>/**/*.scss'
 					],
 				tasks: ['sass']
 			coffee:
-				files: ['<%= pkg.path.coffee %>/{,*/}*.coffee'],
+				files: ['<%= pkg.path.coffee %>/**{,*/}/*.coffee'],
 				tasks: ['coffee:dist']
 
 
