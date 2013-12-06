@@ -23,17 +23,6 @@ module.exports = (grunt) ->
 		# ---------------------
 
 		#*------------------------------------*\
-		#   $COFFEELINT
-		#*------------------------------------*/
-		coffeelint:
-			gruntfile:
-				src: 'gruntfile.coffee'
-				options:
-					max_line_length:
-						level: 'ignore'
-
-
-		#*------------------------------------*\
 		#   $CONTRIB-SASS
 		#*------------------------------------*/
 		sass:
