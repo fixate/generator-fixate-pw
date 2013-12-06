@@ -23,17 +23,6 @@ module.exports = (grunt) ->
 		# ---------------------
 
 		#*------------------------------------*\
-		#   $COFFEELINT
-		#*------------------------------------*/
-		coffeelint:
-			gruntfile:
-				src: 'gruntfile.coffee'
-				options:
-					max_line_length:
-						level: 'ignore'
-
-
-		#*------------------------------------*\
 		#   $CONTRIB-SASS
 		#*------------------------------------*/
 		sass:
@@ -42,24 +31,19 @@ module.exports = (grunt) ->
 					quiet: false,
 					cacheLocation: '<%= pkg.path.scss %>/.sass-cache'
 				files:
-					'<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss',
-					'<%= pkg.path.styleguidecss %>/style.css': '<%= pkg.path.scss %>/style.scss'
+					'<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss'
 
 
 		#*------------------------------------*\
 		#   $IMAGEOPTIM
 		#*------------------------------------*/
 		imageoptim:
-			files: [
-				'<%= pkg.path.img %>'
-			],
 			options:
-				# also run images through ImageAlpha.app before ImageOptim.app
 				imageAlpha: true,
-				# also run images through JPEGmini.app after ImageOptim.app
 				# jpegMini: true,
-				# quit all apps after optimisation
 				quitAfter: true
+			files:
+				['<%= pkg.path.img %>']
 
 
 		#*------------------------------------*\
@@ -113,12 +97,10 @@ module.exports = (grunt) ->
 				files: 'Gruntfile.coffee',
 				tasks: ['coffeelint']
 			css:
-				files: [
-					'<%= pkg.path.scss %>/**/*.scss'
-					],
+				files: ['<%= pkg.path.scss %>/**/*.scss'],
 				tasks: ['sass']
 			coffee:
-				files: ['<%= pkg.path.coffee %>/**{,*/}/*.coffee'],
+				files: ['<%= pkg.path.coffee %>/**/*.coffee'],
 				tasks: ['coffee:dist']
 
 
@@ -149,29 +131,14 @@ module.exports = (grunt) ->
 					dest: "src"
 					syncDestIgnoreExcl: true
 
-			# sync local with remote
+			# sync down
 			down:
 				options:
 					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
 					dest: "src"
 					syncDestIgnoreExcl: true
 
-			# dry-run up
-			updrystaging:
-				options:
-					args: ["--dry-run", "--verbose"]
-					src: "src/"
-					dest: "public_html/staging.<%= pkg.domain.name %>"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
-
-			# sync remote with local
-			upstaging:
-				options:
-					src: "src/"
-					dest: "public_html/staging.<%= pkg.domain.name %>"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
-
-			# dry-run up
+			# dry-run sync to prod
 			updry:
 				options:
 					args: ["--dry-run", "--verbose"]
@@ -179,11 +146,26 @@ module.exports = (grunt) ->
 					dest: "public_html"
 					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
 
-			# sync remote with local
+			# sync to pro
 			up:
 				options:
 					src: "src/"
 					dest: "public_html"
+					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+
+			# dry-run deploy to staging
+			stagingupdry:
+				options:
+					args: ["--dry-run", "--verbose"]
+					src: "src/"
+					dest: "public_html/staging.<%= pkg.domain.name %>"
+					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+
+			# deploy local changes to staging
+			stagingup:
+				options:
+					src: "src/"
+					dest: "public_html/staging.<%= pkg.domain.name %>"
 					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
 
 
