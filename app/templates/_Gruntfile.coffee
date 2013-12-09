@@ -93,9 +93,6 @@ module.exports = (grunt) ->
 		#   $CONTRIB-WATCH
 		#*------------------------------------*/
 		watch:
-			gruntfile:
-				files: 'Gruntfile.coffee',
-				tasks: ['coffeelint']
 			css:
 				files: [
 					'<%= pkg.path.scss %>/**/*.scss',
