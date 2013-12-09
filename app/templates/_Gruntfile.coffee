@@ -94,13 +94,10 @@ module.exports = (grunt) ->
 		#*------------------------------------*/
 		watch:
 			css:
-				files: [
-					'<%= pkg.path.scss %>/**/*.scss',
-					'!<%= pkg.path.scss %>/docs/**/*.scss'
-					],
+				files: ['<%= pkg.path.scss %>/**/*.scss'],
 				tasks: ['sass']
 			coffee:
-				files: ['<%= pkg.path.coffee %>/{,*/}*.coffee'],
+				files: ['<%= pkg.path.coffee %>/**/*.coffee'],
 				tasks: ['coffee:dist']
 
 
