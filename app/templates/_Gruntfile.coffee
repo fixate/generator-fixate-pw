@@ -135,7 +135,7 @@ module.exports = (grunt) ->
 					dest: "src"
 					syncDestIgnoreExcl: true
 
-			# staging dry run down
+			# staging dry-run down
 			stagingdowndry:
 				options:
 					args: ["--dry-run", "--verbose"]
@@ -143,7 +143,7 @@ module.exports = (grunt) ->
 					dest: "src/site/assets/files"
 					syncDestIgnoreExcl: true
 
-			# sync local with remote
+			# sync staging to local
 			stagingdown:
 				options:
 					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/staging.<%= pkg.domain.name %>/site/assets/files/"
