@@ -26,12 +26,17 @@ module.exports = (grunt) ->
 		#   $CONTRIB-SASS
 		#*------------------------------------*/
 		sass:
+			options:
+				quiet: false,
+				cacheLocation: '<%= pkg.path.scss %>/.sass-cache'
 			dist:
-				options:
-					quiet: false,
-					cacheLocation: '<%= pkg.path.scss %>/.sass-cache'
 				files:
 					'<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss'
+			minify:
+				options:
+					style: 'compressed'
+				files:
+					'<%= pkg.path.css %>/style.min.css': '<%= pkg.path.scss %>/style.scss'
 
 
 		#*------------------------------------*\
