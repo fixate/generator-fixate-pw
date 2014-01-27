@@ -1,17 +1,21 @@
 .DS_STORE
+
+# Sass Generated Files
 config.rb
-projects/*.sublime-workspace
 .sass-cache/
 
-# ignore Source.js
+# Built Files
+style.min.css
+main.min.js
+
+# SourceJS Core
 Source.js
 
-# ignore grunt files
+# Grunt Files
 node_modules
 npm-debug.log
 
-# ProcessWire
-#ignore ProcessWire files and folders
+# ProcessWire Files And Folders
 *.old
 *.old/*
 *.new
