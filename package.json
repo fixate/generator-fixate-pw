@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "yeoman-generator": "~0.14.0",
-		"shelljs": "~0.2.6"
+		"shelljs": "~0.2.6",
+		"coffee-script": "~1.6.3"
   },
   "devDependencies": {
     "mocha": "~1.14.0"
