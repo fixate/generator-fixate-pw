@@ -5,7 +5,9 @@ config.rb
 .sass-cache/
 
 # Built Files
+style.css
 style.min.css
+main.js
 main.min.js
 
 # SourceJS Core
