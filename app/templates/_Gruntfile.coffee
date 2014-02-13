@@ -116,6 +116,20 @@ module.exports = (grunt) ->
 
 
 		#*------------------------------------*\
+		#   $MYSQL-DUMP
+		#*------------------------------------*/
+		db_dump:
+			local:
+				options:
+					title: "local db"
+					database: "[local db]"
+					user: "root"
+					pass: "password"
+					host: "localhost"
+					backup_to: '<%= pkg.path.db_backup %>/dev/dev_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
+
+
+		#*------------------------------------*\
 		#   $RSYNC
 		#*------------------------------------*/
 		# rsync files to and from production
