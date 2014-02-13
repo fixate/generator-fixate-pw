@@ -129,6 +129,15 @@ module.exports = (grunt) ->
 					pass: "password"
 					host: "localhost"
 					backup_to: '<%= pkg.path.db_backup %>/dev/dev_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
+			prod:
+				options:
+					title: "prod db"
+					database: "<%= pvt.db_prod.name %>"
+					user: "<%= pvt.db_prod.user %>"
+					pass: "<%= pvt.db_prod.pass %>"
+					host: "<%= pvt.db_prod.host %>"
+					ssh_host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+					backup_to: '<%= pkg.path.db_backup %>/prod/<%= pvt.db_prod.name %>_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
 
 
 		#*------------------------------------*\
