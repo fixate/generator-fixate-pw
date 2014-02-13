@@ -68,6 +68,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy "_bowerrc", ".bowerrc"
 			@copy "_gitattributes", ".gitattributes"
 			@copy "_package.json", "package.json"
+			@copy "_private-sample.json", "private-sample.json"
+			@copy "_private-sample.json", "private.json"
 
 		############### Process Wire ###############
 		setupProcesswire = =>
