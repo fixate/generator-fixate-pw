@@ -18,7 +18,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	askFor: =>
 		cb = @async()
 
-		# Have Yeoman greet the user.
+		#*------------------------------------*\
+		#   $YEOMAN PROMPTS
+		#*------------------------------------*/
 		console.log @yeoman
 		prompts = []
 		prompts.push
@@ -55,7 +57,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			finally
 				shell.popd()
 
-		############### Repository ###############
+
+		#*------------------------------------*\
+		#   $REPOSITORY
+		#*------------------------------------*/
 		setupRepo = =>
 			@mkdir d for d in [
 				'src',
@@ -71,7 +76,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy "_private-sample.json", "private-sample.json"
 			@copy "_private-sample.json", "private.json"
 
-		############### Process Wire ###############
+
+		#*------------------------------------*\
+		#   $PROCESS WIRE
+		#*------------------------------------*/
 		setupProcesswire = =>
 			@log.info "Installing ProcessWire..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.processwire)
@@ -100,7 +108,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			@log.ok('OK')
 
-		############### Source JS ###############
+
+		#*------------------------------------*\
+		#   $SOURCEJS
+		#*------------------------------------*/
 		setupSourceJs = =>
 			@log.info "Installing SourceJS..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejs)
@@ -125,14 +136,20 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			@log.ok('OK')
 
-		############### SourceJS Boilerplate ###############
+
+		#*------------------------------------*\
+		#   $SOURCEJS BOILERPLATE
+		#*------------------------------------*/
 		setupSourceJsBoilerplate = =>
 			@log.info "Installing SourceJS Boilerplate..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejsBoilerplate)
 			GitUtils.export repo_path, dest('styleguide/')
 			@log.ok('OK')
 
-		############### Styleguide ###############
+
+		#*------------------------------------*\
+		#   $STYLEGUIDE
+		#*------------------------------------*/
 		setupStyleguide = =>
 			@log.info "Installing styleguide..."
 
@@ -154,7 +171,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		setupGit= =>
 			GitUtils.init(dest())
 
-		# Main
+
+		#*------------------------------------*\
+		#   $DO IT
+		#*------------------------------------*/
 		setupRepo()
 		setupProcesswire()
 		setupSourceJs()
