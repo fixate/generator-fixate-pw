@@ -10,6 +10,7 @@ Source.js
 # Grunt Files
 node_modules
 npm-debug.log
+private.json
 
 # ProcessWire Files And Folders
 *.old
