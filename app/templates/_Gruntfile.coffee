@@ -1,6 +1,7 @@
 module.exports = (grunt) ->
 
 	pkg = grunt.file.readJSON('package.json')
+	pvt = grunt.file.readJSON('private.json')
 
 	#*------------------------------------*\
 	#   $LOAD DEPENDENCIES
@@ -18,6 +19,7 @@ module.exports = (grunt) ->
 	#
 	grunt.initConfig
 		pkg: pkg,
+		pvt: pvt,
 
 		# Project configuration
 		# ---------------------
