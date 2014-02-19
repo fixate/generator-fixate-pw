@@ -1,7 +1,7 @@
 module.exports = (grunt) ->
 
 	pkg = grunt.file.readJSON('package.json')
-	pvt = grunt.file.readJSON('private.json')
+	pvt = grunt.file.readJSON('private.json') if grunt.file.exists('private.json')
 
 	#*------------------------------------*\
 	#   $LOAD DEPENDENCIES
