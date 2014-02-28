@@ -166,6 +166,8 @@ module.exports = (grunt) ->
 					syncDestIgnoreExcl: true
 
 			# staging dry-run down
+			#
+			# only sync files that have been uploaded
 			stagingdowndry:
 				options:
 					args: ["--dry-run", "--verbose"]
@@ -174,6 +176,8 @@ module.exports = (grunt) ->
 					syncDestIgnoreExcl: true
 
 			# sync staging to local
+			#
+			# only sync files that have been uploaded
 			stagingdown:
 				options:
 					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/staging.<%= pkg.domain.name %>/site/assets/files/"
