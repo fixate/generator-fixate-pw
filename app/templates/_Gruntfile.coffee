@@ -147,7 +147,19 @@ module.exports = (grunt) ->
 		rsync:
 			options:
 				args: ["--archive", "--itemize-changes", "--progress", "--compress"]
-				exclude: [".git*", ".DS_STORE", "*.scss", "node_modules", "config-dev.php", ".sass-cache", "*.js.map", "*.coffee"]
+				exclude: [
+					".git*",
+					".DS_STORE",
+					"*.scss",
+					"node_modules",
+					"config-dev.php",
+					".sass-cache",
+					"*.js.map",
+					"*.coffee",
+					"assets/cache",
+					"assets/sessions",
+					"assets/logs"
+				]
 				recursive: true
 
 			# dry-run down
@@ -203,6 +215,21 @@ module.exports = (grunt) ->
 			stagingupdry:
 				options:
 					args: ["--dry-run", "--verbose"]
+					exclude: [
+						".git*",
+						".DS_STORE",
+						"*.scss",
+						"node_modules",
+						"config-dev.php",
+						".sass-cache",
+						"*.js.map",
+						"*.coffee",
+						"assets/cache",
+						"assets/sessions",
+						"assets/logs",
+						"config.php",
+						"robots.txt"
+					]
 					src: "src/"
 					dest: "public_html/staging.<%= pkg.domain.name %>"
 					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
@@ -211,6 +238,21 @@ module.exports = (grunt) ->
 			stagingup:
 				options:
 					src: "src/"
+					exclude: [
+						".git*",
+						".DS_STORE",
+						"*.scss",
+						"node_modules",
+						"config-dev.php",
+						".sass-cache",
+						"*.js.map",
+						"*.coffee",
+						"assets/cache",
+						"assets/sessions",
+						"assets/logs",
+						"config.php",
+						"robots.txt"
+					]
 					dest: "public_html/staging.<%= pkg.domain.name %>"
 					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
 
