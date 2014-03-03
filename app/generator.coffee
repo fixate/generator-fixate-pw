@@ -32,7 +32,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			type: "confirm"
 			name: "pwTeflon"
 			message: "Would you like to use the Teflon admin theme for proceswire?"
-			default: true
+			default: false
 
 		prompts.push
 			name: "sgBranch"
