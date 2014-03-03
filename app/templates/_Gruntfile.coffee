@@ -225,8 +225,9 @@ module.exports = (grunt) ->
 						"*.js.map",
 						"*.coffee",
 						"assets/cache",
-						"assets/sessions",
+						"assets/files",
 						"assets/logs",
+						"assets/sessions",
 						"config.php",
 						"robots.txt"
 					]
@@ -248,8 +249,9 @@ module.exports = (grunt) ->
 						"*.js.map",
 						"*.coffee",
 						"assets/cache",
-						"assets/sessions",
+						"assets/files",
 						"assets/logs",
+						"assets/sessions",
 						"config.php",
 						"robots.txt"
 					]
