@@ -150,12 +150,13 @@ module.exports = (grunt) ->
 				exclude: [
 					".git*",
 					".DS_STORE",
-					"*.scss",
 					"node_modules",
-					"config-dev.php",
 					".sass-cache",
+					"*.scss",
+					"style.css",
 					"*.js.map",
 					"*.coffee",
+					"config-dev.php",
 					"assets/cache",
 					"assets/sessions",
 					"assets/logs"
@@ -218,10 +219,11 @@ module.exports = (grunt) ->
 					exclude: [
 						".git*",
 						".DS_STORE",
-						"*.scss",
 						"node_modules",
 						"config-dev.php",
 						".sass-cache",
+						"*.scss",
+						"style.css",
 						"*.js.map",
 						"*.coffee",
 						"assets/cache",
@@ -240,20 +242,6 @@ module.exports = (grunt) ->
 				options:
 					src: "src/"
 					exclude: [
-						".git*",
-						".DS_STORE",
-						"*.scss",
-						"node_modules",
-						"config-dev.php",
-						".sass-cache",
-						"*.js.map",
-						"*.coffee",
-						"assets/cache",
-						"assets/files",
-						"assets/logs",
-						"assets/sessions",
-						"config.php",
-						"robots.txt"
 					]
 					dest: "public_html/staging.<%= pkg.domain.name %>"
 					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
