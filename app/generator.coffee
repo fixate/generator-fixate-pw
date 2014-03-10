@@ -64,9 +64,11 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				'styleguide'
 			]
 
-			@copy "_gitignore", ".gitignore"
 			@copy "_bowerrc", ".bowerrc"
+			@copy "_gitignore", ".gitignore"
 			@copy "_gitattributes", ".gitattributes"
+			@copy "_gitkeep", "database/dev/.gitkeep"
+			@copy "_gitkeep", "database/prod/.gitkeep"
 			@copy "_package.json", "package.json"
 			@copy "_private-sample.json", "private-sample.json"
 			@copy "_private-sample.json", "private.json"
