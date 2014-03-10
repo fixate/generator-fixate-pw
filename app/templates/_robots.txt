@@ -1,0 +1,3 @@
+User-Agent: *
+Sitemap: http://<%= props.domain %>/sitemap.xml
+
