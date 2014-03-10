@@ -34,6 +34,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			message: "Which branch of the CSS Framework would you like to use?"
 			default: 'inuit'
 
+		prompts.push
+			name: "domain"
+			message: "What is the domain name for the production website (without protocol)?"
+
 		@prompt prompts, (props) =>
 			@props = props
 			cb()
@@ -72,6 +76,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy "_package.json", "package.json"
 			@copy "_private-sample.json", "private-sample.json"
 			@copy "_private-sample.json", "private.json"
+			@template "_robots.txt", "src/robots.txt"
 
 
 		#*------------------------------------*\
@@ -95,6 +100,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.ls('-A', "site/templates/\!root/*").forEach (file) ->
 					shell.mv '-f', file, '.'
 				shell.rm '-rf', "site/templates/\!root"
+				shell.rm ".gitignore"
+				shell.rm "robots.txt"
 
 			@log.ok('OK')
 
