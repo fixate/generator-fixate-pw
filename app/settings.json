@@ -2,7 +2,7 @@
 	"github": {
 		"processwire": "ryancramerdesign/ProcessWire",
 		"pwBoilerplate": "fixate/pw-boilerplate",
-		"kssBoilerplateBoilerplate": "fixate/kss-boilerplate",
+		"kssBoilerplate": "fixate/kss-boilerplate",
 		"cssFramework": "larrybotha/styleguide"
 	}
 }
