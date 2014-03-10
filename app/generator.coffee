@@ -98,29 +98,16 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
 		#*------------------------------------*\
-		#   $SOURCEJS
+		#   $KSS BOILERPLATE
 		#*------------------------------------*/
-		setupSourceJs = =>
-			@log.info "Installing SourceJS..."
-			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejs)
-			@mkdir 'Source.js'
-			GitUtils.export repo_path, dest('Source.js/')
-			at dest('Source.js/'), =>
-				@log.info 'SOURCEJS - npm install'
-				GitUtils.exec 'npm install'
-				@log.info 'SOURCEJS - grunt init'
-				GitUtils.exec 'grunt init'
-				shell.rm '-rf', '../styleguide'
-				shell.mv 'public', '../styleguide'
-				shell.rm 'user/options/options.json',
-
-			# Make dir for styleguide css
-			@mkdir 'Source.js/data/docs/css/'
-
-			@template 'Source.js/options.json', 'Source.js/user/options/options.json',
-				serverPath: dest('Source.js/')
-
-			@copy('Source.js/core/css/core/core.css', 'Source.js/core/css/core/core.css')
+		setupKSS = =>
+			@log.info "Installing KSS Boilerplate"
+			repo_path = GitUtils.cacheRepo github(@settings.github.kssBoilerplate)
+			@mkdir 'styleguide'
+			GitUtils.export repo_path, dest('styleguide/')
+			at dest('styleguide/'), =>
+				@log.info 'KSS Living Styleguide - bundle install'
+				GitUtils.exec 'bundle install'
 
 			@log.ok('OK')
 
@@ -168,6 +155,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		setupSourceJs()
 		setupSourceJsBoilerplate()
 		setupStyleguide()
+		setupKSS()
 		setupGit()
 
 	projectfiles: =>
