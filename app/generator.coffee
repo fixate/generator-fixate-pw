@@ -95,6 +95,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.ls('-A', "site/templates/\!root/*").forEach (file) ->
 					shell.mv '-f', file, '.'
 				shell.rm '-rf', "site/templates/\!root"
+			at dest('src/site'), =>
+				shell.cp 'config.php', 'config-dev.php'
 
 			@log.ok('OK')
 
