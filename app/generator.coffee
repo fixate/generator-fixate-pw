@@ -92,7 +92,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			at dest('src/'), =>
 				shell.ls('-A', "site/templates/\!root/*").forEach (file) ->
 					shell.mv '-f', file, '.'
-				shell.rm '-rf', "site/template/\!root"
+				shell.rm '-rf', "site/templates/\!root"
 
 			@log.ok('OK')
 
