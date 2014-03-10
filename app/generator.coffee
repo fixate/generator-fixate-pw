@@ -29,11 +29,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			default: "master"
 
 		prompts.push
-			type: "confirm"
-			name: "pwTeflon"
-			message: "Would you like to use the Teflon admin theme for proceswire?"
-			default: false
-
 		prompts.push
 			name: "sgBranch"
 			message: "Which branch of the styleguide would you like to use?"
@@ -88,13 +83,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			at dest('/'), ->
 				shell.mv "src/site-default", "src/site"
-
-			@log.ok('OK')
-
-			if @props.pwTeflon
-				@log.info "Installing teflon theme..."
-				teflon_path = GitUtils.cacheRepo github(@settings.github.processwireTeflon)
-				GitUtils.export teflon_path, dest("src/site")
 
 			@log.ok('OK')
 
