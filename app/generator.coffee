@@ -18,6 +18,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	askFor: =>
 		cb = @async()
 
+
 		#*------------------------------------*\
 		#   $YEOMAN PROMPTS
 		#*------------------------------------*/
@@ -29,14 +30,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			default: "master"
 
 		prompts.push
-			type: "confirm"
-			name: "pwTeflon"
-			message: "Would you like to use the Teflon admin theme for proceswire?"
-			default: false
-
-		prompts.push
-			name: "sgBranch"
-			message: "Which branch of the styleguide would you like to use?"
+			name: "cssBranch"
+			message: "Which branch of the CSS Framework would you like to use?"
 			default: 'inuit'
 
 		@prompt prompts, (props) =>
@@ -78,12 +73,12 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
 		#*------------------------------------*\
-		#   $PROCESS WIRE
+		#   $PROCESSWIRE
 		#*------------------------------------*/
 		setupProcesswire = =>
 			@log.info "Installing ProcessWire..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.processwire)
-			@log.info "Copying processwire install..."
+			@log.info "Copying ProcessWire install..."
 			GitUtils.export repo_path, dest('src/'), @props.pwBranch
 
 			at dest('/'), ->
@@ -91,83 +86,51 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			@log.ok('OK')
 
-			if @props.pwTeflon
-				@log.info "Installing teflon theme..."
-				teflon_path = GitUtils.cacheRepo github(@settings.github.processwireTeflon)
-				GitUtils.export teflon_path, dest("src/site")
-
-			@log.ok('OK')
-
-			@log.info "Installing processwire boilerplate..."
+			@log.info "Installing ProcessWire MVC boilerplate..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.pwBoilerplate)
 			GitUtils.export repo_path, dest('src/site/templates')
 			at dest('src/'), =>
 				shell.ls('-A', "site/templates/\!root/*").forEach (file) ->
 					shell.mv '-f', file, '.'
-				shell.rm '-rf', "site/template/\!root"
+				shell.rm '-rf', "site/templates/\!root"
 
 			@log.ok('OK')
 
 
 		#*------------------------------------*\
-		#   $SOURCEJS
+		#   $KSS BOILERPLATE
 		#*------------------------------------*/
-		setupSourceJs = =>
-			@log.info "Installing SourceJS..."
-			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejs)
-			@mkdir 'Source.js'
-			GitUtils.export repo_path, dest('Source.js/')
-			at dest('Source.js/'), =>
-				@log.info 'SOURCEJS - npm install'
-				GitUtils.exec 'npm install'
-				@log.info 'SOURCEJS - grunt init'
-				GitUtils.exec 'grunt init'
-				shell.rm '-rf', '../styleguide'
-				shell.mv 'public', '../styleguide'
-				shell.rm 'user/options/options.json',
-
-			# Make dir for styleguide css
-			@mkdir 'Source.js/data/docs/css/'
-
-			@template 'Source.js/options.json', 'Source.js/user/options/options.json',
-				serverPath: dest('Source.js/')
-
-			@copy('Source.js/core/css/core/core.css', 'Source.js/core/css/core/core.css')
-
-			@log.ok('OK')
-
-
-		#*------------------------------------*\
-		#   $SOURCEJS BOILERPLATE
-		#*------------------------------------*/
-		setupSourceJsBoilerplate = =>
-			@log.info "Installing SourceJS Boilerplate..."
-			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejsBoilerplate)
+		setupKSS = =>
+			@log.info "Installing KSS Boilerplate"
+			repo_path = GitUtils.cacheRepo github(@settings.github.kssBoilerplate)
+			@mkdir 'styleguide'
 			GitUtils.export repo_path, dest('styleguide/')
+			at dest('styleguide/'), =>
+				@log.info 'KSS Living Styleguide - bundle install'
+				GitUtils.exec 'bundle install'
+
 			@log.ok('OK')
 
 
 		#*------------------------------------*\
-		#   $STYLEGUIDE
+		#   $CSS FRAMEWORK
 		#*------------------------------------*/
-		setupStyleguide = =>
-			@log.info "Installing styleguide..."
+		setupCSSFramework = =>
+			@log.info "Installing CSS framework..."
 
-			shell.rm '-rf', 'styleguide/data/docs/*'
+			repo_path = GitUtils.cacheRepo github(@settings.github.cssFramework)
+			GitUtils.export repo_path, dest('styleguide/'), @props.cssBranch
 
-			repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
-			GitUtils.export repo_path, dest('styleguide/data/docs'), @props.sgBranch
+			at dest('styleguide/'), ->
+				shell.mv "style.css", "../src/site/templates/assets/css/style.css"
+				shell.rm "style.css"
 
-			at dest('styleguide/data/docs'), ->
-				# Delete all files in the root
-				shell.ls('-A', '.').forEach (file)->
-					shell.rm file if fs.lstatSync(file).isFile()
+			@log.ok('OK')
 
-			# This just doesn't work...
-			# [user, repo] = @settings.github.styleguide.split('/')
-			# @remote user, repo, @props.sgBranch, (err, remote) ->
-			#   remo80te.directory '.', 'styleguide/data/docs/'
 
+		#*------------------------------------*\
+		#   $GIT
+		#*------------------------------------*/
 		setupGit= =>
 			GitUtils.init(dest())
 
@@ -177,9 +140,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		#*------------------------------------*/
 		setupRepo()
 		setupProcesswire()
-		setupSourceJs()
-		setupSourceJsBoilerplate()
-		setupStyleguide()
+		setupKSS()
+		setupCSSFramework()
 		setupGit()
 
 	projectfiles: =>
