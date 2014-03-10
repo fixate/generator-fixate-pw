@@ -29,9 +29,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			default: "master"
 
 		prompts.push
-		prompts.push
-			name: "sgBranch"
-			message: "Which branch of the styleguide would you like to use?"
+			name: "cssBranch"
+			message: "Which branch of the CSS Framework would you like to use?"
 			default: 'inuit'
 
 		@prompt prompts, (props) =>
@@ -113,12 +112,14 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
 		#*------------------------------------*\
-		#   $SOURCEJS BOILERPLATE
+		#   $CSS FRAMEWORK
 		#*------------------------------------*/
-		setupSourceJsBoilerplate = =>
-			@log.info "Installing SourceJS Boilerplate..."
-			repo_path = GitUtils.cacheRepo github(@settings.github.sourcejsBoilerplate)
-			GitUtils.export repo_path, dest('styleguide/')
+		setupCSSFramework = =>
+			@log.info "Installing CSS framework..."
+
+			repo_path = GitUtils.cacheRepo github(@settings.github.cssFramework)
+			GitUtils.export repo_path, dest('styleguide/'), @props.cssBranch
+
 			@log.ok('OK')
 
 
@@ -152,10 +153,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		#*------------------------------------*/
 		setupRepo()
 		setupProcesswire()
-		setupSourceJs()
-		setupSourceJsBoilerplate()
-		setupStyleguide()
 		setupKSS()
+		setupCSSFramework()
 		setupGit()
 
 	projectfiles: =>
