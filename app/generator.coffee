@@ -18,6 +18,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	askFor: =>
 		cb = @async()
 
+
 		#*------------------------------------*\
 		#   $YEOMAN PROMPTS
 		#*------------------------------------*/
@@ -124,26 +125,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
 		#*------------------------------------*\
-		#   $STYLEGUIDE
+		#   $GIT
 		#*------------------------------------*/
-		setupStyleguide = =>
-			@log.info "Installing styleguide..."
-
-			shell.rm '-rf', 'styleguide/data/docs/*'
-
-			repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
-			GitUtils.export repo_path, dest('styleguide/data/docs'), @props.sgBranch
-
-			at dest('styleguide/data/docs'), ->
-				# Delete all files in the root
-				shell.ls('-A', '.').forEach (file)->
-					shell.rm file if fs.lstatSync(file).isFile()
-
-			# This just doesn't work...
-			# [user, repo] = @settings.github.styleguide.split('/')
-			# @remote user, repo, @props.sgBranch, (err, remote) ->
-			#   remo80te.directory '.', 'styleguide/data/docs/'
-
 		setupGit= =>
 			GitUtils.init(dest())
 
