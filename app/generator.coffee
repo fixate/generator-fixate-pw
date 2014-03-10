@@ -146,5 +146,5 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 	projectfiles: =>
 		@copy "_Gruntfile.coffee", "Gruntfile.coffee"
-		@copy "editorconfig", ".editorconfig"
+		@copy "_editorconfig", ".editorconfig"
 
