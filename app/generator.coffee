@@ -73,12 +73,12 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
 		#*------------------------------------*\
-		#   $PROCESS WIRE
+		#   $PROCESSWIRE
 		#*------------------------------------*/
 		setupProcesswire = =>
 			@log.info "Installing ProcessWire..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.processwire)
-			@log.info "Copying processwire install..."
+			@log.info "Copying ProcessWire install..."
 			GitUtils.export repo_path, dest('src/'), @props.pwBranch
 
 			at dest('/'), ->
@@ -86,7 +86,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			@log.ok('OK')
 
-			@log.info "Installing processwire boilerplate..."
+			@log.info "Installing ProcessWire MVC boilerplate..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.pwBoilerplate)
 			GitUtils.export repo_path, dest('src/site/templates')
 			at dest('src/'), =>
