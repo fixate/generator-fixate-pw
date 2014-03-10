@@ -121,6 +121,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			repo_path = GitUtils.cacheRepo github(@settings.github.cssFramework)
 			GitUtils.export repo_path, dest('styleguide/'), @props.cssBranch
 
+			at dest('styleguide/'), ->
+				shell.mv "style.css", "../src/site/templates/assets/css/style.css"
+				shell.rm "style.css"
+
 			@log.ok('OK')
 
 
