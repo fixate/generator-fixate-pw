@@ -74,9 +74,13 @@ module.exports = (grunt) ->
 		#   $SHELL
 		#*------------------------------------*/
 		shell:
-			dist:
+			styleSymlinks:
 				command: [
-					'say "hello"'
+					'cd styleguide/public'
+					'ln -s ../../<%= pkg.path.css %> css'
+					'ln -s ../../<%= pkg.path.fnt %> fnt'
+					'ln -s ../../<%= pkg.path.img %> img'
+					'ln -s ../../<%= pkg.path.js %> js'
 				].join('&&'),
 				options:
 					stdout:true
