@@ -246,6 +246,21 @@ module.exports = (grunt) ->
 				options:
 					src: "src/"
 					exclude: [
+						".git*",
+						".DS_STORE",
+						"node_modules",
+						"config-dev.php",
+						".sass-cache",
+						"*.scss",
+						"style.css",
+						"*.js.map",
+						"*.coffee",
+						"assets/cache",
+						"assets/files",
+						"assets/logs",
+						"assets/sessions",
+						"config.php",
+						"robots.txt"
 					]
 					dest: "public_html/staging.<%= pkg.domain.name %>"
 					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
