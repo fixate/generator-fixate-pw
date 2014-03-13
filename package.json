@@ -1,6 +1,6 @@
 {
   "name": "generator-fixate-pw",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A generator for Yeoman",
   "keywords": [
     "yeoman-generator"
