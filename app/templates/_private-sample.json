@@ -1,5 +1,5 @@
 {
-	"domain": "example.com",
+	"domain": "<%= props.domain %>",
 	"username": "ssh_username",
 	"db_prod": {
 		"name": "db_name",
