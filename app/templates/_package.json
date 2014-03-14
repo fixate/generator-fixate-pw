@@ -28,9 +28,5 @@
 		"img": "src/site/templates/assets/img",
 		"js": "src/site/templates/assets/js",
 		"db_backup": "database"
-	},
-  "domain": {
-    "name": "your_domain",
-    "username": "ssh_username"
-  }
+	}
 }
