@@ -140,7 +140,7 @@ module.exports = (grunt) ->
 					user: "<%= pvt.db_prod.user %>"
 					pass: "<%= pvt.db_prod.pass %>"
 					host: "<%= pvt.db_prod.host %>"
-					ssh_host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+					ssh_host: "<%= pvt.username %>@<%= pvt.domain %>"
 					backup_to: '<%= pkg.path.db_backup %>/prod/<%= pvt.db_prod.name %>_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
 
 
@@ -171,14 +171,14 @@ module.exports = (grunt) ->
 			downdry:
 				options:
 					args: ["--dry-run", "--verbose"]
-					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
+					src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/"
 					dest: "src"
 					syncDestIgnoreExcl: true
 
 			# sync down
 			down:
 				options:
-					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/"
+					src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/"
 					dest: "src"
 					syncDestIgnoreExcl: true
 
@@ -188,7 +188,7 @@ module.exports = (grunt) ->
 			stagingdowndry:
 				options:
 					args: ["--dry-run", "--verbose"]
-					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/staging.<%= pkg.domain.name %>/site/assets/files/"
+					src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/staging.<%= pvt.domain %>/site/assets/files/"
 					dest: "src/site/assets/files"
 					syncDestIgnoreExcl: true
 
@@ -197,7 +197,7 @@ module.exports = (grunt) ->
 			# only sync files that have been uploaded
 			stagingdown:
 				options:
-					src: "<%= pkg.domain.username %>@<%= pkg.domain.name %>:public_html/staging.<%= pkg.domain.name %>/site/assets/files/"
+					src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/staging.<%= pvt.domain %>/site/assets/files/"
 					dest: "src/site/assets/files"
 					syncDestIgnoreExcl: true
 
@@ -207,14 +207,14 @@ module.exports = (grunt) ->
 					args: ["--dry-run", "--verbose"]
 					src: "src/"
 					dest: "public_html"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+					host: "<%= pvt.username %>@<%= pvt.domain %>"
 
 			# sync to pro
 			up:
 				options:
 					src: "src/"
 					dest: "public_html"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+					host: "<%= pvt.username %>@<%= pvt.domain %>"
 
 			# dry-run deploy to staging
 			stagingupdry:
@@ -238,8 +238,8 @@ module.exports = (grunt) ->
 						"robots.txt"
 					]
 					src: "src/"
-					dest: "public_html/staging.<%= pkg.domain.name %>"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+					dest: "public_html/staging.<%= pvt.domain %>"
+					host: "<%= pvt.username %>@<%= pvt.domain %>"
 
 			# deploy local changes to staging
 			stagingup:
@@ -262,8 +262,8 @@ module.exports = (grunt) ->
 						"config.php",
 						"robots.txt"
 					]
-					dest: "public_html/staging.<%= pkg.domain.name %>"
-					host: "<%= pkg.domain.username %>@<%= pkg.domain.name %>"
+					dest: "public_html/staging.<%= pvt.domain %>"
+					host: "<%= pvt.username %>@<%= pvt.domain %>"
 
 
 		#*------------------------------------*\

@@ -1,4 +1,6 @@
 {
+	"domain": "example.com",
+	"username": "ssh_username",
 	"db_prod": {
 		"name": "db_name",
 		"user": "db_username",
