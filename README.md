@@ -1,45 +1,78 @@
-# generator-fixate-pw [![Build Status](https://secure.travis-ci.org/fixate/generator-fixate-pw.png?branch=master)](https://travis-ci.org/fixate/generator-fixate-pw)
+# Yeoman Generator For ProcessWire [![Build Status](https://secure.travis-ci.org/fixate/generator-fixate-pw.png?branch=master)](https://travis-ci.org/fixate/generator-fixate-pw)
 
-[Yeoman](http://yeoman.io) generator for processwire / sourcejs / fixate styleguide.
+This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss):
+
+The generator:
+
+- creates a project structure allowing you to easily manage the following:
+	- website source
+	- database exports
+	- living styleguide
+- downloads [ProcessWire](http://processwire.com)
+- installs Fixate's [ProcessWire MVC Boilerplate](http://github.com/fixate/pw-mvc-boilerplate)
+- installs Fixate's [KSS Boilerplate](http://github.com/fixate/kss-boilerplate)
+- installs a [SCSS Framework](http://github.com/larrybotha/styleguide) in the KSS Boilerplate
+- installs [Bower](http://bower.io) for easily managing your dependencies
+- creates a number of files for smoother development and collaboration:
+	- .editorconfig
+	- .gitignore
+	- .gitattributes
+	- .bowerrc
+	- robots.txt
+- installs [Grunt](http://gruntjs.com) with an extensive task list (written in CoffeeScript for your viewing pleasure) fully equipped for
+	- coffee and Sass compilation
+	- JS uglification
+	- image optimisation
+	- database dumps
+	- rsync deployments
+	- other treasures!
 
 ## Getting Started
 
-### What is Yeoman?
+### Get Yeoman
 
-Trick question. It's not a thing. It's this guy:
-
-![](http://i.imgur.com/JHaAlBJ.png)
-
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
-
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
+Yeoman is a [Node](http://nodejs.org]) package which can be installed via [npm](http://npmks.org):
 
 ```
 $ npm install -g yo
 ```
 
-### Yeoman Generators
+### Get The Generator
 
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
+Unlike many Yoeman Generators, this generator doesn't live in Yeoman's registry, as it is quite specific to our needs.
 
-To install generator-fixate-pw from npm, run:
-
-```
-$ npm install -g generator-fixate-pw
-```
-
-Finally, initiate the generator:
+Until we decide to add our generator to the Yeoman registry, this is how you can enjoy some of the magic:
 
 ```
+# clone the generator
+$ git clone https://github.com/fixate/generator-fixate-pw.git
+
+# let Yeoman know about the generator
+$ cd generator-fixate-pw
+$ npm link
+```
+
+### Get Your Project Did!
+
+Initiate the generator from the root of your project's folder:
+
+```
+$ cd your-project-folder
 $ yo fixate-pw
 ```
 
-### Getting To Know Yeoman
+Once Yeoman has done all the hard work, you have a few small tasks to run before you're free to get going.
 
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
+#### 1. Install ProcessWire
 
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
+#### 2. Symlink Prodction Assets Into Your Styleguide
 
+```
+# create symlinks to your production assets folders to prevent duplication
+$ grunt shell:styleSymlinks
+```
+
+This will eventually be automated, but Node's shelljs still needs a little work when it comes to creating symlinks.
 
 ## License
 
