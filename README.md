@@ -65,7 +65,7 @@ Once Yeoman has done all the hard work, you have a few small tasks to run before
 
 #### 1. Install ProcessWire
 
-#### 2. Symlink Prodction Assets Into Your Styleguide
+#### 2. Symlink Production Assets Into Your Styleguide
 
 ```
 # create symlinks to your production assets folders to prevent duplication
