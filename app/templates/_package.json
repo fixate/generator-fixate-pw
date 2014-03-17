@@ -21,6 +21,7 @@
 		"grunt-svgmin": "~0.3.0"
 	},
 	"path": {
+		"assets": "src/site/templates/assets",
 		"scss": "styleguide/scss",
 		"css": "src/site/templates/assets/css",
 		"coffee": "src/site/templates/assets/coffee",

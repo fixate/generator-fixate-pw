@@ -77,10 +77,7 @@ module.exports = (grunt) ->
 			styleSymlinks:
 				command: [
 					'cd styleguide/public'
-					'ln -s ../../<%= pkg.path.css %> css'
-					'ln -s ../../<%= pkg.path.fnt %> fnt'
-					'ln -s ../../<%= pkg.path.img %> img'
-					'ln -s ../../<%= pkg.path.js %> js'
+					'ln -s ../../<%= pkg.path.assets %> assets'
 				].join('&&'),
 				options:
 					stdout:true
