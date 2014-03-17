@@ -1,6 +1,6 @@
 # Yeoman Generator For ProcessWire [![Build Status](https://secure.travis-ci.org/fixate/generator-fixate-pw.png?branch=master)](https://travis-ci.org/fixate/generator-fixate-pw)
 
-This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss):
+This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss).
 
 The generator:
 
