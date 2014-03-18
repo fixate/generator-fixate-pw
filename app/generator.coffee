@@ -106,6 +106,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			# remove default ProcessWire templates
 			at dest('src/site/templates/'), =>
+				shell.rm '-rf', "scripts"
+				shell.rm '-rf', "styles"
 				shell.rm "README.txt"
 				shell.rm "basic-page.php"
 				shell.rm "search.php"
