@@ -104,6 +104,16 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm ".gitignore"
 				shell.rm "robots.txt"
 
+			# remove default ProcessWire templates
+			at dest('src/site/templates/'), =>
+				shell.rm "README.txt"
+				shell.rm "basic-page.php"
+				shell.rm "search.php"
+				shell.rm "sitemap.php"
+				shell.rm "home.php"
+				shell.rm "foot.inc"
+				shell.rm "head.inc"
+
 			@log.ok('OK')
 
 
