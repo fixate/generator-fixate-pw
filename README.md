@@ -23,7 +23,7 @@ The generator:
 	- coffee and Sass compilation
 	- JS uglification
 	- image optimisation
-	- database dumps
+	- timestamped local and production database dumps
 	- rsync deployments
 	- other treasures!
 
