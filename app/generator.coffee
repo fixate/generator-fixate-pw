@@ -37,6 +37,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		prompts.push
 			name: "domain"
 			message: "What is the domain name for the production website (without protocol)?"
+			default: "example.com"
 
 		@prompt prompts, (props) =>
 			@props = props
@@ -68,14 +69,14 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				'styleguide'
 			]
 
-			@copy "_bowerrc", ".bowerrc"
-			@copy "_gitignore", ".gitignore"
-			@copy "_gitattributes", ".gitattributes"
-			@copy "_gitkeep", "database/dev/.gitkeep"
-			@copy "_gitkeep", "database/prod/.gitkeep"
-			@copy "_package.json", "package.json"
-			@copy "_private-sample.json", "private-sample.json"
-			@copy "_private-sample.json", "private.json"
+			@copy ".bowerrc", ".bowerrc"
+			@copy ".gitignore", ".gitignore"
+			@copy ".gitattributes", ".gitattributes"
+			@copy ".gitkeep", "database/dev/.gitkeep"
+			@copy ".gitkeep", "database/prod/.gitkeep"
+			@copy "private-sample.json", "private-sample.json"
+			@copy "private-sample.json", "private.json"
+			@template "_package.json", "package.json"
 			@template "_robots.txt", "src/robots.txt"
 
 
@@ -155,5 +156,5 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 	projectfiles: =>
 		@copy "_Gruntfile.coffee", "Gruntfile.coffee"
-		@copy "_editorconfig", ".editorconfig"
+		@copy ".editorconfig", ".editorconfig"
 
