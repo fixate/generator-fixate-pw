@@ -159,6 +159,7 @@ module.exports = (grunt) ->
 					"*.coffee",
 					"config-dev.php",
 					"assets/cache",
+					"assets/files",
 					"assets/sessions",
 					"assets/logs"
 				]
