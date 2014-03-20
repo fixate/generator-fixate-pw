@@ -150,7 +150,7 @@ module.exports = (grunt) ->
 				args: ["--archive", "--itemize-changes", "--progress", "--compress"]
 				exclude: [
 					".git*",
-					".DS_STORE",
+					".DS_Store",
 					"node_modules",
 					".sass-cache",
 					"*.scss",
@@ -219,7 +219,7 @@ module.exports = (grunt) ->
 					args: ["--dry-run", "--verbose"]
 					exclude: [
 						".git*",
-						".DS_STORE",
+						".DS_Store",
 						"node_modules",
 						"config-dev.php",
 						".sass-cache",
