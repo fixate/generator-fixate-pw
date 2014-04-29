@@ -1,4 +1,4 @@
-# Yeoman Generator For ProcessWire [![Build Status](https://secure.travis-ci.org/fixate/generator-fixate-pw.png?branch=master)](https://travis-ci.org/fixate/generator-fixate-pw)
+# Yeoman Generator For ProcessWire
 
 This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss):
 
@@ -73,7 +73,7 @@ For each template, visit your admin and set all templates to use `mvc.php`:
 Setup -> [your template] -> Advanced -> Alternate Template Filename
 ```
 
-#### 3. Symlink Prodction Assets Into Your Styleguide
+#### 3. Symlink Production Assets Into Your Styleguide
 
 ```
 # create symlinks to your production assets folders to prevent duplication
