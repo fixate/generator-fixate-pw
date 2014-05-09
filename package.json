@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "mocha": "~1.14.0",
-    "grunt": "^0.4.3",
+    "grunt": "^0.4.4",
     "grunt-bump": "0.0.13",
     "grunt-dev-update": "^0.5.3"
   },
