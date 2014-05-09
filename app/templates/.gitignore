@@ -4,9 +4,6 @@
 config.rb
 .sass-cache/
 
-# SourceJS Core
-Source.js
-
 # Grunt Files
 node_modules
 npm-debug.log
