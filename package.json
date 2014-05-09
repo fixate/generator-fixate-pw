@@ -1,6 +1,6 @@
 {
   "name": "generator-fixate-pw",
-  "version": "0.1.19",
+  "version": "0.1.21",
   "description": "A generator for Yeoman",
   "keywords": [
     "yeoman-generator"
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "mocha": "~1.14.0",
-    "grunt": "^0.4.3",
+    "grunt": "^0.4.4",
     "grunt-bump": "0.0.13",
     "grunt-dev-update": "^0.5.3"
   },
