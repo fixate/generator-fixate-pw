@@ -116,6 +116,12 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm "foot.inc"
 				shell.rm "head.inc"
 
+			# ensure processwire assets are committed
+			@copy ".gitkeep", "src/site/assets/cache/.gitkeep"
+			@copy ".gitkeep", "src/site/assets/sessions/.gitkeep"
+			@copy ".gitkeep", "src/site/assets/files/.gitkeep"
+			@copy ".gitkeep", "src/site/assets/logs/.gitkeep"
+
 			@log.ok('OK')
 
 
