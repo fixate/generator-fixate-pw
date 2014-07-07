@@ -155,6 +155,7 @@ module.exports = (grunt) ->
 					".sass-cache",
 					"*.scss",
 					"style.css",
+					"main.js",
 					"*.js.map",
 					"*.coffee",
 					"config-dev.php",
