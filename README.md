@@ -1,6 +1,6 @@
 # Yeoman Generator For ProcessWire
 
-This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss):
+This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss).
 
 The generator:
 
@@ -23,7 +23,7 @@ The generator:
 	- coffee and Sass compilation
 	- JS uglification
 	- image optimisation
-	- database dumps
+	- timestamped local and production database dumps
 	- rsync deployments
 	- other treasures!
 
