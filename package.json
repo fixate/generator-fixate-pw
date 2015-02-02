@@ -20,17 +20,15 @@
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {
-    "yeoman-generator": "~0.14.0",
-    "shelljs": "~0.2.6",
-    "coffee-script": "~1.6.3",
-    "gulp": "~3.8.10"
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "~1.14.0",
     "grunt": "^0.4.4",
     "grunt-bump": "0.0.13",
-    "grunt-dev-update": "^0.5.3"
+    "yeoman-generator": "~0.14.0",
+    "grunt-dev-update": "^0.5.3",
+    "gulp": "~3.8.10",
+    "coffee-script": "~1.9.0"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"
