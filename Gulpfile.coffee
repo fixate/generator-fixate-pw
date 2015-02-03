@@ -5,7 +5,6 @@ pkg = require './package.json'
 #*------------------------------------*\
 #   $LOAD DEPENDENCIES
 #*------------------------------------*/
-# $ = require('gulp-load-plugins')();
 gulp = require "gulp"
 shell = require "gulp-shell"
 bump = require "gulp-bump"
