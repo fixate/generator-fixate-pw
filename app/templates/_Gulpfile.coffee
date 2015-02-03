@@ -15,6 +15,7 @@ imagemin    = require "gulp-imagemin"
 pngquant    = require "imagemin-pngquant"
 
 pkg = require './package.json'
+conf = require 'config.json'
 try
 	pvt = require 'private.json'
 catch err
@@ -28,23 +29,23 @@ catch err
 #*------------------------------------*/
 gulp.task 'sass', () ->
 	gulp.task "sass", () ->
-  gulp.src([pkg.path.scss + "/style.scss"])
+  gulp.src([conf.path.scss + "/style.scss"])
     .pipe(plumber())
     .pipe(sass({errLogToConsole: true}))
-    .pipe(gulp.dest(pkg.path.css))
+    .pipe(gulp.dest(conf.path.css))
     .pipe reload({stream: true})
 # 	sass:
 # 		options:
 # 			quiet: false,
-# 			cacheLocation: '<%= pkg.path.scss %>/.sass-cache'
+# 			cacheLocation: '<%= conf.path.scss %>/.sass-cache'
 # 		dist:
 # 			files:
-# 				'<%= pkg.path.css %>/style.css': '<%= pkg.path.scss %>/style.scss'
+# 				'<%= conf.path.css %>/style.css': '<%= conf.path.scss %>/style.scss'
 # 		minify:
 # 			options:
 # 				style: 'compressed'
 # 			files:
-# 				'<%= pkg.path.css %>/style.min.css': '<%= pkg.path.scss %>/style.scss'
+# 				'<%= conf.path.css %>/style.min.css': '<%= conf.path.scss %>/style.scss'
 
 
 #*------------------------------------*\
@@ -53,7 +54,7 @@ gulp.task 'sass', () ->
 #		-https://www.npmjs.com/package/gulp-imagemin
 #*------------------------------------*/
 gulp.task('imagemin', () ->
-	return gulp.src(pkg.path.img+'/*')
+	return gulp.src(conf.path.img+'/*')
 		.pipe imagemin {
 			optimizationLevel: 3,
 			progressive: true,
@@ -65,14 +66,14 @@ gulp.task('imagemin', () ->
 	    ],
 			use: [pngquant()]
 		}
-		.pipe gulp.dest pkg.path.img
+		.pipe gulp.dest conf.path.img
 # 	imageoptim:
 # 		options:
 # 			imageAlpha: true,
 # 			# jpegMini: true,
 # 			quitAfter: true
 # 		files:
-# 			['<%= pkg.path.img %>']
+# 			['<%= conf.path.img %>']
 # 	svgmin:
 # 		options:
 # 			plugins: [{
@@ -81,9 +82,9 @@ gulp.task('imagemin', () ->
 # 		dist:
 # 			files: [{
 # 				expand: true,
-# 				cwd: '<%= pkg.path.img %>',
+# 				cwd: '<%= conf.path.img %>',
 # 				src: ['**/*.svg'],
-# 				dest: '<%= pkg.path.img %>'
+# 				dest: '<%= conf.path.img %>'
 # 			}]
 
 
@@ -92,35 +93,37 @@ gulp.task('imagemin', () ->
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
 	"cd styleguide/public",
-	'ln -s ../../' + pkg.path.assets + ' assets'
+	'ln -s ../../' + conf.path.assets + ' assets'
 ].join('&&')
 # 	shell:
 # 		styleSymlinks:
 # 			command: [
 # 				'cd styleguide/public'
-# 				'ln -s ../../<%= pkg.path.assets %> assets'
+# 				'ln -s ../../<%= conf.path.assets %> assets'
 # 			].join('&&'),
 # 			options:
 # 				stdout:true
 
-
+# READ HERE
+# 1:39:12 PM - Lawrence Botha: […] https://www.npmjs.com/package/gulp-newer
+# 1:39:21 PM - Lawrence Botha: https://github.com/gulpjs/gulp#incremental-builds
 #*------------------------------------*\
 #   $CONTRIB-COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-	gulp.src([pkg.+"**/*.coffee"])
+	gulp.src([conf.path.coffee+"/**/*.coffee"])
 		.pipe(plumber())
 		.pipe(coffee({bare: true})).on('error', gutil.log)
 		.pipe(concat("built#{ext}.js"))
 		.pipe( if isProd then uglify() else gutil.noop() )
-		.pipe(gulp.dest("./#{themePath}/assets/javascripts"))
+		.pipe(gulp.dest(conf.path.js))
 # 	coffee:
 # 		dist:
 # 			files: [{
 # 				expand: true
-# 				cwd: '<%= pkg.path.coffee %>'
+# 				cwd: '<%= conf.path.coffee %>'
 # 				src: '{,*/}*.coffee'
-# 				dest: '<%= pkg.path.js %>'
+# 				dest: '<%= conf.path.js %>'
 # 				ext: '.js'
 # 			}]
 
@@ -135,10 +138,10 @@ gulp.task "watch", () ->
 
 # 	watch:
 # 		css:
-# 			files: ['<%= pkg.path.scss %>/**/*.scss'],
+# 			files: ['<%= conf.path.scss %>/**/*.scss'],
 # 			tasks: ['sass:dist']
 # 		coffee:
-# 			files: ['<%= pkg.path.coffee %>/**/*.coffee'],
+# 			files: ['<%= conf.path.coffee %>/**/*.coffee'],
 # 			tasks: ['coffee:dist']
 
 
@@ -148,7 +151,7 @@ gulp.task "watch", () ->
 # 	uglify:
 # 		target:
 # 			files:
-# 				'<%= pkg.path.js %>/main.min.js': '<%= pkg.path.js %>/main.js'
+# 				'<%= conf.path.js %>/main.min.js': '<%= conf.path.js %>/main.js'
 
 
 #*------------------------------------*\
@@ -162,7 +165,7 @@ gulp.task "watch", () ->
 # 				user: "root"
 # 				pass: "password"
 # 				host: "localhost"
-# 				backup_to: '<%= pkg.path.db_backup %>/dev/dev_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
+# 				backup_to: '<%= conf.path.db_backup %>/dev/dev_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
 # 		prod:
 # 			options:
 # 				title: "prod db"
@@ -171,7 +174,7 @@ gulp.task "watch", () ->
 # 				pass: "<%= pvt.db_prod.pass %>"
 # 				host: "<%= pvt.db_prod.host %>"
 # 				ssh_host: "<%= pvt.username %>@<%= pvt.domain %>"
-# 				backup_to: '<%= pkg.path.db_backup %>/prod/<%= pvt.db_prod.name %>_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
+# 				backup_to: '<%= conf.path.db_backup %>/prod/<%= pvt.db_prod.name %>_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
 
 
 #*------------------------------------*\
