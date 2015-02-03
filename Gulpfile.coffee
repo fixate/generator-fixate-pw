@@ -2,12 +2,14 @@
 #		$SETTINGS
 #*-----------------------------------*/
 pkg = require './package.json'
+
 #*------------------------------------*\
 #   $LOAD DEPENDENCIES
 #*------------------------------------*/
 gulp = require "gulp"
 shell = require "gulp-shell"
 bump = require "gulp-bump"
+
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
