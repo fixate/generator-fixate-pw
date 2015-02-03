@@ -21,18 +21,6 @@ pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
 	return err
 
 #*------------------------------------*\
-#   $LOAD DEPENDENCIES
-#*------------------------------------*/
-#
-# Grunt configuration:
-#
-# https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
-#
-
-# Project configuration
-# ---------------------
-
-#*------------------------------------*\
 #   $CONTRIB-SASS
 #*------------------------------------*/
 gulp.task 'sass', () ->
@@ -59,6 +47,7 @@ gulp.task 'sass', () ->
 #*------------------------------------*\
 #   $IMAGEOPTIM
 #*------------------------------------*/
+gulp
 # 	imageoptim:
 # 		options:
 # 			imageAlpha: true,
