@@ -1,7 +1,36 @@
-requireJson (f) ->
-	fs   = require "fs"
-	JSON.parse(fs.readFileSync(f))
+#*-----------------------------------*\
+#		$SETTINGS
+#*-----------------------------------*/
+pkg = require './package.json'
 
-pkg = requireJson 'package.json'
+#*------------------------------------*\
+#   $LOAD DEPENDENCIES
+#*------------------------------------*/
+# $ = require('gulp-load-plugins')();
 gulp = require "gulp"
+shell = require "gulp-shell"
+bump = require "gulp-bump"
+depUpdate = require "gulp-depUpdate"
+#*------------------------------------*\
+#   $SHELL
+#*------------------------------------*/
+gulp.task 'shell', shell.task [
+	'echo "pkg version: "{ + pkg.version}',
+	'echo say \"hello world\"'
+]
 
+#*------------------------------------*\
+#   $BUMP
+#*------------------------------------*/
+gulp.task 'bump', (ver) ->
+	opts = {}
+	# if ver? opts = {version: ver}
+	gulp.src 'package.json'
+	.pipe bump(opts)
+	.pipe gulp.dest './'
+
+#*------------------------------------*\
+#		$DEV DEPENDENCIES UPDATE
+#*------------------------------------*/
+# Looking in to this
+# no gulp task found yet
