@@ -2,7 +2,6 @@
 #		$SETTINGS
 #*-----------------------------------*/
 pkg = require './package.json'
-
 #*------------------------------------*\
 #   $LOAD DEPENDENCIES
 #*------------------------------------*/
@@ -10,23 +9,30 @@ pkg = require './package.json'
 gulp = require "gulp"
 shell = require "gulp-shell"
 bump = require "gulp-bump"
-depUpdate = require "gulp-depUpdate"
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
-	'echo "pkg version: "{ + pkg.version}',
+	"echo pkg version: " + pkg.version,
 	'echo say \"hello world\"'
 ]
 
 #*------------------------------------*\
 #   $BUMP
 #*------------------------------------*/
-gulp.task 'bump', (ver) ->
-	opts = {}
-	if ver? opts = {version: ver}
+gulp.task 'bump:major', (ver) ->
 	gulp.src 'package.json'
-	.pipe bump(opts)
+	.pipe bump({type: 'major'})
+	.pipe gulp.dest './'
+
+gulp.task 'bump:minor', (ver) ->
+	gulp.src 'package.json'
+	.pipe bump({type: 'minor'})
+	.pipe gulp.dest './'
+
+gulp.task 'bump:patch', (ver) ->
+	gulp.src 'package.json'
+	.pipe bump({type: 'patch'})
 	.pipe gulp.dest './'
 
 #*------------------------------------*\
