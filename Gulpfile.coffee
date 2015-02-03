@@ -1,4 +1,7 @@
-gulp = require "gulp"
-fs   = require "fs"
+requireJson (f) ->
+	fs   = require "fs"
+	JSON.parse(fs.readFileSync(f))
 
-pkg = JSON.parse(fs.readFileSync('package.json'))
+pkg = requireJson 'package.json'
+gulp = require "gulp"
+

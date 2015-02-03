@@ -1,3 +1,16 @@
+gulp        = require "gulp"
+coffee      = require "gulp-coffee"
+concat      = require "gulp-concat"
+exec        = require "gulp-exec"
+minifyCSS   = require "gulp-minify-css"
+plumber     = require "gulp-plumber"
+rename      = require "gulp-rename"
+sass        = require "gulp-sass"
+uglify      = require "gulp-uglify"
+gutil       = require "gulp-util"
+watch       = require "gulp-watch"
+browserSync = require "browser-sync"
+reload      = browserSync.reload
 
 # pkg = grunt.file.readJSON('package.json')
 pkg = JSON.parse(fs.readFileSync('package.json'))
@@ -10,20 +23,11 @@ pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
 #*------------------------------------*\
 #   $LOAD DEPENDENCIES
 #*------------------------------------*/
-# dependencies = Object.keys(pkg.devDependencies).filter (o) ->
-# 	/^grunt-.+/.test(o)
-
-# for dep in dependencies
-# 	grunt.loadNpmTasks(dep)
-
 #
 # Grunt configuration:
 #
 # https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
 #
-# grunt.initConfig
-# 	pkg: pkg,
-# 	pvt: pvt,
 
 # Project configuration
 # ---------------------
@@ -31,6 +35,13 @@ pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
 #*------------------------------------*\
 #   $CONTRIB-SASS
 #*------------------------------------*/
+gulp.task 'sass', () ->
+	gulp.task "sass", () ->
+  gulp.src([pkg.path.scss + "/style.scss"])
+    .pipe(plumber())
+    .pipe(sass({errLogToConsole: true}))
+    .pipe(gulp.dest(pkg.path.css))
+    .pipe reload({stream: true})
 # 	sass:
 # 		options:
 # 			quiet: false,
