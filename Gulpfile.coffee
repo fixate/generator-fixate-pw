@@ -24,7 +24,7 @@ gulp.task 'shell', shell.task [
 #*------------------------------------*/
 gulp.task 'bump', (ver) ->
 	opts = {}
-	# if ver? opts = {version: ver}
+	if ver? opts = {version: ver}
 	gulp.src 'package.json'
 	.pipe bump(opts)
 	.pipe gulp.dest './'
@@ -32,5 +32,4 @@ gulp.task 'bump', (ver) ->
 #*------------------------------------*\
 #		$DEV DEPENDENCIES UPDATE
 #*------------------------------------*/
-# Looking in to this
 # no gulp task found yet
