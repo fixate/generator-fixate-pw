@@ -11,14 +11,17 @@ gutil       = require "gulp-util"
 watch       = require "gulp-watch"
 browserSync = require "browser-sync"
 reload      = browserSync.reload
+imagemin    = require "gulp-imagemin"
+pngquant    = require "imagemin-pngquant"
 
-# pkg = grunt.file.readJSON('package.json')
-pkg = JSON.parse(fs.readFileSync('package.json'))
-# pvt = grunt.file.readJSON('private.json') if grunt.file.exists('private.json')
-# insted of using if exists handle the error of open according to http://nodejs.org/api/fs.html#fs_fs_exists_path_callback
-pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
-	if !err return data
-	return err
+pkg = require './package.json'
+try
+	pvt = require 'private.json'
+catch err
+	console.log err
+# pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
+# 	if !err return data
+# 	return err
 
 #*------------------------------------*\
 #   $CONTRIB-SASS
@@ -45,9 +48,24 @@ gulp.task 'sass', () ->
 
 
 #*------------------------------------*\
-#   $IMAGEOPTIM
+#   $PIXEL &
+#		$VECTOR OPTIM
+#		-https://www.npmjs.com/package/gulp-imagemin
 #*------------------------------------*/
-gulp
+gulp.task('imagemin', () ->
+	return gulp.src(pkg.path.img+'/*')
+		.pipe imagemin {
+			optimizationLevel: 3,
+			progressive: true,
+			interlaced: true,
+			svgoPlugins: [
+				{removeViewBox: false},
+				{removeUselessStrokeAndFill: false },
+		    { removeEmptyAttrs: false }
+	    ],
+			use: [pngquant()]
+		}
+		.pipe gulp.dest pkg.path.img
 # 	imageoptim:
 # 		options:
 # 			imageAlpha: true,
@@ -55,11 +73,6 @@ gulp
 # 			quitAfter: true
 # 		files:
 # 			['<%= pkg.path.img %>']
-
-
-#*------------------------------------*\
-#   $SVGMIN
-#*------------------------------------*/
 # 	svgmin:
 # 		options:
 # 			plugins: [{
@@ -77,6 +90,10 @@ gulp
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
+gulp.task 'shell', shell.task [
+	"cd styleguide/public",
+	'ln -s ../../' + pkg.path.assets + ' assets'
+].join('&&')
 # 	shell:
 # 		styleSymlinks:
 # 			command: [
@@ -90,6 +107,13 @@ gulp
 #*------------------------------------*\
 #   $CONTRIB-COFFEE
 #*------------------------------------*/
+gulp.task "coffee", () ->
+	gulp.src([pkg.+"**/*.coffee"])
+		.pipe(plumber())
+		.pipe(coffee({bare: true})).on('error', gutil.log)
+		.pipe(concat("built#{ext}.js"))
+		.pipe( if isProd then uglify() else gutil.noop() )
+		.pipe(gulp.dest("./#{themePath}/assets/javascripts"))
 # 	coffee:
 # 		dist:
 # 			files: [{
@@ -104,6 +128,11 @@ gulp
 #*------------------------------------*\
 #   $CONTRIB-WATCH
 #*------------------------------------*/
+gulp.task "watch", () ->
+  gulp.watch "#{themePath}/assets/stylesheets/**/*.scss", ["sass"]
+  gulp.watch "#{themePath}/assets/javascripts/coffee/**/*.coffee", ["coffee", reload]
+  gulp.watch "**/*.hbs", ["template"]
+
 # 	watch:
 # 		css:
 # 			files: ['<%= pkg.path.scss %>/**/*.scss'],
