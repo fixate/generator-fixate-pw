@@ -106,7 +106,7 @@ gulp.task "watch", () ->
 #   $CONTRIB-UGLIFY
 #*------------------------------------*/
 gulp.task "bitter", () ->
-	gulp.src [conf.path.js + "/**/*.js"]
+	gulp.src [conf.path.js + "/main.js"]
 	.pipe uglify()
 	.pipe rename({suffix: '.min'})
 	.pipe gulp.dest(conf.path.js)
@@ -117,6 +117,7 @@ gulp.task "bitter", () ->
 #*------------------------------------*/
 gulp.task "minify", () ->
   gulp.src([conf.path.css + "/style.scss"])
+		.pipe plumber()
     .pipe minifyCSS()
     .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.css)
