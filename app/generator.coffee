@@ -77,6 +77,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy "private-sample.json", "private-sample.json"
 			@copy "private-sample.json", "private.json"
 			@template "_package.json", "package.json"
+			@template "_config.json", "config.json"
 			@template "_robots.txt", "src/robots.txt"
 
 
@@ -173,6 +174,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		setupGit()
 
 	projectfiles: =>
-		@copy "_Gruntfile.coffee", "Gruntfile.coffee"
+		@copy "_Gulpfile.coffee", "Gulpfile.coffee"
 		@copy ".editorconfig", ".editorconfig"
 

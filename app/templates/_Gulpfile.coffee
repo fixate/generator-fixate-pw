@@ -104,9 +104,6 @@ gulp.task 'shell', shell.task [
 # 			options:
 # 				stdout:true
 
-# READ HERE
-# 1:39:12 PM - Lawrence Botha: […] https://www.npmjs.com/package/gulp-newer
-# 1:39:21 PM - Lawrence Botha: https://github.com/gulpjs/gulp#incremental-builds
 #*------------------------------------*\
 #   $CONTRIB-COFFEE
 #*------------------------------------*/
