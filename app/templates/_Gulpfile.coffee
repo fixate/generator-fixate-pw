@@ -97,6 +97,9 @@ gulp.task "bitter-coffee", () ->
 		.pipe plumber()
 		.pipe coffee({bare: true}).on('error', gutil.log)
 		.pipe uglify()
+		.pipe rename((path) ->
+			path.extname = ".min" + path.extname
+		)
 		.pipe gulp.dest(conf.path.js)
 		.pipe reload({stream: true})
 
@@ -112,10 +115,21 @@ gulp.task "watch", () ->
 #*------------------------------------*\
 #   $CONTRIB-UGLIFY
 #*------------------------------------*/
-# 	uglify:
-# 		target:
-# 			files:
-# 				'<%= conf.path.js %>/main.min.js': '<%= conf.path.js %>/main.js'
+gulp.task "compress", () ->
+	gulp.src [conf.path.js + "/**/*.js"]
+	.pipe uglify()
+	.pipe rename({suffix: '.min'})
+	.pipe gulp.dest(conf.path.js)
+
+
+#*------------------------------------*\
+#   $CONTRIB-SASS
+#*------------------------------------*/
+gulp.task "minify", () ->
+  gulp.src([conf.path.css + "/style.scss"])
+    .pipe minifyCSS()
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest(conf.path.css)
 
 
 #*------------------------------------*\
@@ -296,7 +310,7 @@ gulp.task "watch", () ->
 # #*------------------------------------*/
 # grunt.registerTask 'default', ['watch']
 # grunt.registerTask 'optim', ['imageoptim', 'svgmin']
-# grunt.registerTask 'build', ['uglify', 'sass:minify', 'optim']
+gulp.task "build", ["compress", "minify"]
 # grunt.registerTask 'depcheck', ['devUpdate:check']
 # grunt.registerTask 'depask', ['devUpdate:ask']
 # grunt.registerTask 'depup', ['devUpdate:up']
