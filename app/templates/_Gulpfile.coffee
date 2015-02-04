@@ -36,8 +36,10 @@ gulp.task "sass", () ->
 #   $PIXEL &
 #		$VECTOR OPTIM
 #		-https://www.npmjs.com/package/gulp-imagemin
-#		In the grunt version this use to be
+#		-In the grunt version this use to be
 # 	seperated into svgmin and imageoptim
+# 	-might want to implement sourcemap,
+# 	still need to find out if it does what i think
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
 	return gulp.src(conf.path.img+'/*')
@@ -53,25 +55,6 @@ gulp.task 'imagemin', () ->
 			use: [pngquant()]
 		}
 		.pipe gulp.dest conf.path.img
-# 	imageoptim:
-# 		options:
-# 			imageAlpha: true,
-# 			# jpegMini: true,
-# 			quitAfter: true
-# 		files:
-# 			['<%= conf.path.img %>']
-# 	svgmin:
-# 		options:
-# 			plugins: [{
-# 				removeViewBox: false
-# 			}]
-# 		dist:
-# 			files: [{
-# 				expand: true,
-# 				cwd: '<%= conf.path.img %>',
-# 				src: ['**/*.svg'],
-# 				dest: '<%= conf.path.img %>'
-# 			}]
 
 
 #*------------------------------------*\
@@ -116,9 +99,8 @@ gulp.task "uglifyJs", () ->
 #   $CONTRIB-SASS
 #*------------------------------------*/
 gulp.task "minify", () ->
-  gulp.src([conf.path.css + "/style.scss"])
-		.pipe plumber()
-    .pipe minifyCSS()
+  gulp.src([conf.path.css + "/style.css"])
+    .pipe minifyCSS({keepSpecialComments: 0})
     .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.css)
 
@@ -126,25 +108,11 @@ gulp.task "minify", () ->
 #*------------------------------------*\
 #   $MYSQL-DUMP
 #*------------------------------------*/
-
-# 	db_dump:
-# 		local:
-# 			options:
-# 				title: "local db"
-# 				database: "[local db]"
-# 				user: "root"
-# 				pass: "password"
-# 				host: "localhost"
-# 				backup_to: '<%= conf.path.db_backup %>/dev/dev_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
-# 		prod:
-# 			options:
-# 				title: "prod db"
-# 				database: "<%= pvt.db_prod.name %>"
-# 				user: "<%= pvt.db_prod.user %>"
-# 				pass: "<%= pvt.db_prod.pass %>"
-# 				host: "<%= pvt.db_prod.host %>"
-# 				ssh_host: "<%= pvt.username %>@<%= pvt.domain %>"
-# 				backup_to: '<%= conf.path.db_backup %>/prod/<%= pvt.db_prod.name %>_<%= grunt.template.date("yyyymmdd-HHmmss") %>.sql'
+gulp.task 'db_dump:local', () ->
+  return gulp.src('')
+    .pipe shell [
+      'mysqldump -uroot -proot ' +  + ' > /database/local.sql'
+    ]
 
 
 #*------------------------------------*\
