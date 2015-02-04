@@ -20,15 +20,13 @@
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {},
+  "dependencies": {
+    "coffee-script": "~1.9.0"
+	},
   "devDependencies": {
     "mocha": "~1.14.0",
-    "grunt": "^0.4.4",
-    "grunt-bump": "0.0.13",
     "yeoman-generator": "~0.14.2",
-    "grunt-dev-update": "~0.5.11",
     "gulp": "~3.8.10",
-    "coffee-script": "~1.9.0",
     "gulp-concat": "~2.4.3",
     "gulp-exec": "~2.1.1",
     "gulp-minify-css": "~0.4.3",
