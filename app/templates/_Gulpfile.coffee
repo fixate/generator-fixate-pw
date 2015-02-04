@@ -93,21 +93,20 @@ gulp.task 'shell', shell.task [
 #*------------------------------------*/
 gulp.task "coffee", () ->
 	gulp.src([conf.path.coffee+"/**/*.coffee"])
-		.pipe(plumber())
-		.pipe(coffee({bare: true})).on('error', gutil.log)
-		.pipe(concat("built#{ext}.js"))
-		.pipe( if isProd then uglify() else gutil.noop() )
-		.pipe(gulp.dest(conf.path.js))
+		.pipe plumber()
+		.pipe coffee({bare: true})).on('error', gutil.log
+		.pipe uglify()
+		.pipe gulp.dest(conf.path.js)
 		.pipe reload({stream: true})
-# 	coffee:
-# 		dist:
-# 			files: [{
-# 				expand: true
-# 				cwd: '<%= conf.path.coffee %>'
-# 				src: '{,*/}*.coffee'
-# 				dest: '<%= conf.path.js %>'
-# 				ext: '.js'
-# 			}]
+
+# Until I figure a better way
+gulp.task "bitter-coffee", () ->
+	gulp.src([conf.path.coffee+"/**/*.coffee"])
+		.pipe plumber()
+		.pipe coffee({bare: true})).on('error', gutil.log
+		.pipe uglify()
+		.pipe gulp.dest(conf.path.js)
+		.pipe reload({stream: true})
 
 
 #*------------------------------------*\
