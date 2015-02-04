@@ -130,8 +130,8 @@ gulp.task "coffee", () ->
 #   $CONTRIB-WATCH
 #*------------------------------------*/
 gulp.task "watch", () ->
-  gulp.watch "#{themePath}/assets/stylesheets/**/*.scss", ["sass"]
-  gulp.watch "#{themePath}/assets/javascripts/coffee/**/*.coffee", ["coffee", reload]
+  gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
+  gulp.watch conf.path.assets + "/javascripts/coffee/**/*.coffee", ["coffee", reload]
   gulp.watch "**/*.hbs", ["template"]
 
 # 	watch:
