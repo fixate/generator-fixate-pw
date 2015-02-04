@@ -5,7 +5,7 @@
 	"dependencies": {
 	},
 	"devDependencies": {
-		"gulp": "~3.8.10",
+    "gulp": "~3.8.10",
     "gulp-coffee": "~2.3.1",
     "gulp-concat": "~2.4.3",
     "gulp-exec": "~2.1.1",
@@ -18,6 +18,8 @@
     "gulp-watch": "~4.1.0",
     "browser-sync": "~2.0.0-rc5",
     "gulp-imagemin": "~2.1.0",
-    "imagemin-pngquant": "~4.0.0"
+    "imagemin-pngquant": "~4.0.0",
+    "coffee-script": "~1.9.0",
+    "gulp-shell": "~0.2.11"
 	}
 }
