@@ -9,15 +9,16 @@ sass        = require "gulp-sass"
 uglify      = require "gulp-uglify"
 gutil       = require "gulp-util"
 watch       = require "gulp-watch"
+shell       = require "gulp-shell"
 browserSync = require "browser-sync"
 reload      = browserSync.reload
 imagemin    = require "gulp-imagemin"
 pngquant    = require "imagemin-pngquant"
 
 pkg = require './package.json'
-conf = require 'config.json'
+conf = require './config.json'
 try
-	pvt = require 'private.json'
+	pvt = require './private.json'
 catch err
 	console.log err
 # pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
@@ -53,7 +54,7 @@ gulp.task 'sass', () ->
 #		$VECTOR OPTIM
 #		-https://www.npmjs.com/package/gulp-imagemin
 #*------------------------------------*/
-gulp.task('imagemin', () ->
+gulp.task 'imagemin', () ->
 	return gulp.src(conf.path.img+'/*')
 		.pipe imagemin {
 			optimizationLevel: 3,
@@ -333,3 +334,9 @@ gulp.task "watch", () ->
 # grunt.registerTask 'depcheck', ['devUpdate:check']
 # grunt.registerTask 'depask', ['devUpdate:ask']
 # grunt.registerTask 'depup', ['devUpdate:up']
+
+
+#*------------------------------------*\
+#   $DEFAULT
+#*------------------------------------*/
+gulp.task 'default', ['watch']

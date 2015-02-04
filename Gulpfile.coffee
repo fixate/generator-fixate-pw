@@ -40,3 +40,8 @@ gulp.task 'bump:patch', (ver) ->
 #		$DEV DEPENDENCIES UPDATE
 #*------------------------------------*/
 # no gulp task found yet
+
+#*------------------------------------*\
+#		$DEFAULT
+#*------------------------------------*/
+gulp.task 'default', ['shell']
