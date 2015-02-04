@@ -21,9 +21,6 @@ try
 	pvt = require './private.json'
 catch err
 	console.log err
-# pvt = JSON.parse(fs.readFileSync('private.json', (err, data) ->
-# 	if !err return data
-# 	return err
 
 #*------------------------------------*\
 #   $CONTRIB-SASS
@@ -34,19 +31,6 @@ gulp.task "sass", () ->
     .pipe sass({errLogToConsole: true})
     .pipe gulp.dest(conf.path.css)
     .pipe reload({stream: true})
-# 	sass:
-# 		options:
-# 			quiet: false,
-# 			cacheLocation: '<%= conf.path.scss %>/.sass-cache'
-# 		dist:
-# 			files:
-# 				'<%= conf.path.css %>/style.css': '<%= conf.path.scss %>/style.scss'
-# 		minify:
-# 			options:
-# 				style: 'compressed'
-# 			files:
-# 				'<%= conf.path.css %>/style.min.css': '<%= conf.path.scss %>/style.scss'
-
 
 #*------------------------------------*\
 #   $PIXEL &
