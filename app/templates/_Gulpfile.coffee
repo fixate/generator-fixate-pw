@@ -115,15 +115,7 @@ gulp.task "coffee", () ->
 #*------------------------------------*/
 gulp.task "watch", () ->
   gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
-  gulp.watch conf.path.assets + "/javascripts/coffee/**/*.coffee", ["coffee", reload]
-
-# 	watch:
-# 		css:
-# 			files: ['<%= conf.path.scss %>/**/*.scss'],
-# 			tasks: ['sass:dist']
-# 		coffee:
-# 			files: ['<%= conf.path.coffee %>/**/*.coffee'],
-# 			tasks: ['coffee:dist']
+  gulp.watch conf.path.coffee + "/**/*.coffee", ["coffee", reload]
 
 
 #*------------------------------------*\
