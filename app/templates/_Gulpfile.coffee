@@ -63,7 +63,7 @@ gulp.task 'imagemin', () ->
 gulp.task 'shell', shell.task [
 	"cd styleguide/public",
 	'ln -s ../../' + conf.path.assets + ' assets'
-].join('&&')
+]
 
 
 #*------------------------------------*\
@@ -107,12 +107,11 @@ gulp.task "minify", () ->
 
 #*------------------------------------*\
 #   $MYSQL-DUMP
+# 	http://dev.mysql.com/doc/refman/5.1/en/mysqldump.html
 #*------------------------------------*/
-gulp.task 'db_dump:local', () ->
-  return gulp.src('')
-    .pipe shell [
-      'mysqldump -uroot -proot ' +  + ' > /database/local.sql'
-    ]
+gulp.task "db_dump:local", shell.task [
+  'mysqldump --host=' + pvt.db_local.host + ' --user=' + pvt.db_local.user + ' --password=' + pvt.db_local.pass + ' ' + pvt.db_local.name + ' > ./database/local2.sql'
+]
 
 
 #*------------------------------------*\
