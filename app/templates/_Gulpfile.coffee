@@ -36,6 +36,8 @@ gulp.task "sass", () ->
 #   $PIXEL &
 #		$VECTOR OPTIM
 #		-https://www.npmjs.com/package/gulp-imagemin
+#		In the grunt version this use to be
+# 	seperated into svgmin and imageoptim
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
 	return gulp.src(conf.path.img+'/*')
@@ -91,18 +93,6 @@ gulp.task "coffee", () ->
 		.pipe gulp.dest(conf.path.js)
 		.pipe reload({stream: true})
 
-# Until I figure a better way
-gulp.task "bitter-coffee", () ->
-	gulp.src([conf.path.coffee+"/**/*.coffee"])
-		.pipe plumber()
-		.pipe coffee({bare: true}).on('error', gutil.log)
-		.pipe uglify()
-		.pipe rename((path) ->
-			path.extname = ".min" + path.extname
-		)
-		.pipe gulp.dest(conf.path.js)
-		.pipe reload({stream: true})
-
 
 #*------------------------------------*\
 #   $CONTRIB-WATCH
@@ -115,7 +105,7 @@ gulp.task "watch", () ->
 #*------------------------------------*\
 #   $CONTRIB-UGLIFY
 #*------------------------------------*/
-gulp.task "compress", () ->
+gulp.task "bitter", () ->
 	gulp.src [conf.path.js + "/**/*.js"]
 	.pipe uglify()
 	.pipe rename({suffix: '.min'})
@@ -135,6 +125,7 @@ gulp.task "minify", () ->
 #*------------------------------------*\
 #   $MYSQL-DUMP
 #*------------------------------------*/
+
 # 	db_dump:
 # 		local:
 # 			options:
@@ -310,7 +301,7 @@ gulp.task "minify", () ->
 # #*------------------------------------*/
 # grunt.registerTask 'default', ['watch']
 # grunt.registerTask 'optim', ['imageoptim', 'svgmin']
-gulp.task "build", ["compress", "minify"]
+gulp.task "build", ["bitter", "minify"]
 # grunt.registerTask 'depcheck', ['devUpdate:check']
 # grunt.registerTask 'depask', ['devUpdate:ask']
 # grunt.registerTask 'depup', ['devUpdate:up']
