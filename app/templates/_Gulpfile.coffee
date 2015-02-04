@@ -250,36 +250,13 @@ gulp.task "db_dump:prod", shell.task [
 #*------------------------------------*\
 #   $DEV UPDATE
 #*------------------------------------*/
-# 	devUpdate:
-# 		options:
-# 			reportUpdated: false
-# 			semver: true
-# 			packages:
-# 				devDependencies: true
-# 				dependencies: false
-# 			packageJson: null
-# 		check:
-# 			updateType: 'report'
-# 		ask:
-# 			options:
-# 				updateType: 'prompt'
-# 		up:
-# 			options:
-# 				updateType: 'force'
-
-
-# #*------------------------------------*\
-# #   $TASKS
-# #*------------------------------------*/
-# grunt.registerTask 'default', ['watch']
-# grunt.registerTask 'optim', ['imageoptim', 'svgmin']
-gulp.task "build", ["uglifyJs", "minify"]
-# grunt.registerTask 'depcheck', ['devUpdate:check']
-# grunt.registerTask 'depask', ['devUpdate:ask']
-# grunt.registerTask 'depup', ['devUpdate:up']
-
+# No exsisting gulp task runner
 
 #*------------------------------------*\
-#   $DEFAULT
+#   $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
+gulp.task "build", ["uglifyJs", "minify"]
+# grunt's devUpdate:check alternative
+# grunt's devUpdate:ask alternative
+# grunt's devUpdate:up alternative
