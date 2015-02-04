@@ -16,7 +16,7 @@ imagemin    = require "gulp-imagemin"
 pngquant    = require "imagemin-pngquant"
 
 pkg = require './package.json'
-conf = require './config.json'
+conf = require './Gulpconfig.json'
 try
 	pvt = require './private.json'
 catch err
