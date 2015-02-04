@@ -92,9 +92,9 @@ gulp.task 'shell', shell.task [
 #   $CONTRIB-COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-	gulp.src([conf.path.coffee+"/**/*.coffee"])
+	gulp.src [conf.path.coffee+"/**/*.coffee"]
 		.pipe plumber()
-		.pipe coffee({bare: true})).on('error', gutil.log
+		.pipe coffee({bare: true}).on('error', gutil.log)
 		.pipe uglify()
 		.pipe gulp.dest(conf.path.js)
 		.pipe reload({stream: true})
@@ -103,7 +103,7 @@ gulp.task "coffee", () ->
 gulp.task "bitter-coffee", () ->
 	gulp.src([conf.path.coffee+"/**/*.coffee"])
 		.pipe plumber()
-		.pipe coffee({bare: true})).on('error', gutil.log
+		.pipe coffee({bare: true}).on('error', gutil.log)
 		.pipe uglify()
 		.pipe gulp.dest(conf.path.js)
 		.pipe reload({stream: true})
