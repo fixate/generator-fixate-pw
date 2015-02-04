@@ -28,12 +28,11 @@ catch err
 #*------------------------------------*\
 #   $CONTRIB-SASS
 #*------------------------------------*/
-gulp.task 'sass', () ->
-	gulp.task "sass", () ->
+gulp.task "sass", () ->
   gulp.src([conf.path.scss + "/style.scss"])
-    .pipe(plumber())
-    .pipe(sass({errLogToConsole: true}))
-    .pipe(gulp.dest(conf.path.css))
+    .pipe plumber()
+    .pipe sass({errLogToConsole: true})
+    .pipe gulp.dest(conf.path.css)
     .pipe reload({stream: true})
 # 	sass:
 # 		options:
@@ -63,8 +62,8 @@ gulp.task 'imagemin', () ->
 			svgoPlugins: [
 				{removeViewBox: false},
 				{removeUselessStrokeAndFill: false },
-		    { removeEmptyAttrs: false }
-	    ],
+				{ removeEmptyAttrs: false }
+			],
 			use: [pngquant()]
 		}
 		.pipe gulp.dest conf.path.img
@@ -115,6 +114,7 @@ gulp.task "coffee", () ->
 		.pipe(concat("built#{ext}.js"))
 		.pipe( if isProd then uglify() else gutil.noop() )
 		.pipe(gulp.dest(conf.path.js))
+		.pipe reload({stream: true})
 # 	coffee:
 # 		dist:
 # 			files: [{
@@ -132,7 +132,6 @@ gulp.task "coffee", () ->
 gulp.task "watch", () ->
   gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
   gulp.watch conf.path.assets + "/javascripts/coffee/**/*.coffee", ["coffee", reload]
-  gulp.watch "**/*.hbs", ["template"]
 
 # 	watch:
 # 		css:
