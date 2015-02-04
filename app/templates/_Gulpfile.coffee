@@ -79,14 +79,7 @@ gulp.task 'shell', shell.task [
 	"cd styleguide/public",
 	'ln -s ../../' + conf.path.assets + ' assets'
 ].join('&&')
-# 	shell:
-# 		styleSymlinks:
-# 			command: [
-# 				'cd styleguide/public'
-# 				'ln -s ../../<%= conf.path.assets %> assets'
-# 			].join('&&'),
-# 			options:
-# 				stdout:true
+
 
 #*------------------------------------*\
 #   $CONTRIB-COFFEE
