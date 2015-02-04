@@ -105,7 +105,7 @@ gulp.task "watch", () ->
 #*------------------------------------*\
 #   $CONTRIB-UGLIFY
 #*------------------------------------*/
-gulp.task "bitter", () ->
+gulp.task "uglifyJs", () ->
 	gulp.src [conf.path.js + "/main.js"]
 	.pipe uglify()
 	.pipe rename({suffix: '.min'})
@@ -302,7 +302,7 @@ gulp.task "minify", () ->
 # #*------------------------------------*/
 # grunt.registerTask 'default', ['watch']
 # grunt.registerTask 'optim', ['imageoptim', 'svgmin']
-gulp.task "build", ["bitter", "minify"]
+gulp.task "build", ["uglifyJs", "minify"]
 # grunt.registerTask 'depcheck', ['devUpdate:check']
 # grunt.registerTask 'depask', ['devUpdate:ask']
 # grunt.registerTask 'depup', ['devUpdate:up']
