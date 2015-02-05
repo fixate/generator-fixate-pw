@@ -9,13 +9,19 @@
 		"js": "src/site/templates/assets/js",
 		"db_backup": "database"
 	},
-	"rsyncOptions": {
-		"progress": true,
-		"compress": true,
+	"rsyncFolders": {
+		"localFolder": "./src/**",
+		"hostFolder": "~dewald/public_html"
+	},
+	"rsyncOpts": {
+		"recursive": true,
+		"ssh": true,
+		"compareMode": "checksum",
 		"exclude": [
 			".git*",
 			".DS_Store",
 			"node_modules",
+			"config-dev.php",
 			".sass-cache",
 			"*.scss",
 			"*.css.map",
@@ -23,12 +29,15 @@
 			"assets/js/main.js",
 			"*.js.map",
 			"*.coffee",
-			"config-dev.php",
 			"assets/cache",
 			"assets/files",
+			"assets/logs",
 			"assets/sessions",
-			"assets/logs"
-		],
-		"recursive": true
+			"config.php",
+			"robots.txt"
+		]
+	},
+	"rsyncDry": {
+		"dryRun": true
 	}
 }

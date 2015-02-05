@@ -21,6 +21,7 @@
     "coffee-script": "~1.9.0",
     "gulp-shell": "~0.2.11",
     "extend": "~2.0.0",
-    "gulp-rsync": "0.0.5"
+    "gulp-rsync": "0.0.5",
+    "rsyncwrapper": "~0.4.1"
   }
 }
