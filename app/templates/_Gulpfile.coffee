@@ -1,27 +1,28 @@
 # Gulp
-gulp        = require "gulp"
-coffee      = require "gulp-coffee"
-concat      = require "gulp-concat"
-exec        = require "gulp-exec"
-minifyCSS   = require "gulp-minify-css"
-plumber     = require "gulp-plumber"
-rename      = require "gulp-rename"
-sass        = require "gulp-sass"
-uglify      = require "gulp-uglify"
-gutil       = require "gulp-util"
-watch       = require "gulp-watch"
-shell       = require "gulp-shell"
-browserSync = require "browser-sync"
-reload      = browserSync.reload
-imagemin    = require "gulp-imagemin"
-pngquant    = require "imagemin-pngquant"
-rsync 			= require "gulp-rsync"
+gulp        	= require "gulp"
+coffee      	= require "gulp-coffee"
+concat      	= require "gulp-concat"
+exec        	= require "gulp-exec"
+minifyCSS   	= require "gulp-minify-css"
+plumber     	= require "gulp-plumber"
+rename      	= require "gulp-rename"
+sass        	= require "gulp-sass"
+uglify      	= require "gulp-uglify"
+gutil       	= require "gulp-util"
+watch       	= require "gulp-watch"
+shell       	= require "gulp-shell"
+browserSync 	= require "browser-sync"
+reload      	= browserSync.reload
+imagemin    	= require "gulp-imagemin"
+pngquant    	= require "imagemin-pngquant"
+rsyncwrapper	= require "rsyncwrapper"
+rsync 				= rsyncwrapper.rsync
 
 # Extra
-extend 			= require "extend"
+extend 				= require "extend"
 
-pkg = require './package.json'
-conf = require './Gulpconfig.json'
+pkg   = require './package.json'
+conf  = require './Gulpconfig.json'
 try
 	pvt = require './private.json'
 catch err
@@ -131,141 +132,92 @@ gulp.task "db_dump:prod", shell.task [
 #   $RSYNC
 #*------------------------------------*/
 # rsync files to and from production
-gulp.task 'rsync:up', () ->
-  gulp.src '~dewald/ssh-test'
-    .pipe rsync extend conf.rsyncOptions, { hostname: pvt.domain, username: pvt.username }
-
-# 	rsync:
-# 		options:
-# 			args: ["--archive", "--itemize-changes", "--progress", "--compress"]
-# 			exclude: [
-# 				".git*",
-# 				".DS_Store",
-# 				"node_modules",
-# 				".sass-cache",
-# 				"*.scss",
-# 				"*.css.map",
-# 				"assets/css/style.css",
-# 				"assets/js/main.js",
-# 				"*.js.map",
-# 				"*.coffee",
-# 				"config-dev.php",
-# 				"assets/cache",
-# 				"assets/files",
-# 				"assets/sessions",
-# 				"assets/logs"
-# 			]
-# 			recursive: true
 
 # dry-run down
+gulp.task "rsync:downdry", () ->
+	rsyncDown = {
+		dest: conf.rsyncFolders.localFolder,
+		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+	}
+	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
+	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stdout
 
-# 		downdry:
-# 			options:
-# 				args: ["--dry-run", "--verbose"]
-# 				src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/"
-# 				dest: "src"
-# 				syncDestIgnoreExcl: true
 
 # sync down
+gulp.task "rsync:down", () ->
+	rsyncDown = {
+		dest: conf.rsyncFolders.localFolder,
+		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+	}
+	opts = extend rsyncDown, conf.rsyncOpts
+	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stdout
 
-# 		down:
-# 			options:
-# 				src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/"
-# 				dest: "src"
-# 				syncDestIgnoreExcl: true
 
 # staging dry-run down
+gulp.task "rsync:staging-downdry", () ->
+	rsyncDown = {
+		dest: conf.rsyncFolders.localFolder,
+		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+	}
+	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
+	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stdout
 
-# 		#
-# 		# only sync files that have been uploaded
-# 		stagingdowndry:
-# 			options:
-# 				args: ["--dry-run", "--verbose"]
-# 				src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/staging.<%= pvt.domain %>/site/assets/files/"
-# 				dest: "src/site/assets/files"
-# 				syncDestIgnoreExcl: true
 
 # sync staging to local
+gulp.task "rsync:staging-down", () ->
+	rsyncDown = {
+		dest: conf.rsyncFolders.localFolder,
+		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+	}
+	opts = extend rsyncDown, conf.rsyncOpts
+	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stdout
 
-# 		#
-# 		# only sync files that have been uploaded
-# 		stagingdown:
-# 			options:
-# 				src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/staging.<%= pvt.domain %>/site/assets/files/"
-# 				dest: "src/site/assets/files"
-# 				syncDestIgnoreExcl: true
 
 # dry-run sync to prod
+gulp.task "rsync:updry", () ->
+	rsyncUp = {
+		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		src: conf.rsyncFolders.localFolder,
+	}
+	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
+	rsync opts, (error, stdout, stderr, cmd) ->
+    gutil.log stdout
 
-# 		updry:
-# 			options:
-# 				args: ["--dry-run", "--verbose"]
-# 				src: "src/"
-# 				dest: "public_html"
-# 				host: "<%= pvt.username %>@<%= pvt.domain %>"
 
-# sync to pro
-
-# 		up:
-# 			options:
-# 				src: "src/"
-# 				dest: "public_html"
-# 				host: "<%= pvt.username %>@<%= pvt.domain %>"
+# sync to production
+gulp.task 'rsync:up', () ->
+	rsyncUp = {
+		src: conf.rsyncFolders.localFolder,
+		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+	}
+	opts = extend rsyncUp, conf.rsyncOpts
+	rsync opts, (error, stdout, stderr, cmd) ->
+    gutil.log stdout
 
 # dry-run deploy to staging
+gulp.task "rsync:staging-updry", () ->
+	rsyncUp = {
+		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		src: conf.rsyncFolders.localFolder,
+	}
+	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
+	rsync opts, (error, stdout, stderr, cmd) ->
+    gutil.log stdout
 
-# 		stagingupdry:
-# 			options:
-# 				args: ["--dry-run", "--verbose"]
-# 				exclude: [
-# 					".git*",
-# 					".DS_Store",
-# 					"node_modules",
-# 					"config-dev.php",
-# 					".sass-cache",
-# 					"*.scss",
-# 					"*.css.map",
-# 					"assets/css/style.css",
-# 					"assets/js/main.js",
-# 					"*.js.map",
-# 					"*.coffee",
-# 					"assets/cache",
-# 					"assets/files",
-# 					"assets/logs",
-# 					"assets/sessions",
-# 					"config.php",
-# 					"robots.txt"
-# 				]
-# 				src: "src/"
-# 				dest: "public_html/staging.<%= pvt.domain %>"
-# 				host: "<%= pvt.username %>@<%= pvt.domain %>"
 
 # deploy local changes to staging
-
-# 		stagingup:
-# 			options:
-# 				src: "src/"
-# 				exclude: [
-# 					".git*",
-# 					".DS_STORE",
-# 					"node_modules",
-# 					"config-dev.php",
-# 					".sass-cache",
-# 					"*.scss",
-# 					"*.css.map",
-# 					"assets/css/style.css",
-# 					"assets/js/main.js",
-# 					"*.js.map",
-# 					"*.coffee",
-# 					"assets/cache",
-# 					"assets/files",
-# 					"assets/logs",
-# 					"assets/sessions",
-# 					"config.php",
-# 					"robots.txt"
-# 				]
-# 				dest: "public_html/staging.<%= pvt.domain %>"
-# 				host: "<%= pvt.username %>@<%= pvt.domain %>"
+gulp.task "rsync:staging-up", () ->
+	rsyncUp = {
+		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		src: conf.rsyncFolders.localFolder,
+	}
+	opts = extend rsyncUp, conf.rsyncOpts
+	rsync opts, (error, stdout, stderr, cmd) ->
+    gutil.log stdout
 
 
 #*------------------------------------*\
@@ -281,3 +233,4 @@ gulp.task "build", ["uglifyJs", "minify"]
 # grunt's devUpdate:check alternative
 # grunt's devUpdate:ask alternative
 # grunt's devUpdate:up alternative
+
