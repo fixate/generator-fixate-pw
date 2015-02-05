@@ -1,3 +1,4 @@
+# Gulp
 gulp        = require "gulp"
 coffee      = require "gulp-coffee"
 concat      = require "gulp-concat"
@@ -14,6 +15,10 @@ browserSync = require "browser-sync"
 reload      = browserSync.reload
 imagemin    = require "gulp-imagemin"
 pngquant    = require "imagemin-pngquant"
+rsync 			= require "gulp-rsync"
+
+# Extra
+extend 			= require "extend"
 
 pkg = require './package.json'
 conf = require './Gulpconfig.json'
@@ -21,6 +26,10 @@ try
 	pvt = require './private.json'
 catch err
 	console.log err
+
+#*------------------------------------*\
+#   $CONF METHODS
+#*------------------------------------*/
 
 #*------------------------------------*\
 #   $CONTRIB-SASS
@@ -48,8 +57,8 @@ gulp.task 'imagemin', () ->
 			progressive: true,
 			interlaced: true,
 			svgoPlugins: [
-				{removeViewBox: false},
-				{removeUselessStrokeAndFill: false },
+				{ removeViewBox: false },
+				{ removeUselessStrokeAndFill: false },
 				{ removeEmptyAttrs: false }
 			],
 			use: [pngquant()]
@@ -122,6 +131,10 @@ gulp.task "db_dump:prod", shell.task [
 #   $RSYNC
 #*------------------------------------*/
 # rsync files to and from production
+gulp.task 'rsync:up', () ->
+  gulp.src '~dewald/ssh-test'
+    .pipe rsync extend conf.rsyncOptions, { hostname: pvt.domain, username: pvt.username }
+
 # 	rsync:
 # 		options:
 # 			args: ["--archive", "--itemize-changes", "--progress", "--compress"]
@@ -144,7 +157,8 @@ gulp.task "db_dump:prod", shell.task [
 # 			]
 # 			recursive: true
 
-# 		# dry-run down
+# dry-run down
+
 # 		downdry:
 # 			options:
 # 				args: ["--dry-run", "--verbose"]
@@ -152,14 +166,16 @@ gulp.task "db_dump:prod", shell.task [
 # 				dest: "src"
 # 				syncDestIgnoreExcl: true
 
-# 		# sync down
+# sync down
+
 # 		down:
 # 			options:
 # 				src: "<%= pvt.username %>@<%= pvt.domain %>:public_html/"
 # 				dest: "src"
 # 				syncDestIgnoreExcl: true
 
-# 		# staging dry-run down
+# staging dry-run down
+
 # 		#
 # 		# only sync files that have been uploaded
 # 		stagingdowndry:
@@ -169,7 +185,8 @@ gulp.task "db_dump:prod", shell.task [
 # 				dest: "src/site/assets/files"
 # 				syncDestIgnoreExcl: true
 
-# 		# sync staging to local
+# sync staging to local
+
 # 		#
 # 		# only sync files that have been uploaded
 # 		stagingdown:
@@ -178,7 +195,8 @@ gulp.task "db_dump:prod", shell.task [
 # 				dest: "src/site/assets/files"
 # 				syncDestIgnoreExcl: true
 
-# 		# dry-run sync to prod
+# dry-run sync to prod
+
 # 		updry:
 # 			options:
 # 				args: ["--dry-run", "--verbose"]
@@ -186,14 +204,16 @@ gulp.task "db_dump:prod", shell.task [
 # 				dest: "public_html"
 # 				host: "<%= pvt.username %>@<%= pvt.domain %>"
 
-# 		# sync to pro
+# sync to pro
+
 # 		up:
 # 			options:
 # 				src: "src/"
 # 				dest: "public_html"
 # 				host: "<%= pvt.username %>@<%= pvt.domain %>"
 
-# 		# dry-run deploy to staging
+# dry-run deploy to staging
+
 # 		stagingupdry:
 # 			options:
 # 				args: ["--dry-run", "--verbose"]
@@ -220,7 +240,8 @@ gulp.task "db_dump:prod", shell.task [
 # 				dest: "public_html/staging.<%= pvt.domain %>"
 # 				host: "<%= pvt.username %>@<%= pvt.domain %>"
 
-# 		# deploy local changes to staging
+# deploy local changes to staging
+
 # 		stagingup:
 # 			options:
 # 				src: "src/"

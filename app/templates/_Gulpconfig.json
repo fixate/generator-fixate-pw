@@ -8,5 +8,27 @@
 		"img": "src/site/templates/assets/img",
 		"js": "src/site/templates/assets/js",
 		"db_backup": "database"
+	},
+	"rsyncOptions": {
+		"progress": true,
+		"compress": true,
+		"exclude": [
+			".git*",
+			".DS_Store",
+			"node_modules",
+			".sass-cache",
+			"*.scss",
+			"*.css.map",
+			"assets/css/style.css",
+			"assets/js/main.js",
+			"*.js.map",
+			"*.coffee",
+			"config-dev.php",
+			"assets/cache",
+			"assets/files",
+			"assets/sessions",
+			"assets/logs"
+		],
+		"recursive": true
 	}
 }
