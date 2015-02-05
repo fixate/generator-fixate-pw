@@ -1,25 +1,28 @@
 # Gulp
-gulp        	= require "gulp"
-coffee      	= require "gulp-coffee"
-concat      	= require "gulp-concat"
-exec        	= require "gulp-exec"
-minifyCSS   	= require "gulp-minify-css"
-plumber     	= require "gulp-plumber"
-rename      	= require "gulp-rename"
-sass        	= require "gulp-sass"
-uglify      	= require "gulp-uglify"
-gutil       	= require "gulp-util"
-watch       	= require "gulp-watch"
-shell       	= require "gulp-shell"
-browserSync 	= require "browser-sync"
-reload      	= browserSync.reload
-imagemin    	= require "gulp-imagemin"
-pngquant    	= require "imagemin-pngquant"
-rsyncwrapper	= require "rsyncwrapper"
-rsync 				= rsyncwrapper.rsync
+gulp        		= require "gulp"
+coffee      		= require "gulp-coffee"
+concat      		= require "gulp-concat"
+exec        		= require "gulp-exec"
+minifyCSS   		= require "gulp-minify-css"
+plumber     		= require "gulp-plumber"
+rename      		= require "gulp-rename"
+sass        		= require "gulp-sass"
+uglify      		= require "gulp-uglify"
+gutil       		= require "gulp-util"
+watch       		= require "gulp-watch"
+shell       		= require "gulp-shell"
+browserSync 		= require "browser-sync"
+reload      		= browserSync.reload
+imagemin    		= require "gulp-imagemin"
+pngquant    		= require "imagemin-pngquant"
+rsyncwrapper		= require "rsyncwrapper"
+rsync 					= rsyncwrapper.rsync
+cp 							= require 'child_process'
+spawn 					= cp.spawn
 
 # Extra
-extend 				= require "extend"
+extend 					= require "extend"
+defaultProcess	= null
 
 pkg   = require './package.json'
 conf  = require './Gulpconfig.json'
@@ -74,6 +77,21 @@ gulp.task 'shell', shell.task [
 	"cd styleguide/public",
 	'ln -s ../../' + conf.path.assets + ' assets'
 ]
+
+
+#*------------------------------------*\
+#   $RESTART
+# 	Taken from: http://noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
+#*------------------------------------*/
+gulp.task 'auto-reload', () ->
+	process = undefined
+	restart = () ->
+		if process != undefined
+			process.kill()
+		process = spawn 'gulp', ['default'], {stdio: 'inherit'}
+
+	gulp.watch 'Gulpfile.coffee', restart
+	restart()
 
 
 #*------------------------------------*\
