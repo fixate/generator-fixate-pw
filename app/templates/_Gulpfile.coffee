@@ -10,6 +10,8 @@ sass        		= require "gulp-sass"
 uglify      		= require "gulp-uglify"
 gutil       		= require "gulp-util"
 watch       		= require "gulp-watch"
+cache						= require "gulp-cache"
+remember      	= require "gulp-remember"
 shell       		= require "gulp-shell"
 browserSync 		= require "browser-sync"
 reload      		= browserSync.reload
@@ -41,7 +43,8 @@ catch err
 gulp.task "sass", () ->
   gulp.src([conf.path.scss + "/style.scss"])
     .pipe plumber()
-    .pipe sass({errLogToConsole: true})
+		.pipe cache(sass({errLogToConsole: true}))
+    .pipe remember()
     .pipe gulp.dest(conf.path.css)
     .pipe reload({stream: true})
 
@@ -100,7 +103,8 @@ gulp.task 'auto-reload', () ->
 gulp.task "coffee", () ->
 	gulp.src [conf.path.coffee+"/**/*.coffee"]
 		.pipe plumber()
-		.pipe coffee({bare: true}).on('error', gutil.log)
+		.pipe cache(coffee({bare: true}).on('error', gutil.log))
+		.pipe remember()
 		.pipe gulp.dest(conf.path.js)
 		.pipe reload({stream: true})
 
