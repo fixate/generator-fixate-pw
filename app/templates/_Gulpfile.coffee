@@ -142,11 +142,11 @@ gulp.task "minify", () ->
 # 	http://dev.mysql.com/doc/refman/5.1/en/mysqldump.html
 #*------------------------------------*/
 gulp.task "db_dump:local", shell.task [
-  'mysqldump --host=' + pvt.db_local.host + ' --user=' + pvt.db_local.user + ' --password=' + pvt.db_local.pass + ' ' + pvt.db_local.name + ' > ./database/local.sql'
+  'mysqldump --host=' + pvt.db_local.host + ' --user=' + pvt.db_local.user + ' --password=' + pvt.db_local.pass + ' ' + pvt.db_local.name + ' > ' + './database/dev/dev-db-' + Date.now() + '.sql'
 ]
 
 gulp.task "db_dump:prod", shell.task [
-  'mysqldump --host=' + pvt.db_prod.host + ' --user=' + pvt.db_prod.user + ' --password=' + pvt.db_prod.pass + ' ' + pvt.db_prod.name + ' > ./database/prod.sql'
+  'mysqldump --host=' + pvt.db_prod.host + ' --user=' + pvt.db_prod.user + ' --password=' + pvt.db_prod.pass + ' ' + pvt.db_prod.name + ' > ' + './database/prod/prod-db-' + Date.now() + '.sql'
 ]
 
 
