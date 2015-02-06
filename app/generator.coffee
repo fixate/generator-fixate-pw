@@ -133,8 +133,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 			# setup for ProcessWire install
 			at dest('src/site/'), =>
-				shell.chmod '-Rf 777', "assets"
+				shell.chmod '777', "assets"
+				shell.chmod '777', "assets/*"
 				shell.chmod '777', "modules"
+				shell.chmod '777', "config.php"
 
 			@log.ok('OK')
 
