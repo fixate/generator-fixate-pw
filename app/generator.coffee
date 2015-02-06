@@ -114,9 +114,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm "search.php"
 				shell.rm "sitemap.php"
 				shell.rm "home.php"
-				shell.rm "_init.inc"
-				shell.rm "_main.inc"
-				shell.rm "_func.inc"
+				shell.rm "_init.php"
+				shell.rm "_main.php"
+				shell.rm "_func.php"
 
 			# remove alternative ProcessWire site profiles
 			at dest('src/'), =>
