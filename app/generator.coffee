@@ -117,6 +117,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm "foot.inc"
 				shell.rm "head.inc"
 
+			# remove alternative ProcessWire site profiles
+			at dest('src/'), =>
+				shell.rm '-rf', "./src/site-beginner"
+				shell.rm '-rf', "./src/site-blank"
+				shell.rm '-rf', "./src/site-classic"
+				shell.rm '-rf', "./src/site-languages"
+
 			# ensure processwire assets are committed
 			@copy ".gitkeep", "src/site/assets/cache/.gitkeep"
 			@copy ".gitkeep", "src/site/assets/sessions/.gitkeep"
