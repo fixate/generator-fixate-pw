@@ -77,7 +77,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy "private-sample.json", "private-sample.json"
 			@copy "private-sample.json", "private.json"
 			@template "_package.json", "package.json"
-			@template "_config.json", "config.json"
+			@template "_Gulpconfig.json", "Gulpconfig.json"
 			@template "_robots.txt", "src/robots.txt"
 
 
