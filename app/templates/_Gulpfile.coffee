@@ -1,13 +1,13 @@
 # Gulp
-gulp        		= require "gulp"
-coffee      		= require "gulp-coffee"
+gulp						= require "gulp"
+coffee 					= require "gulp-coffee"
 concat      		= require "gulp-concat"
-exec        		= require "gulp-exec"
-minifyCSS   		= require "gulp-minify-css"
-plumber     		= require "gulp-plumber"
-rename      		= require "gulp-rename"
-sass        		= require "gulp-sass"
-uglify      		= require "gulp-uglify"
+exec 						= require "gulp-exec"
+minifyCSS 			= require "gulp-minify-css"
+plumber 				= require "gulp-plumber"
+rename 					= require "gulp-rename"
+sass 						= require "gulp-sass"
+uglifyJs 				= require "gulp-uglify"
 gutil       		= require "gulp-util"
 watch       		= require "gulp-watch"
 cache						= require "gulp-cache"
@@ -21,10 +21,10 @@ rsyncwrapper		= require "rsyncwrapper"
 rsync 					= rsyncwrapper.rsync
 cp 							= require 'child_process'
 spawn 					= cp.spawn
+rev 						= require 'gulp-rev'
 
 # Extra
 extend 					= require "extend"
-defaultProcess	= null
 
 pkg   = require './package.json'
 conf  = require './Gulpconfig.json'
@@ -33,20 +33,17 @@ try
 catch err
 	console.log err
 
-#*------------------------------------*\
-#   $CONF METHODS
-#*------------------------------------*/
 
 #*------------------------------------*\
 #   $CONTRIB-SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
   gulp.src([conf.path.scss + "/style.scss"])
-    .pipe plumber()
+		.pipe plumber()
 		.pipe cache(sass({errLogToConsole: true}))
-    .pipe remember()
-    .pipe gulp.dest(conf.path.css)
-    .pipe reload({stream: true})
+		.pipe remember()
+		.pipe gulp.dest(conf.path.css)
+		.pipe reload({stream: true})
 
 #*------------------------------------*\
 #   $PIXEL &
@@ -59,7 +56,7 @@ gulp.task "sass", () ->
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
 	return gulp.src(conf.path.img+'/*')
-		.pipe imagemin {
+		.pipe cache(imagemin {
 			optimizationLevel: 3,
 			progressive: true,
 			interlaced: true,
@@ -69,8 +66,12 @@ gulp.task 'imagemin', () ->
 				{ removeEmptyAttrs: false }
 			],
 			use: [pngquant()]
-		}
+		})
+		.pipe rev()
+		.pipe remember()
 		.pipe gulp.dest conf.path.img
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
@@ -113,28 +114,34 @@ gulp.task "coffee", () ->
 #   $CONTRIB-WATCH
 #*------------------------------------*/
 gulp.task "watch", () ->
-  gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
-  gulp.watch conf.path.coffee + "/**/*.coffee", ["coffee", reload]
+	gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
+	gulp.watch conf.path.coffee + "/**/*.coffee", ["coffee", reload]
 
 
 #*------------------------------------*\
 #   $CONTRIB-UGLIFY
 #*------------------------------------*/
-gulp.task "uglifyJs", () ->
+gulp.task "uglify", () ->
 	gulp.src [conf.path.js + "/main.js"]
-	.pipe uglify()
+	.pipe uglifyJs()
+	.pipe rev()
 	.pipe rename({suffix: '.min'})
 	.pipe gulp.dest(conf.path.js)
+	.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+	.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
 #   $CONTRIB-SASS
 #*------------------------------------*/
 gulp.task "minify", () ->
-  gulp.src([conf.path.css + "/style.css"])
-    .pipe minifyCSS({keepSpecialComments: 0})
-    .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(conf.path.css)
+	gulp.src([conf.path.css + "/style.css"])
+		.pipe minifyCSS({keepSpecialComments: 0})
+		.pipe rev()
+		.pipe rename({suffix: '.min'})
+		.pipe gulp.dest(conf.path.css)
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
@@ -142,19 +149,19 @@ gulp.task "minify", () ->
 # 	http://dev.mysql.com/doc/refman/5.1/en/mysqldump.html
 #*------------------------------------*/
 gulp.task "db_dump:local", shell.task [
-  'mysqldump --host=' + pvt.db_local.host +
-  ' --user=' + pvt.db_local.user +
-  ' --password=' + pvt.db_local.pass +
-  ' ' + pvt.db_local.name +
-  ' > ' + './database/dev/dev-db-' + Date.now() + '.sql'
+	'mysqldump --host=' + pvt.db_local.host +
+	' --user=' + pvt.db_local.user +
+	' --password=' + pvt.db_local.pass +
+	' ' + pvt.db_local.name +
+	' > ' + './database/dev/dev-db-' + Date.now() + '.sql'
 ]
 
 gulp.task "db_dump:prod", shell.task [
-  'mysqldump --host=' + pvt.db_prod.host +
-  ' --user=' + pvt.db_prod.user +
-  ' --password=' + pvt.db_prod.pass +
-  ' ' + pvt.db_prod.name + ' > ' +
-  './database/prod/prod-db-' + Date.now() + '.sql'
+	'mysqldump --host=' + pvt.db_prod.host +
+	' --user=' + pvt.db_prod.user +
+	' --password=' + pvt.db_prod.pass +
+	' ' + pvt.db_prod.name + ' > ' +
+	'./database/prod/prod-db-' + Date.now() + '.sql'
 ]
 
 
@@ -215,7 +222,7 @@ gulp.task "rsync:updry", () ->
 	}
 	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stdout
 
 
 # sync to production
@@ -226,7 +233,7 @@ gulp.task 'rsync:up', () ->
 	}
 	opts = extend rsyncUp, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stdout
 
 # dry-run deploy to staging
 gulp.task "rsync:staging-updry", () ->
@@ -236,7 +243,7 @@ gulp.task "rsync:staging-updry", () ->
 	}
 	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stdout
 
 
 # deploy local changes to staging
@@ -247,7 +254,7 @@ gulp.task "rsync:staging-up", () ->
 	}
 	opts = extend rsyncUp, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stdout
 
 
 #*------------------------------------*\
