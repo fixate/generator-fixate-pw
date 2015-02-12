@@ -35,7 +35,7 @@ catch err
 
 
 #*------------------------------------*\
-#   $CONTRIB-SASS
+#   $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
   gulp.src([conf.path.scss + "/style.scss"])
@@ -101,7 +101,7 @@ gulp.task 'auto-reload', () ->
 
 
 #*------------------------------------*\
-#   $CONTRIB-COFFEE
+#   $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
 	gulp.src [conf.path.coffee+"/**/*.coffee"]
@@ -113,7 +113,7 @@ gulp.task "coffee", () ->
 
 
 #*------------------------------------*\
-#   $CONTRIB-WATCH
+#   $WATCH
 #*------------------------------------*/
 gulp.task "watch", () ->
 	gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
@@ -121,7 +121,7 @@ gulp.task "watch", () ->
 
 
 #*------------------------------------*\
-#   $CONTRIB-UGLIFY
+#   $UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", () ->
 	gulp.src [conf.path.js + "/main.js"]
@@ -134,7 +134,7 @@ gulp.task "uglify", () ->
 
 
 #*------------------------------------*\
-#   $CONTRIB-SASS
+#   $SASS
 #*------------------------------------*/
 gulp.task "minify", () ->
 	gulp.src([conf.path.css + "/style.css"])
