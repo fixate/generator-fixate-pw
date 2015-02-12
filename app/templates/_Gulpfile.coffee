@@ -260,14 +260,15 @@ gulp.task "rsync:staging-up", () ->
 #*------------------------------------*\
 #   $DEV UPDATE
 #*------------------------------------*/
-# No exsisting gulp task runner
+# No exsisting gulp task implemented
 
 #*------------------------------------*\
 #   $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
 gulp.task "build", ["uglify", "minify"]
+
+# No exsisting gulp task implemented
 # grunt's devUpdate:check alternative
 # grunt's devUpdate:ask alternative
 # grunt's devUpdate:up alternative
-
