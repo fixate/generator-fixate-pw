@@ -78,8 +78,10 @@ gulp.task 'imagemin', () ->
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
-	"cd styleguide/public",
-	'ln -s ../../' + conf.path.assets + ' assets'
+	[
+		"cd styleguide/public",
+		"ln -s ../../#{conf.path.assets} assets"
+	].join(' && ')
 ]
 
 
