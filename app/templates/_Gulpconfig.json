@@ -1,5 +1,6 @@
 {
 	"path": {
+		"template": "src/site/templates",
 		"assets": "src/site/templates/assets",
 		"scss": "styleguide/scss",
 		"css": "src/site/templates/assets/css",
@@ -11,7 +12,7 @@
 	},
 	"rsyncFolders": {
 		"localFolder": "./src/**",
-		"hostFolder": "~dewald/public_html"
+		"hostFolder": "public_html"
 	},
 	"rsyncOpts": {
 		"recursive": true,
@@ -39,5 +40,11 @@
 	},
 	"rsyncDry": {
 		"dryRun": true
+	},
+	"revManifest": {
+		"path": "src/site/templates/rev-manifest.json",
+		"opts": {
+			"merge": true
+		}
 	}
 }
