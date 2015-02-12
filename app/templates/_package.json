@@ -26,6 +26,8 @@
     "extend": "~2.0.0",
     "rsyncwrapper": "~0.4.1",
     "gulp-remember": "~0.3.0",
-    "gulp-cache": "~0.2.4"
+    "gulp-cache": "~0.2.4",
+    "gulp-rev-replace": "~0.3.3",
+    "gulp-rev": "~3.0.1"
   }
 }
