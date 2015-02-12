@@ -78,10 +78,7 @@ gulp.task 'imagemin', () ->
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
-	[
-		"cd styleguide/public",
-		"ln -s ../../#{conf.path.assets} assets"
-	].join(' && ')
+	'echo "no tasks listed... you can relax."'
 ]
 
 
