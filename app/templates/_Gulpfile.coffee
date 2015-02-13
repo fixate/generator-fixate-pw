@@ -174,7 +174,6 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
 
 #*------------------------------------*\
 #   $MYSQL-DUMP
-# 	http://dev.mysql.com/doc/refman/5.1/en/mysqldump.html
 #*------------------------------------*/
 gulp.task "db_dump:local", shell.task [
 	"mysqldump --host=#{pvt.db_local.host}
@@ -200,7 +199,7 @@ gulp.task "db_dump:prod", shell.task [
 gulp.task "rsync:downdry", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
 	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
@@ -211,7 +210,7 @@ gulp.task "rsync:downdry", () ->
 gulp.task "rsync:down", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
 	opts = extend rsyncDown, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
@@ -222,7 +221,7 @@ gulp.task "rsync:down", () ->
 gulp.task "rsync:staging-downdry", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 	}
 	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
@@ -233,7 +232,7 @@ gulp.task "rsync:staging-downdry", () ->
 gulp.task "rsync:staging-down", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 	}
 	opts = extend rsyncDown, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
@@ -243,7 +242,7 @@ gulp.task "rsync:staging-down", () ->
 # dry-run sync to prod
 gulp.task "rsync:updry", () ->
 	rsyncUp = {
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 		src: conf.rsyncFolders.localFolder,
 	}
 	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
@@ -255,7 +254,7 @@ gulp.task "rsync:updry", () ->
 gulp.task 'rsync:up', () ->
 	rsyncUp = {
 		src: conf.rsyncFolders.localFolder,
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
 	opts = extend rsyncUp, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
@@ -264,7 +263,7 @@ gulp.task 'rsync:up', () ->
 # dry-run deploy to staging
 gulp.task "rsync:staging-updry", () ->
 	rsyncUp = {
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 		src: conf.rsyncFolders.localFolder,
 	}
 	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
@@ -275,7 +274,7 @@ gulp.task "rsync:staging-updry", () ->
 # deploy local changes to staging
 gulp.task "rsync:staging-up", () ->
 	rsyncUp = {
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 		src: conf.rsyncFolders.localFolder,
 	}
 	opts = extend rsyncUp, conf.rsyncOpts
