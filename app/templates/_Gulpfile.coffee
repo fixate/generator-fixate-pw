@@ -198,6 +198,7 @@ gulp.task "rsync:downdry", () ->
 	}
 	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -209,6 +210,7 @@ gulp.task "rsync:down", () ->
 	}
 	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -220,6 +222,7 @@ gulp.task "rsync:staging-downdry", () ->
 	}
 	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -231,6 +234,7 @@ gulp.task "rsync:staging-down", () ->
 	}
 	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -242,6 +246,7 @@ gulp.task "rsync:updry", () ->
 	}
 	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -253,6 +258,7 @@ gulp.task 'rsync:up', () ->
 	}
 	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 # dry-run deploy to staging
@@ -263,6 +269,7 @@ gulp.task "rsync:staging-updry", () ->
 	}
 	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -274,6 +281,7 @@ gulp.task "rsync:staging-up", () ->
 	}
 	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
