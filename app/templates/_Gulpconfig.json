@@ -17,12 +17,12 @@
 			"img": "src/site/templates/assets/public/img",
 			"js": "src/site/templates/assets/public/js"
 		}
-<<<<<<< Updated upstream
-=======
+	},
+	"plum": {
+		"errorHandler": false
 	},
 	"ssh": {
-		"port": "22"
->>>>>>> Stashed changes
+		"port": "21"
 	},
 	"rsyncFolders": {
 		"localFolder": "./src/**",
