@@ -49,11 +49,6 @@ gulp.task "sass", () ->
 #*------------------------------------*\
 #   $PIXEL &
 #		$VECTOR OPTIM
-#		-https://www.npmjs.com/package/gulp-imagemin
-#		-In the grunt version this use to be
-# 	seperated into svgmin and imageoptim
-# 	-might want to implement sourcemap,
-# 	still need to find out if it does what i think
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
 	return gulp.src(conf.path.pvt.img+'/*')
