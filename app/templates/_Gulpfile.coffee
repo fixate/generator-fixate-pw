@@ -22,7 +22,7 @@ rsync 					= rsyncwrapper.rsync
 cp 							= require 'child_process'
 spawn 					= cp.spawn
 rev 						= require 'gulp-rev'
-revReplace			= require 'gulp-rev-replace'
+replace					= require 'gulp-replace'
 
 # Extra
 extend 					= require "extend"
@@ -137,7 +137,7 @@ gulp.task "uglify", () ->
 #   $SASS
 #*------------------------------------*/
 gulp.task "minify", () ->
-	gulp.src([conf.path.css + "/style.css"])
+	gulp.src(["#{conf.path.pvt.css}/style.css"])
 		.pipe minifyCSS({keepSpecialComments: 0})
 		.pipe rev()
 		.pipe rename({suffix: '.min'})
@@ -150,7 +150,7 @@ gulp.task "minify", () ->
 #   $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
-	gulp.src([conf.path.prv.fnt])
+	gulp.src([conf.path.pvt.fnt+'/**/*'])
 		.pipe cache(rev())
 		.pipe remember()
 		.pipe gulp.dest(conf.path.pub.fnt)
@@ -158,8 +158,18 @@ gulp.task "font", () ->
 		.pipe gulp.dest('./')
 
 
-gulp.task "rev_replave", () ->
-	gulp.src([])
+#*------------------------------------*\
+#   $REV REPLACE
+# 	github.com/jamesknelson/gulp-rev-replace/issues/23
+#*------------------------------------*/
+gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
+	manifest = require "./#{conf.path.pvt.assets}/rev-manifest.json"
+	stream = gulp.src ["./#{conf.path.pub.css}/#{manifest['style.css']}"]
+
+	Object.keys(manifest).reduce((stream, key) ->
+		stream.pipe replace(key, manifest[key])
+	, stream)
+		.pipe gulp.dest("./#{conf.path.pub.css}")
 
 
 #*------------------------------------*\
@@ -282,7 +292,7 @@ gulp.task "rsync:staging-up", () ->
 #   $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
-gulp.task "build", ["uglify", "minify"]
+gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
 
 # No exsisting gulp task implemented
 # grunt's devUpdate:check alternative
