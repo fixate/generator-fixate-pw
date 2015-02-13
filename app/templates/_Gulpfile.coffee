@@ -87,7 +87,7 @@ gulp.task 'shell', shell.task [
 #   $RESTART
 # 	Taken from: http://noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
 #*------------------------------------*/
-gulp.task 'auto_reload', () ->
+gulp.task "auto_reload", () ->
 	process = undefined
 	restart = () ->
 		if process != undefined
@@ -116,8 +116,8 @@ gulp.task "coffee", () ->
 gulp.task "watch", () ->
 	gulp.watch conf.path.pvt.scss + "/**/*.scss", ["sass"]
 	gulp.watch conf.path.pvt.coffee + "/**/*.coffee", ["coffee", reload]
-	gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
-	gulp.watch conf.path.pvt.img + "/**/*", ['imagemin']
+	# gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
+	# gulp.watch conf.path.pvt.img + "/**/*", ['imagemin']
 
 
 #*------------------------------------*\
