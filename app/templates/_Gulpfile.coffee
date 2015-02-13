@@ -80,7 +80,7 @@ gulp.task 'shell', shell.task [
 
 #*------------------------------------*\
 #   $RESTART
-# 	Taken from: http://noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
+# 	noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
 #*------------------------------------*/
 gulp.task "auto_reload", () ->
 	process = undefined
