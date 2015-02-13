@@ -196,7 +196,7 @@ gulp.task "rsync:downdry", () ->
 		dest: conf.rsyncFolders.localFolder,
 		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -207,7 +207,7 @@ gulp.task "rsync:down", () ->
 		dest: conf.rsyncFolders.localFolder,
 		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -218,7 +218,7 @@ gulp.task "rsync:staging-downdry", () ->
 		dest: conf.rsyncFolders.localFolder,
 		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -229,7 +229,7 @@ gulp.task "rsync:staging-down", () ->
 		dest: conf.rsyncFolders.localFolder,
 		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -240,7 +240,7 @@ gulp.task "rsync:updry", () ->
 		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 		src: conf.rsyncFolders.localFolder,
 	}
-	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -251,7 +251,7 @@ gulp.task 'rsync:up', () ->
 		src: conf.rsyncFolders.localFolder,
 		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
-	opts = extend rsyncUp, conf.rsyncOpts
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -261,7 +261,7 @@ gulp.task "rsync:staging-updry", () ->
 		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 		src: conf.rsyncFolders.localFolder,
 	}
-	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 
@@ -272,7 +272,7 @@ gulp.task "rsync:staging-up", () ->
 		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 		src: conf.rsyncFolders.localFolder,
 	}
-	opts = extend rsyncUp, conf.rsyncOpts
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
 		gutil.log stdout
 

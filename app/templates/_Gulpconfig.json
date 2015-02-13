@@ -17,14 +17,20 @@
 			"img": "src/site/templates/assets/public/img",
 			"js": "src/site/templates/assets/public/js"
 		}
+<<<<<<< Updated upstream
+=======
+	},
+	"ssh": {
+		"port": "22"
+>>>>>>> Stashed changes
 	},
 	"rsyncFolders": {
 		"localFolder": "./src/**",
 		"hostFolder": "public_html"
 	},
 	"rsyncOpts": {
-		"recursive": true,
 		"ssh": true,
+		"recursive": true,
 		"compareMode": "checksum",
 		"exclude": [
 			".git*",
