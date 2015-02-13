@@ -54,5 +54,13 @@
 		"opts": {
 			"merge": true
 		}
+	},
+	"revReplace": {
+		"opts": {
+			"replaceInExtensions": [
+				".js",
+				".css"
+			]
+		}
 	}
 }
