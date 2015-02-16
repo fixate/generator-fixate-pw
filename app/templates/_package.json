@@ -2,6 +2,9 @@
   "author": "Fixate",
   "name": "example.com",
   "version": "0.0.0",
+  "scripts": {
+    "preinstall": "cd styleguide/public && ln -s ../../src/site/templates/assets assets"
+  },
   "dependencies": {},
   "devDependencies": {
     "gulp": "~3.8.10",
@@ -23,6 +26,8 @@
     "extend": "~2.0.0",
     "rsyncwrapper": "~0.4.1",
     "gulp-remember": "~0.3.0",
-    "gulp-cache": "~0.2.4"
+    "gulp-cache": "~0.2.4",
+    "gulp-rev": "~3.0.1",
+    "gulp-replace": "~0.5.2"
   }
 }

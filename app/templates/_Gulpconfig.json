@@ -1,21 +1,36 @@
 {
 	"path": {
-		"assets": "src/site/templates/assets",
-		"scss": "styleguide/scss",
-		"css": "src/site/templates/assets/css",
-		"coffee": "src/site/templates/assets/coffee",
-		"fnt": "src/site/templates/assets/fnt",
-		"img": "src/site/templates/assets/img",
-		"js": "src/site/templates/assets/js",
-		"db_backup": "database"
+		"db_backup": "database",
+		"pvt": {
+			"assets": "src/site/templates/assets",
+			"css": "src/site/templates/assets/css",
+			"js": "src/site/templates/assets/js",
+			"img": "src/site/templates/assets/img",
+			"fnt": "src/site/templates/assets/fnt",
+			"scss": "styleguide/css/scss",
+			"coffee": "src/site/templates/assets/js/coffee"
+		},
+		"pub": {
+			"assets": "src/site/templates/assets/public",
+			"css": "src/site/templates/assets/public/css",
+			"fnt": "src/site/templates/assets/public/fnt",
+			"img": "src/site/templates/assets/public/img",
+			"js": "src/site/templates/assets/public/js"
+		}
+	},
+	"plum": {
+		"errorHandler": false
+	},
+	"ssh": {
+		"port": "21"
 	},
 	"rsyncFolders": {
 		"localFolder": "./src/**",
-		"hostFolder": "~dewald/public_html"
+		"hostFolder": "public_html"
 	},
 	"rsyncOpts": {
-		"recursive": true,
 		"ssh": true,
+		"recursive": true,
 		"compareMode": "checksum",
 		"exclude": [
 			".git*",
@@ -39,5 +54,19 @@
 	},
 	"rsyncDry": {
 		"dryRun": true
+	},
+	"revManifest": {
+		"path": "src/site/templates/assets/rev-manifest.json",
+		"opts": {
+			"merge": true
+		}
+	},
+	"revReplace": {
+		"opts": {
+			"replaceInExtensions": [
+				".js",
+				".css"
+			]
+		}
 	}
 }

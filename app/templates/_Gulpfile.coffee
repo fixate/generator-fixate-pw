@@ -1,13 +1,13 @@
 # Gulp
-gulp        		= require "gulp"
-coffee      		= require "gulp-coffee"
+gulp						= require "gulp"
+coffee 					= require "gulp-coffee"
 concat      		= require "gulp-concat"
-exec        		= require "gulp-exec"
-minifyCSS   		= require "gulp-minify-css"
-plumber     		= require "gulp-plumber"
-rename      		= require "gulp-rename"
-sass        		= require "gulp-sass"
-uglify      		= require "gulp-uglify"
+exec 						= require "gulp-exec"
+minifyCSS 			= require "gulp-minify-css"
+plumber 				= require "gulp-plumber"
+rename 					= require "gulp-rename"
+sass 						= require "gulp-sass"
+uglifyJs 				= require "gulp-uglify"
 gutil       		= require "gulp-util"
 watch       		= require "gulp-watch"
 cache						= require "gulp-cache"
@@ -21,10 +21,11 @@ rsyncwrapper		= require "rsyncwrapper"
 rsync 					= rsyncwrapper.rsync
 cp 							= require 'child_process'
 spawn 					= cp.spawn
+rev 						= require 'gulp-rev'
+replace					= require 'gulp-replace'
 
 # Extra
 extend 					= require "extend"
-defaultProcess	= null
 
 pkg   = require './package.json'
 conf  = require './Gulpconfig.json'
@@ -33,33 +34,25 @@ try
 catch err
 	console.log err
 
-#*------------------------------------*\
-#   $CONF METHODS
-#*------------------------------------*/
 
 #*------------------------------------*\
-#   $CONTRIB-SASS
+#   $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src([conf.path.scss + "/style.scss"])
-    .pipe plumber()
+  gulp.src([conf.path.pvt.scss + "/style.scss"])
+		.pipe plumber(conf.plum)
 		.pipe cache(sass({errLogToConsole: true}))
-    .pipe remember()
-    .pipe gulp.dest(conf.path.css)
-    .pipe reload({stream: true})
+		.pipe remember()
+		.pipe gulp.dest(conf.path.pvt.css)
+		.pipe reload({stream: true})
 
 #*------------------------------------*\
 #   $PIXEL &
 #		$VECTOR OPTIM
-#		-https://www.npmjs.com/package/gulp-imagemin
-#		-In the grunt version this use to be
-# 	seperated into svgmin and imageoptim
-# 	-might want to implement sourcemap,
-# 	still need to find out if it does what i think
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
-	return gulp.src(conf.path.img+'/*')
-		.pipe imagemin {
+	return gulp.src(conf.path.pvt.img+'/*')
+		.pipe cache(imagemin {
 			optimizationLevel: 3,
 			progressive: true,
 			interlaced: true,
@@ -69,24 +62,27 @@ gulp.task 'imagemin', () ->
 				{ removeEmptyAttrs: false }
 			],
 			use: [pngquant()]
-		}
-		.pipe gulp.dest conf.path.img
+		})
+		.pipe rev()
+		.pipe remember()
+		.pipe gulp.dest conf.path.pub.img
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
-	"cd styleguide/public",
-	'ln -s ../../' + conf.path.assets + ' assets'
+	'echo "no tasks listed... you can relax."'
 ]
 
 
 #*------------------------------------*\
 #   $RESTART
-# 	Taken from: http://noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
+# 	noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
 #*------------------------------------*/
-gulp.task 'auto-reload', () ->
+gulp.task "auto_reload", () ->
 	process = undefined
 	restart = () ->
 		if process != undefined
@@ -98,63 +94,94 @@ gulp.task 'auto-reload', () ->
 
 
 #*------------------------------------*\
-#   $CONTRIB-COFFEE
+#   $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-	gulp.src [conf.path.coffee+"/**/*.coffee"]
-		.pipe plumber()
+	gulp.src [conf.path.pvt.coffee+"/**/*.coffee"]
+		.pipe plumber(conf.plum)
 		.pipe cache(coffee({bare: true}).on('error', gutil.log))
 		.pipe remember()
-		.pipe gulp.dest(conf.path.js)
+		.pipe gulp.dest(conf.path.pvt.js)
 		.pipe reload({stream: true})
 
 
 #*------------------------------------*\
-#   $CONTRIB-WATCH
+#   $WATCH
 #*------------------------------------*/
 gulp.task "watch", () ->
-  gulp.watch conf.path.scss + "/**/*.scss", ["sass"]
-  gulp.watch conf.path.coffee + "/**/*.coffee", ["coffee", reload]
+	gulp.watch conf.path.pvt.scss + "/**/*.scss", ["sass"]
+	gulp.watch conf.path.pvt.coffee + "/**/*.coffee", ["coffee", reload]
+	# gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
+	# gulp.watch conf.path.pvt.img + "/**/*", ['imagemin']
 
 
 #*------------------------------------*\
-#   $CONTRIB-UGLIFY
+#   $UGLIFY
 #*------------------------------------*/
-gulp.task "uglifyJs", () ->
-	gulp.src [conf.path.js + "/main.js"]
-	.pipe uglify()
+gulp.task "uglify", () ->
+	gulp.src [conf.path.pvt.js + "/main.js"]
+	.pipe uglifyJs()
+	.pipe rev()
 	.pipe rename({suffix: '.min'})
-	.pipe gulp.dest(conf.path.js)
+	.pipe gulp.dest(conf.path.pub.js)
+	.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+	.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
-#   $CONTRIB-SASS
+#   $SASS
 #*------------------------------------*/
 gulp.task "minify", () ->
-  gulp.src([conf.path.css + "/style.css"])
-    .pipe minifyCSS({keepSpecialComments: 0})
-    .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(conf.path.css)
+	gulp.src(["#{conf.path.pvt.css}/style.css"])
+		.pipe minifyCSS({keepSpecialComments: 0})
+		.pipe rev()
+		.pipe rename({suffix: '.min'})
+		.pipe gulp.dest(conf.path.pub.css)
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
+
+
+#*------------------------------------*\
+#   $FONT REV
+#*------------------------------------*/
+gulp.task "font", () ->
+	gulp.src([conf.path.pvt.fnt+'/**/*'])
+		.pipe cache(rev())
+		.pipe remember()
+		.pipe gulp.dest(conf.path.pub.fnt)
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
+
+
+#*------------------------------------*\
+#   $REV REPLACE
+# 	github.com/jamesknelson/gulp-rev-replace/issues/23
+#*------------------------------------*/
+gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
+	manifest = require "./#{conf.path.pvt.assets}/rev-manifest.json"
+	stream = gulp.src ["./#{conf.path.pub.css}/#{manifest['style.css']}"]
+
+	Object.keys(manifest).reduce((stream, key) ->
+		stream.pipe replace(key, manifest[key])
+	, stream)
+		.pipe gulp.dest("./#{conf.path.pub.css}")
 
 
 #*------------------------------------*\
 #   $MYSQL-DUMP
-# 	http://dev.mysql.com/doc/refman/5.1/en/mysqldump.html
 #*------------------------------------*/
 gulp.task "db_dump:local", shell.task [
-  'mysqldump --host=' + pvt.db_local.host +
-  ' --user=' + pvt.db_local.user +
-  ' --password=' + pvt.db_local.pass +
-  ' ' + pvt.db_local.name +
-  ' > ' + './database/dev/dev-db-' + Date.now() + '.sql'
+	"mysqldump --host=#{pvt.db_local.host}
+	--user=#{pvt.db_local.user}
+	--password=#{pvt.db_local.pass}
+	 #{pvt.db_local.name} > ./database/local/local-db-#{Date.now()}.sql"
 ]
 
 gulp.task "db_dump:prod", shell.task [
-  'mysqldump --host=' + pvt.db_prod.host +
-  ' --user=' + pvt.db_prod.user +
-  ' --password=' + pvt.db_prod.pass +
-  ' ' + pvt.db_prod.name + ' > ' +
-  './database/prod/prod-db-' + Date.now() + '.sql'
+	"mysqldump --host=#{pvt.db_prod.host}
+	--user=#{pvt.db_prod.user}
+	--password=#{pvt.db_prod.pass}
+	 #{pvt.db_prod.name} > ./database/prod/prod-db-#{Date.now()}.sql"
 ]
 
 
@@ -167,10 +194,11 @@ gulp.task "db_dump:prod", shell.task [
 gulp.task "rsync:downdry", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -178,10 +206,11 @@ gulp.task "rsync:downdry", () ->
 gulp.task "rsync:down", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -189,10 +218,11 @@ gulp.task "rsync:down", () ->
 gulp.task "rsync:staging-downdry", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
@@ -200,67 +230,73 @@ gulp.task "rsync:staging-downdry", () ->
 gulp.task "rsync:staging-down", () ->
 	rsyncDown = {
 		dest: conf.rsyncFolders.localFolder,
-		src: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 	}
-	opts = extend rsyncDown, conf.rsyncOpts
+	opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
+		gutil.log stderr
 		gutil.log stdout
 
 
 # dry-run sync to prod
 gulp.task "rsync:updry", () ->
 	rsyncUp = {
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 		src: conf.rsyncFolders.localFolder,
 	}
-	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stderr
+		gutil.log stdout
 
 
 # sync to production
 gulp.task 'rsync:up', () ->
 	rsyncUp = {
 		src: conf.rsyncFolders.localFolder,
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
 	}
-	opts = extend rsyncUp, conf.rsyncOpts
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stderr
+		gutil.log stdout
 
 # dry-run deploy to staging
 gulp.task "rsync:staging-updry", () ->
 	rsyncUp = {
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 		src: conf.rsyncFolders.localFolder,
 	}
-	opts = extend rsyncUp, conf.rsyncOpts, conf.rsyncDry
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stderr
+		gutil.log stdout
 
 
 # deploy local changes to staging
 gulp.task "rsync:staging-up", () ->
 	rsyncUp = {
-		dest: pvt.username + '@' + pvt.domain + ':' + conf.rsyncFolders.hostFolder + "/staging"
+		dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
 		src: conf.rsyncFolders.localFolder,
 	}
-	opts = extend rsyncUp, conf.rsyncOpts
+	opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
 	rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stdout
+		gutil.log stderr
+		gutil.log stdout
 
 
 #*------------------------------------*\
 #   $DEV UPDATE
 #*------------------------------------*/
-# No exsisting gulp task runner
+# No exsisting gulp task implemented
 
 #*------------------------------------*\
 #   $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
-gulp.task "build", ["uglifyJs", "minify"]
+gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
+
+# No exsisting gulp task implemented
 # grunt's devUpdate:check alternative
 # grunt's devUpdate:ask alternative
 # grunt's devUpdate:up alternative
-

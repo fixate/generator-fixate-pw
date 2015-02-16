@@ -152,6 +152,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			at dest('styleguide/'), =>
 				@log.info 'KSS Living Styleguide - bundle install'
 				GitUtils.exec 'bundle install'
+				shell.mv '-f', './scss', '../src/site/templates/assets/css'
 
 			@log.ok('OK')
 
