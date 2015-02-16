@@ -72,7 +72,7 @@ gulp.task 'imagemin', () ->
 
 
 #*------------------------------------*\
-#   $RESTART
+#   $AUTO RELOAD GULPFILE ON SAVE
 # 	noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
 #*------------------------------------*/
 gulp.task "auto_reload", () ->
