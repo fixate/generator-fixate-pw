@@ -3,20 +3,22 @@
 #*-----------------------------------*/
 pkg = require './package.json'
 
+
 #*------------------------------------*\
 #   $LOAD DEPENDENCIES
 #*------------------------------------*/
-gulp = require "gulp"
+gulp  = require "gulp"
 shell = require "gulp-shell"
-bump = require "gulp-bump"
+bump  = require "gulp-bump"
+
 
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
-	"echo pkg version: " + pkg.version,
-	'echo say \"hello world\"'
+	"echo pkg version: " + pkg.version
 ]
+
 
 #*------------------------------------*\
 #   $BUMP
@@ -36,10 +38,12 @@ gulp.task 'bump', (ver) ->
 	.pipe bump({type: 'patch'})
 	.pipe gulp.dest './'
 
+
 #*------------------------------------*\
 #		$DEV DEPENDENCIES UPDATE
 #*------------------------------------*/
 # no gulp task found yet
+
 
 #*------------------------------------*\
 #		$DEFAULT
