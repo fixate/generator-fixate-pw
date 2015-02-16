@@ -46,6 +46,7 @@ gulp.task "sass", () ->
 		.pipe gulp.dest(conf.path.pvt.css)
 		.pipe reload({stream: true})
 
+
 #*------------------------------------*\
 #   $PIXEL &
 #		$VECTOR OPTIM
@@ -68,14 +69,6 @@ gulp.task 'imagemin', () ->
 		.pipe gulp.dest conf.path.pub.img
 		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
 		.pipe gulp.dest('./')
-
-
-#*------------------------------------*\
-#   $SHELL
-#*------------------------------------*/
-gulp.task 'shell', shell.task [
-	'echo "no tasks listed... you can relax."'
-]
 
 
 #*------------------------------------*\
@@ -290,13 +283,9 @@ gulp.task "rsync:staging-up", () ->
 #*------------------------------------*/
 # No exsisting gulp task implemented
 
+
 #*------------------------------------*\
 #   $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
 gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
-
-# No exsisting gulp task implemented
-# grunt's devUpdate:check alternative
-# grunt's devUpdate:ask alternative
-# grunt's devUpdate:up alternative
