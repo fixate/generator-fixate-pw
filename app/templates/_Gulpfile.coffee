@@ -28,7 +28,7 @@ replace					= require 'gulp-replace'
 extend 					= require "extend"
 
 pkg   = require './package.json'
-conf  = require './Gulpconfig.json'
+conf  = require './gulpconfig.json'
 try
 	pvt = require './private.json'
 catch err
@@ -89,7 +89,7 @@ gulp.task "auto_reload", () ->
 			process.kill()
 		process = spawn 'gulp', ['default'], {stdio: 'inherit'}
 
-	gulp.watch 'Gulpfile.coffee', restart
+	gulp.watch 'gulpfile.coffee', restart
 	restart()
 
 
