@@ -1,9 +1,9 @@
 GitUtils = require './lib/git-utils'
-myUtils = require './lib/utils'
-yeoman = require 'yeoman-generator'
-shell = require 'shelljs'
-fs = require 'fs'
-path = require 'path'
+myUtils  = require './lib/utils'
+yeoman   = require 'yeoman-generator'
+shell    = require 'shelljs'
+fs       = require 'fs'
+path     = require 'path'
 
 module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	constructor: (args, options, config) ->
@@ -69,16 +69,16 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				'styleguide'
 			]
 
-			@copy ".bowerrc", ".bowerrc"
-			@copy ".gitignore", ".gitignore"
-			@copy ".gitattributes", ".gitattributes"
-			@copy ".gitkeep", "database/dev/.gitkeep"
-			@copy ".gitkeep", "database/prod/.gitkeep"
-			@copy "private-sample.json", "private-sample.json"
-			@copy "private-sample.json", "private.json"
-			@template "_package.json", "package.json"
+			@copy ".bowerrc",             ".bowerrc"
+			@copy ".gitignore",           ".gitignore"
+			@copy ".gitattributes",       ".gitattributes"
+			@copy ".gitkeep",             "database/dev/.gitkeep"
+			@copy ".gitkeep",             "database/prod/.gitkeep"
+			@copy "private-sample.json",  "private-sample.json"
+			@copy "private-sample.json",  "private.json"
+			@template "_package.json",    "package.json"
 			@template "_gulpconfig.json", "gulpconfig.json"
-			@template "_robots.txt", "src/robots.txt"
+			@template "_robots.txt",      "src/robots.txt"
 
 
 		#*------------------------------------*\
