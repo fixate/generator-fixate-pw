@@ -40,7 +40,7 @@ catch err
 #*------------------------------------*/
 gulp.task "sass", () ->
   gulp.src([conf.path.pvt.scss + "/style.scss"])
-		.pipe plumber(conf.plum)
+		.pipe plumber(conf.plumber)
 		.pipe cache(sass({errLogToConsole: true}))
 		.pipe remember()
 		.pipe gulp.dest(conf.path.pvt.css)
@@ -91,7 +91,7 @@ gulp.task "auto_reload", () ->
 #*------------------------------------*/
 gulp.task "coffee", () ->
 	gulp.src [conf.path.pvt.coffee+"/**/*.coffee"]
-		.pipe plumber(conf.plum)
+		.pipe plumber(conf.plumber)
 		.pipe cache(coffee({bare: true}).on('error', gutil.log))
 		.pipe remember()
 		.pipe gulp.dest(conf.path.pvt.js)

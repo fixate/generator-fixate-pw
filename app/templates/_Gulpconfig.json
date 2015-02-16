@@ -18,7 +18,7 @@
 			"js": "src/site/templates/assets/public/js"
 		}
 	},
-	"plum": {
+	"plumber": {
 		"errorHandler": false
 	},
 	"ssh": {
