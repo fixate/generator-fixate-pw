@@ -31,7 +31,7 @@ gulp.task 'bump:minor', (ver) ->
 	.pipe bump({type: 'minor'})
 	.pipe gulp.dest './'
 
-gulp.task 'bump:patch', (ver) ->
+gulp.task 'bump', (ver) ->
 	gulp.src 'package.json'
 	.pipe bump({type: 'patch'})
 	.pipe gulp.dest './'
