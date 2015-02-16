@@ -1,0 +1,43 @@
+{
+	"path": {
+		"assets": "src/site/templates/assets",
+		"scss": "styleguide/scss",
+		"css": "src/site/templates/assets/css",
+		"coffee": "src/site/templates/assets/coffee",
+		"fnt": "src/site/templates/assets/fnt",
+		"img": "src/site/templates/assets/img",
+		"js": "src/site/templates/assets/js",
+		"db_backup": "database"
+	},
+	"rsyncFolders": {
+		"localFolder": "./src/**",
+		"hostFolder": "~dewald/public_html"
+	},
+	"rsyncOpts": {
+		"recursive": true,
+		"ssh": true,
+		"compareMode": "checksum",
+		"exclude": [
+			".git*",
+			".DS_Store",
+			"node_modules",
+			"config-dev.php",
+			".sass-cache",
+			"*.scss",
+			"*.css.map",
+			"assets/css/style.css",
+			"assets/js/main.js",
+			"*.js.map",
+			"*.coffee",
+			"assets/cache",
+			"assets/files",
+			"assets/logs",
+			"assets/sessions",
+			"config.php",
+			"robots.txt"
+		]
+	},
+	"rsyncDry": {
+		"dryRun": true
+	}
+}

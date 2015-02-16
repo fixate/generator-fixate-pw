@@ -77,6 +77,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy "private-sample.json", "private-sample.json"
 			@copy "private-sample.json", "private.json"
 			@template "_package.json", "package.json"
+			@template "_Gulpconfig.json", "Gulpconfig.json"
 			@template "_robots.txt", "src/robots.txt"
 
 
@@ -113,14 +114,29 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm "search.php"
 				shell.rm "sitemap.php"
 				shell.rm "home.php"
-				shell.rm "foot.inc"
-				shell.rm "head.inc"
+				shell.rm "_init.php"
+				shell.rm "_main.php"
+				shell.rm "_func.php"
+
+			# remove alternative ProcessWire site profiles
+			at dest('src/'), =>
+				shell.rm '-rf', "site-beginner"
+				shell.rm '-rf', "site-blank"
+				shell.rm '-rf', "site-classic"
+				shell.rm '-rf', "site-languages"
 
 			# ensure processwire assets are committed
 			@copy ".gitkeep", "src/site/assets/cache/.gitkeep"
 			@copy ".gitkeep", "src/site/assets/sessions/.gitkeep"
 			@copy ".gitkeep", "src/site/assets/files/.gitkeep"
 			@copy ".gitkeep", "src/site/assets/logs/.gitkeep"
+
+			# setup for ProcessWire install
+			at dest('src/site/'), =>
+				shell.chmod '777', "assets"
+				shell.chmod '777', "assets/*"
+				shell.chmod '777', "modules"
+				shell.chmod '777', "config.php"
 
 			@log.ok('OK')
 
@@ -173,6 +189,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		setupGit()
 
 	projectfiles: =>
-		@copy "_Gruntfile.coffee", "Gruntfile.coffee"
+		@copy "_Gulpfile.coffee", "Gulpfile.coffee"
 		@copy ".editorconfig", ".editorconfig"
 
