@@ -19,12 +19,13 @@ The generator:
 	- .gitattributes
 	- .bowerrc
 	- robots.txt
-- installs [Grunt](http://gruntjs.com) with an extensive task list (written in CoffeeScript for your viewing pleasure) fully equipped for
+- installs [Gulp](http://gulpjs.com) with an extensive task list (written in CoffeeScript for your viewing pleasure) fully equipped for
 	- coffee and Sass compilation
 	- JS uglification
 	- image optimisation
 	- timestamped local and production database dumps
 	- rsync deployments
+	- gulp auto reload
 	- other treasures!
 
 ## Getting Started

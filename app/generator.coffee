@@ -1,9 +1,9 @@
 GitUtils = require './lib/git-utils'
-myUtils = require './lib/utils'
-yeoman = require 'yeoman-generator'
-shell = require 'shelljs'
-fs = require 'fs'
-path = require 'path'
+myUtils  = require './lib/utils'
+yeoman   = require 'yeoman-generator'
+shell    = require 'shelljs'
+fs       = require 'fs'
+path     = require 'path'
 
 module.exports = class FixatePwGenerator extends yeoman.generators.Base
 	constructor: (args, options, config) ->
@@ -15,7 +15,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		@pkg = myUtils.loadJSON("../package.json", __dirname)
 		@settings = myUtils.loadJSON("./settings.json", __dirname)
 
-	askFor: =>
+	askFor: () =>
 		cb = @async()
 
 
@@ -43,11 +43,11 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@props = props
 			cb()
 
-	app: =>
+	app: () =>
 		github = (repo) ->
 			"https://github.com/#{repo}.git"
 
-		dest= (p = '/')=>
+		dest = (p = '/') =>
 			path.join(@destinationRoot(), p)
 
 		at = (p, cb) ->
@@ -61,7 +61,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		#*------------------------------------*\
 		#   $REPOSITORY
 		#*------------------------------------*/
-		setupRepo = =>
+		setupRepo = () =>
 			@mkdir d for d in [
 				'src',
 				'database/dev',
@@ -69,21 +69,22 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				'styleguide'
 			]
 
-			@copy ".bowerrc", ".bowerrc"
-			@copy ".gitignore", ".gitignore"
-			@copy ".gitattributes", ".gitattributes"
-			@copy ".gitkeep", "database/dev/.gitkeep"
-			@copy ".gitkeep", "database/prod/.gitkeep"
-			@copy "private-sample.json", "private-sample.json"
-			@copy "private-sample.json", "private.json"
-			@template "_package.json", "package.json"
-			@template "_robots.txt", "src/robots.txt"
+			@copy ".bowerrc",             ".bowerrc"
+			@copy ".gitignore",           ".gitignore"
+			@copy ".gitattributes",       ".gitattributes"
+			@copy ".gitkeep",             "database/dev/.gitkeep"
+			@copy ".gitkeep",             "database/prod/.gitkeep"
+			@copy "private-sample.json",  "private-sample.json"
+			@copy "private-sample.json",  "private.json"
+			@template "_package.json",    "package.json"
+			@template "_gulpconfig.json", "gulpconfig.json"
+			@template "_robots.txt",      "src/robots.txt"
 
 
 		#*------------------------------------*\
 		#   $PROCESSWIRE
 		#*------------------------------------*/
-		setupProcesswire = =>
+		setupProcesswire = () =>
 			@log.info "Installing ProcessWire..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.processwire)
 			@log.info "Copying ProcessWire install..."
@@ -97,7 +98,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@log.info "Installing ProcessWire MVC boilerplate..."
 			repo_path = GitUtils.cacheRepo github(@settings.github.pwBoilerplate)
 			GitUtils.export repo_path, dest('src/site/templates')
-			at dest('src/'), =>
+			at dest('src/'), () =>
 				shell.ls('-A', "site/templates/\!root/*").forEach (file) ->
 					shell.mv '-f', file, '.'
 				shell.rm '-rf', "site/templates/\!root"
@@ -105,7 +106,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm "robots.txt"
 
 			# remove default ProcessWire templates
-			at dest('src/site/templates/'), =>
+			at dest('src/site/templates/'), () =>
 				shell.rm '-rf', "scripts"
 				shell.rm '-rf', "styles"
 				shell.rm "README.txt"
@@ -113,8 +114,16 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 				shell.rm "search.php"
 				shell.rm "sitemap.php"
 				shell.rm "home.php"
-				shell.rm "foot.inc"
-				shell.rm "head.inc"
+				shell.rm "_init.php"
+				shell.rm "_main.php"
+				shell.rm "_func.php"
+
+			# remove alternative ProcessWire site profiles
+			at dest('src/'), () =>
+				shell.rm '-rf', "site-beginner"
+				shell.rm '-rf', "site-blank"
+				shell.rm '-rf', "site-classic"
+				shell.rm '-rf', "site-languages"
 
 			# ensure processwire assets are committed
 			@copy ".gitkeep", "src/site/assets/cache/.gitkeep"
@@ -122,20 +131,28 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			@copy ".gitkeep", "src/site/assets/files/.gitkeep"
 			@copy ".gitkeep", "src/site/assets/logs/.gitkeep"
 
+			# setup for ProcessWire install
+			at dest('src/site/'), () =>
+				shell.chmod '777', "assets"
+				shell.chmod '777', "assets/*"
+				shell.chmod '777', "modules"
+				shell.chmod '777', "config.php"
+
 			@log.ok('OK')
 
 
 		#*------------------------------------*\
 		#   $KSS BOILERPLATE
 		#*------------------------------------*/
-		setupKSS = =>
+		setupKSS = () =>
 			@log.info "Installing KSS Boilerplate"
 			repo_path = GitUtils.cacheRepo github(@settings.github.kssBoilerplate)
 			@mkdir 'styleguide'
 			GitUtils.export repo_path, dest('styleguide/')
-			at dest('styleguide/'), =>
+			at dest('styleguide/'), () =>
 				@log.info 'KSS Living Styleguide - bundle install'
 				GitUtils.exec 'bundle install'
+				shell.mv '-f', './scss', '../src/site/templates/assets/css'
 
 			@log.ok('OK')
 
@@ -143,7 +160,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		#*------------------------------------*\
 		#   $CSS FRAMEWORK
 		#*------------------------------------*/
-		setupCSSFramework = =>
+		setupCSSFramework = () =>
 			@log.info "Installing CSS framework..."
 
 			repo_path = GitUtils.cacheRepo github(@settings.github.cssFramework)
@@ -159,7 +176,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		#*------------------------------------*\
 		#   $GIT
 		#*------------------------------------*/
-		setupGit= =>
+		setupGit = () =>
 			GitUtils.init(dest())
 
 
@@ -172,7 +189,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 		setupCSSFramework()
 		setupGit()
 
-	projectfiles: =>
-		@copy "_Gruntfile.coffee", "Gruntfile.coffee"
+	projectfiles: () =>
+		@copy "_gulpfile.coffee", "gulpfile.coffee"
 		@copy ".editorconfig", ".editorconfig"
 
