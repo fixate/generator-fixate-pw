@@ -163,18 +163,18 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
 #*------------------------------------*\
 #   $MYSQL-DUMP
 #*------------------------------------*/
-gulp.task "db_dump:local", shell.task [
-	"mysqldump --host=#{pvt.db_local.host}
-	--user=#{pvt.db_local.user}
-	--password=#{pvt.db_local.pass}
-	 #{pvt.db_local.name} > ./database/local/local-db-#{Date.now()}.sql"
+gulp.task "db_dump:dev", shell.task [
+	"mysqldump --host=#{pvt.db_dev.host}
+	--user=#{pvt.db_dev.user}
+	--password=#{pvt.db_dev.pass}
+	 #{pvt.db_dev.name} > ./database/dev/dev-db-#{new Date.now()}.sql"
 ]
 
 gulp.task "db_dump:prod", shell.task [
 	"mysqldump --host=#{pvt.db_prod.host}
 	--user=#{pvt.db_prod.user}
 	--password=#{pvt.db_prod.pass}
-	 #{pvt.db_prod.name} > ./database/prod/prod-db-#{Date.now()}.sql"
+	 #{pvt.db_prod.name} > ./database/prod/prod-db-#{new Date.now()}.sql"
 ]
 
 
