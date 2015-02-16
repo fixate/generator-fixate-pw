@@ -39,7 +39,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 			message: "What is the domain name for the production website (without protocol)?"
 			default: "example.com"
 
-		@prompt prompts, (props) () =>
+		@prompt prompts, (props) =>
 			@props = props
 			cb()
 
