@@ -41,8 +41,7 @@ catch err
 gulp.task "sass", () ->
   gulp.src([conf.path.pvt.scss + "/style.scss"])
 		.pipe plumber(conf.plumber)
-		.pipe cache(sass({errLogToConsole: true}))
-		.pipe remember()
+		.pipe sass({errLogToConsole: true})
 		.pipe gulp.dest(conf.path.pvt.css)
 		.pipe reload({stream: true})
 
@@ -86,6 +85,15 @@ gulp.task "auto_reload", () ->
 	restart()
 
 
+#*-------------------------------------*\
+# $BROWSER-SYNC
+#*-------------------------------------*/
+gulp.task 'browser-sync', ['sass', 'coffee'], () ->
+	browserSync {
+		proxy: pvt.localsite
+	}
+
+
 #*------------------------------------*\
 #   $COFFEE
 #*------------------------------------*/
@@ -101,7 +109,7 @@ gulp.task "coffee", () ->
 #*------------------------------------*\
 #   $WATCH
 #*------------------------------------*/
-gulp.task "watch", () ->
+gulp.task "watch", ["browser-sync"], () ->
 	gulp.watch conf.path.pvt.scss + "/**/*.scss", ["sass"]
 	gulp.watch conf.path.pvt.coffee + "/**/*.coffee", ["coffee", reload]
 	# gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
