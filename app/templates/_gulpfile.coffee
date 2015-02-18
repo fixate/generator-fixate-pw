@@ -41,8 +41,7 @@ catch err
 gulp.task "sass", () ->
   gulp.src([conf.path.pvt.scss + "/style.scss"])
 		.pipe plumber(conf.plumber)
-		.pipe cache(sass({errLogToConsole: true}))
-		.pipe remember()
+		.pipe sass({errLogToConsole: true})
 		.pipe gulp.dest(conf.path.pvt.css)
 		.pipe reload({stream: true})
 
