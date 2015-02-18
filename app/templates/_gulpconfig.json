@@ -7,7 +7,7 @@
 			"js": "src/site/templates/assets/js",
 			"img": "src/site/templates/assets/img",
 			"fnt": "src/site/templates/assets/fnt",
-			"scss": "styleguide/css/scss",
+			"scss": "src/site/templates/assets/css/scss",
 			"coffee": "src/site/templates/assets/js/coffee"
 		},
 		"pub": {
