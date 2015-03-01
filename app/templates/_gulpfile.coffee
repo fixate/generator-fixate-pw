@@ -1,34 +1,34 @@
 # Gulp
 gulp						= require "gulp"
-coffee 					= require "gulp-coffee"
-concat      		= require "gulp-concat"
-exec 						= require "gulp-exec"
-minifyCSS 			= require "gulp-minify-css"
-plumber 				= require "gulp-plumber"
-rename 					= require "gulp-rename"
-sass 						= require "gulp-sass"
-uglifyJs 				= require "gulp-uglify"
-gutil       		= require "gulp-util"
-watch       		= require "gulp-watch"
+coffee					= require "gulp-coffee"
+concat					= require "gulp-concat"
+exec						= require "gulp-exec"
+minifyCSS				= require "gulp-minify-css"
+plumber					= require "gulp-plumber"
+rename					= require "gulp-rename"
+sass						= require "gulp-sass"
+uglifyJs				= require "gulp-uglify"
+gutil						= require "gulp-util"
+watch						= require "gulp-watch"
 cache						= require "gulp-cache"
-remember      	= require "gulp-remember"
-shell       		= require "gulp-shell"
-browserSync 		= require "browser-sync"
-reload      		= browserSync.reload
-imagemin    		= require "gulp-imagemin"
-pngquant    		= require "imagemin-pngquant"
+remember				= require "gulp-remember"
+shell						= require "gulp-shell"
+browserSync			= require "browser-sync"
+reload					= browserSync.reload
+imagemin				= require "gulp-imagemin"
+pngquant				= require "imagemin-pngquant"
 rsyncwrapper		= require "rsyncwrapper"
-rsync 					= rsyncwrapper.rsync
-cp 							= require 'child_process'
-spawn 					= cp.spawn
-rev 						= require 'gulp-rev'
+rsync						= rsyncwrapper.rsync
+cp							= require 'child_process'
+spawn						= cp.spawn
+rev							= require 'gulp-rev'
 replace					= require 'gulp-replace'
 
 # Extra
-extend 					= require "extend"
+extend					= require "extend"
 
-pkg   = require './package.json'
-conf  = require './gulpconfig.json'
+pkg		= require './package.json'
+conf	= require './gulpconfig.json'
 try
 	pvt = require './private.json'
 catch err
@@ -36,10 +36,10 @@ catch err
 
 
 #*------------------------------------*\
-#   $SASS
+#		$SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src([conf.path.pvt.scss + "/style.scss"])
+	gulp.src([conf.path.pvt.scss + "/style.scss"])
 		.pipe plumber(conf.plumber)
 		.pipe sass({errLogToConsole: true})
 		.pipe gulp.dest(conf.path.pvt.css)
@@ -47,7 +47,7 @@ gulp.task "sass", () ->
 
 
 #*------------------------------------*\
-#   $PIXEL &
+#		$PIXEL &
 #		$VECTOR OPTIM
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
@@ -71,8 +71,8 @@ gulp.task 'imagemin', () ->
 
 
 #*------------------------------------*\
-#   $AUTO RELOAD GULPFILE ON SAVE
-# 	noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
+#		$AUTO RELOAD GULPFILE ON SAVE
+#		noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
 #*------------------------------------*/
 gulp.task "auto_reload", () ->
 	process = undefined
@@ -95,7 +95,7 @@ gulp.task 'browser-sync', ['sass', 'coffee'], () ->
 
 
 #*------------------------------------*\
-#   $COFFEE
+#		$COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
 	gulp.src [conf.path.pvt.coffee+"/**/*.coffee"]
@@ -107,7 +107,7 @@ gulp.task "coffee", () ->
 
 
 #*------------------------------------*\
-#   $WATCH
+#		$WATCH
 #*------------------------------------*/
 gulp.task "watch", ["browser-sync"], () ->
 	gulp.watch conf.path.pvt.scss + "/**/*.scss", ["sass"]
@@ -117,7 +117,7 @@ gulp.task "watch", ["browser-sync"], () ->
 
 
 #*------------------------------------*\
-#   $UGLIFY
+#		$UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", () ->
 	gulp.src [conf.path.pvt.js + "/main.js"]
@@ -130,7 +130,7 @@ gulp.task "uglify", () ->
 
 
 #*------------------------------------*\
-#   $SASS
+#		$SASS
 #*------------------------------------*/
 gulp.task "minify", () ->
 	gulp.src(["#{conf.path.pvt.css}/style.css"])
@@ -143,7 +143,7 @@ gulp.task "minify", () ->
 
 
 #*------------------------------------*\
-#   $FONT REV
+#		$FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
 	gulp.src([conf.path.pvt.fnt+'/**/*'])
@@ -155,8 +155,8 @@ gulp.task "font", () ->
 
 
 #*------------------------------------*\
-#   $REV REPLACE
-# 	github.com/jamesknelson/gulp-rev-replace/issues/23
+#		$REV REPLACE
+#		github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
 gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
 	manifest = require "./#{conf.path.pvt.assets}/rev-manifest.json"
@@ -169,7 +169,7 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
 
 
 #*------------------------------------*\
-#   $MYSQL-DUMP
+#		$MYSQL-DUMP
 #*------------------------------------*/
 gulp.task "db_dump:dev", shell.task [
 	"mysqldump --host=#{pvt.db_dev.host}
@@ -187,7 +187,7 @@ gulp.task "db_dump:prod", shell.task [
 
 
 #*------------------------------------*\
-#   $RSYNC
+#		$RSYNC
 #*------------------------------------*/
 # rsync files to and from production
 
@@ -287,13 +287,13 @@ gulp.task "rsync:staging-up", () ->
 
 
 #*------------------------------------*\
-#   $DEV UPDATE
+#		$DEV UPDATE
 #*------------------------------------*/
 # No exsisting gulp task implemented
 
 
 #*------------------------------------*\
-#   $TASKS
+#		$TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
 gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
