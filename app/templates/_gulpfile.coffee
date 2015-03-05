@@ -51,25 +51,26 @@ gulp.task "sass", () ->
 #		$VECTOR OPTIM
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
-	exts = ['jpg', 'jpeg', 'png', 'svg']
-	Object.keys(exts).reduce (cb, key) ->
-		return gulp.src(["#{conf.path.pvt.img}/**/*.#{exts[key]}"])
-			.pipe cache(imagemin {
-				optimizationLevel: 3,
-				progressive: true,
-				interlaced: true,
-				svgoPlugins: [
-					{ removeViewBox: false },
-					{ removeUselessStrokeAndFill: false },
-					{ removeEmptyAttrs: false }
-				],
-				use: [pngquant()]
-			})
-			.pipe rev()
-			.pipe remember()
-			.pipe gulp.dest conf.path.pub.img
-			.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-			.pipe gulp.dest('./')
+	files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
+		"#{conf.path.pvt.img}/**/*.#{ext}"
+
+	return gulp.src([files])
+		.pipe cache(imagemin {
+			optimizationLevel: 3,
+			progressive: true,
+			interlaced: true,
+			svgoPlugins: [
+				{ removeViewBox: false },
+				{ removeUselessStrokeAndFill: false },
+				{ removeEmptyAttrs: false }
+			],
+			use: [pngquant()]
+		})
+		.pipe rev()
+		.pipe remember()
+		.pipe gulp.dest conf.path.pub.img
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
@@ -148,14 +149,15 @@ gulp.task "minify", () ->
 #   $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
-	exts = ['eot', 'woff', 'ttf', 'svg']
-	Object.keys(exts).reduce (cb, key) ->
-		gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
-			.pipe cache(rev())
-			.pipe remember()
-			.pipe gulp.dest(conf.path.pub.fnt)
-			.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-			.pipe gulp.dest('./')
+	files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
+		"#{conf.path.pvt.img}/**/*.#{ext}"
+
+	gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
+		.pipe cache(rev())
+		.pipe remember()
+		.pipe gulp.dest(conf.path.pub.fnt)
+		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+		.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
