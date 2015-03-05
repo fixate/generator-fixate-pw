@@ -1,5 +1,5 @@
 #*-----------------------------------*\
-#		$SETTINGS
+#   $SETTINGS
 #*-----------------------------------*/
 pkg = require './package.json'
 
@@ -10,13 +10,14 @@ pkg = require './package.json'
 gulp  = require "gulp"
 shell = require "gulp-shell"
 bump  = require "gulp-bump"
+git   = require "gulp-git"
 
 
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
-	"echo pkg version: " + pkg.version
+  "echo pkg version: " + pkg.version
 ]
 
 
@@ -24,28 +25,31 @@ gulp.task 'shell', shell.task [
 #   $BUMP
 #*------------------------------------*/
 gulp.task 'bump:major', (ver) ->
-	gulp.src 'package.json'
-	.pipe bump({type: 'major'})
-	.pipe gulp.dest './'
+  gulp.src 'package.json'
+    .pipe bump({type: 'major'})
+    .pipe gulp.dest './'
+    .pipe git.commit('bump version')
 
 gulp.task 'bump:minor', (ver) ->
-	gulp.src 'package.json'
-	.pipe bump({type: 'minor'})
-	.pipe gulp.dest './'
+  gulp.src 'package.json'
+    .pipe bump({type: 'minor'})
+    .pipe gulp.dest './'
+    .pipe git.commit('bump version')
 
 gulp.task 'bump', (ver) ->
-	gulp.src 'package.json'
-	.pipe bump({type: 'patch'})
-	.pipe gulp.dest './'
+  gulp.src 'package.json'
+    .pipe bump({type: 'patch'})
+    .pipe gulp.dest './'
+    .pipe git.commit('bump version')
 
 
 #*------------------------------------*\
-#		$DEV DEPENDENCIES UPDATE
+#   $DEV DEPENDENCIES UPDATE
 #*------------------------------------*/
 # no gulp task found yet
 
 
 #*------------------------------------*\
-#		$DEFAULT
+#   $DEFAULT
 #*------------------------------------*/
 gulp.task 'default', ['shell']
