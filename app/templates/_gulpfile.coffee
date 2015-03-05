@@ -148,12 +148,14 @@ gulp.task "minify", () ->
 #   $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
-	gulp.src([conf.path.pvt.fnt+'/**/*'])
-		.pipe cache(rev())
-		.pipe remember()
-		.pipe gulp.dest(conf.path.pub.fnt)
-		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-		.pipe gulp.dest('./')
+	exts = ['eot', 'woff', 'ttf', 'svg']
+	Object.keys(exts).reduce (cb, key) ->
+		gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
+			.pipe cache(rev())
+			.pipe remember()
+			.pipe gulp.dest(conf.path.pub.fnt)
+			.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+			.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
