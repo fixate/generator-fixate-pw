@@ -51,23 +51,25 @@ gulp.task "sass", () ->
 #		$VECTOR OPTIM
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
-	return gulp.src(conf.path.pvt.img+'/*')
-		.pipe cache(imagemin {
-			optimizationLevel: 3,
-			progressive: true,
-			interlaced: true,
-			svgoPlugins: [
-				{ removeViewBox: false },
-				{ removeUselessStrokeAndFill: false },
-				{ removeEmptyAttrs: false }
-			],
-			use: [pngquant()]
-		})
-		.pipe rev()
-		.pipe remember()
-		.pipe gulp.dest conf.path.pub.img
-		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-		.pipe gulp.dest('./')
+	exts = ['jpg', 'jpeg', 'png', 'svg']
+	Object.keys(exts).reduce (cb, key) ->
+		return gulp.src(["#{conf.path.pvt.img}/**/*.#{exts[key]}"])
+			.pipe cache(imagemin {
+				optimizationLevel: 3,
+				progressive: true,
+				interlaced: true,
+				svgoPlugins: [
+					{ removeViewBox: false },
+					{ removeUselessStrokeAndFill: false },
+					{ removeEmptyAttrs: false }
+				],
+				use: [pngquant()]
+			})
+			.pipe rev()
+			.pipe remember()
+			.pipe gulp.dest conf.path.pub.img
+			.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+			.pipe gulp.dest('./')
 
 
 #*------------------------------------*\
