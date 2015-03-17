@@ -8,7 +8,7 @@
 		"pass": "db_password",
 		"host": "db_host"
 	},
-	"db_local": {
+	"db_dev": {
 		"name": "db_name",
 		"user": "db_username",
 		"pass": "db_password",
