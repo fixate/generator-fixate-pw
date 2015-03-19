@@ -107,6 +107,7 @@ gulp.task "coffee", () ->
     .pipe remember()
     .pipe gulp.dest(conf.path.pvt.js)
     .pipe reload({stream: true})
+  return
 
 
 #*------------------------------------*\
