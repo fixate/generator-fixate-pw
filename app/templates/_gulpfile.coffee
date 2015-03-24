@@ -300,7 +300,7 @@ gulp.task "rsync:staging-down", () ->
 
 
 # dry-run sync to prod
-gulp.task "rsync:updry", () ->
+gulp.task "rsync:updry", ["build"], () ->
   rsyncUp = {
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
     src: conf.rsyncFolders.localFolder,
@@ -312,7 +312,7 @@ gulp.task "rsync:updry", () ->
 
 
 # sync to production
-gulp.task 'rsync:up', () ->
+gulp.task "rsync:up", ["build"], () ->
   rsyncUp = {
     src: conf.rsyncFolders.localFolder,
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
@@ -323,7 +323,7 @@ gulp.task 'rsync:up', () ->
     gutil.log stdout
 
 # dry-run deploy to staging
-gulp.task "rsync:staging-updry", () ->
+gulp.task "rsync:staging-updry", ["build"], () ->
   rsyncUp = {
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
@@ -335,7 +335,7 @@ gulp.task "rsync:staging-updry", () ->
 
 
 # deploy local changes to staging
-gulp.task "rsync:staging-up", () ->
+gulp.task "rsync:staging-up", ["build"], () ->
   rsyncUp = {
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
