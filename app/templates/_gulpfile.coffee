@@ -65,7 +65,7 @@ gulp.task 'bs-reload', () ->
 #    $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src([conf.path.pvt.scss + "/style.scss"])
+  gulp.src(["#{conf.path.pvt.scss}/style.scss"])
     .pipe plumber(conf.plumber)
     .pipe sass({errLogToConsole: true})
     .pipe gulp.dest(conf.path.pvt.css)
@@ -130,7 +130,7 @@ gulp.task 'browser-sync', ['sass', 'coffee'], () ->
 #    $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-  gulp.src [conf.path.pvt.coffee+"/**/*.coffee"]
+  gulp.src ["#{conf.path.pvt.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
@@ -145,11 +145,11 @@ gulp.task "coffee", () ->
 #*------------------------------------*\
 #    $WATCH
 #*------------------------------------*/
-gulp.task "watch", ["browser-sync"], () ->
-  gulp.watch conf.path.pvt.scss + "/**/*.scss", ["sass"]
-  gulp.watch conf.path.pvt.coffee + "/**/*.coffee", ["coffee", reload]
-  # gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
-  # gulp.watch conf.path.pvt.img + "/**/*", ['imagemin']
+gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
+  gulp.watch "#{conf.path.pvt.scss}/**/*.scss", ["sass"]
+  gulp.watch "#{conf.path.pvt.coffee}/**/*.coffee", ["coffee", "bs-reload"]
+  gulp.watch "#{conf.path.pvt.php}/**/*.php", ["bs-reload"]
+  gulp.watch "#{conf.path.pvt.views}/**/*.html.php", ["bs-reload"]
 
 
 
@@ -158,8 +158,8 @@ gulp.task "watch", ["browser-sync"], () ->
 #*------------------------------------*\
 #    $UGLIFY
 #*------------------------------------*/
-gulp.task "uglify", () ->
-  gulp.src [conf.path.pvt.js + "/main.js"]
+gulp.task "uglify", ["coffee"], () ->
+  gulp.src ["#{conf.path.pvt.js}/main.js"]
   .pipe uglifyJs()
   .pipe rev()
   .pipe rename({suffix: '.min'})
