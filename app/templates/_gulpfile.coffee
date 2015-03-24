@@ -89,9 +89,9 @@ gulp.task 'imagemin', () ->
       progressive: true,
       interlaced: true,
       svgoPlugins: [
-	{ removeViewBox: false },
-	{ removeUselessStrokeAndFill: false },
-	{ removeEmptyAttrs: false }
+        { removeViewBox: false },
+        { removeUselessStrokeAndFill: false },
+        { removeEmptyAttrs: false }
       ],
       use: [pngquant()]
     })
@@ -120,13 +120,7 @@ gulp.task "auto_reload", () ->
   restart()
 
 
-#*-------------------------------------*\
-# $BROWSER-SYNC
-#*-------------------------------------*/
-gulp.task 'browser-sync', ['sass', 'coffee'], () ->
-  browserSync {
-    proxy: pvt.localsite
-  }
+
 
 
 #*------------------------------------*\
@@ -249,8 +243,6 @@ gulp.task "db_dump:prod", shell.task [
 #*------------------------------------*\
 #    $RSYNC
 #*------------------------------------*/
-# rsync files to and from production
-
 # dry-run down
 gulp.task "rsync:downdry", () ->
   rsyncDown = {
