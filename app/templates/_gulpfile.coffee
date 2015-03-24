@@ -175,9 +175,9 @@ gulp.task "uglify", ["coffee"], () ->
 
 
 #*------------------------------------*\
-#    $SASS
+#    $MINIFY
 #*------------------------------------*/
-gulp.task "minify", () ->
+gulp.task "minify", ["sass"], () ->
   gulp.src(["#{conf.path.pvt.css}/style.css"])
     .pipe minifyCSS({keepSpecialComments: 0})
     .pipe rev()
