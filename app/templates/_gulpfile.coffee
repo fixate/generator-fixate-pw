@@ -25,10 +25,10 @@ rev          = require 'gulp-rev'
 replace      = require 'gulp-replace'
 
 # Extra
-extend          = require "extend"
+extend = require "extend"
 
 pkg    = require './package.json'
-conf  = require './gulpconfig.json'
+conf   = require './gulpconfig.json'
 try
   pvt = require './private.json'
 catch err
@@ -72,31 +72,34 @@ gulp.task "sass", () ->
     .pipe reload({stream: true})
 
 
+
+
+
 #*------------------------------------*\
 #    $PIXEL &
 #    $VECTOR OPTIM
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
-	files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
-		"#{conf.path.pvt.img}/**/*.#{ext}"
+  files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
+    "#{conf.path.pvt.img}/**/*.#{ext}"
 
-	return gulp.src([files])
-		.pipe cache(imagemin {
-			optimizationLevel: 3,
-			progressive: true,
-			interlaced: true,
-			svgoPlugins: [
-				{ removeViewBox: false },
-				{ removeUselessStrokeAndFill: false },
-				{ removeEmptyAttrs: false }
-			],
-			use: [pngquant()]
-		})
-		.pipe rev()
-		.pipe remember()
-		.pipe gulp.dest conf.path.pub.img
-		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-		.pipe gulp.dest('./')
+  return gulp.src([files])
+    .pipe cache(imagemin {
+      optimizationLevel: 3,
+      progressive: true,
+      interlaced: true,
+      svgoPlugins: [
+	{ removeViewBox: false },
+	{ removeUselessStrokeAndFill: false },
+	{ removeEmptyAttrs: false }
+      ],
+      use: [pngquant()]
+    })
+    .pipe rev()
+    .pipe remember()
+    .pipe gulp.dest conf.path.pub.img
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
 
 
 
@@ -191,15 +194,18 @@ gulp.task "minify", () ->
 #    $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
-	files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
-		"#{conf.path.pvt.img}/**/*.#{ext}"
+  files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
+    "#{conf.path.pvt.img}/**/*.#{ext}"
 
-	gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
-		.pipe cache(rev())
-		.pipe remember()
-		.pipe gulp.dest(conf.path.pub.fnt)
-		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-		.pipe gulp.dest('./')
+  gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
+    .pipe cache(rev())
+    .pipe remember()
+    .pipe gulp.dest(conf.path.pub.fnt)
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
+
+
+
 
 
 #*------------------------------------*\
