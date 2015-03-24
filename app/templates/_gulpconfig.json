@@ -3,19 +3,21 @@
 		"db_backup": "database",
 		"pvt": {
 			"assets": "src/site/templates/assets",
-			"css": "src/site/templates/assets/css",
-			"js": "src/site/templates/assets/js",
-			"img": "src/site/templates/assets/img",
-			"fnt": "src/site/templates/assets/fnt",
-			"scss": "src/site/templates/assets/css/scss",
-			"coffee": "src/site/templates/assets/js/coffee"
+			"css":    "src/site/templates/assets/css",
+			"js":     "src/site/templates/assets/js",
+			"img":    "src/site/templates/assets/img",
+			"fnt":    "src/site/templates/assets/fnt",
+			"scss":   "src/site/templates/assets/css/scss",
+			"coffee": "src/site/templates/assets/js/coffee",
+			"php":    "src/site/templates",
+			"views":  "src/site/templates/views"
 		},
 		"pub": {
 			"assets": "src/site/templates/assets/public",
-			"css": "src/site/templates/assets/public/css",
-			"fnt": "src/site/templates/assets/public/fnt",
-			"img": "src/site/templates/assets/public/img",
-			"js": "src/site/templates/assets/public/js"
+			"css":    "src/site/templates/assets/public/css",
+			"fnt":    "src/site/templates/assets/public/fnt",
+			"img":    "src/site/templates/assets/public/img",
+			"js":     "src/site/templates/assets/public/js"
 		}
 	},
 	"plumber": {
