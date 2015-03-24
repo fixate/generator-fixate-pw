@@ -35,6 +35,17 @@ catch err
   console.log err
 
 
+
+
+
+
+
+
+
+
+
+
+
 #*------------------------------------*\
 #    $SASS
 #*------------------------------------*/
@@ -71,6 +82,9 @@ gulp.task 'imagemin', () ->
 		.pipe gulp.dest conf.path.pub.img
 		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
 		.pipe gulp.dest('./')
+
+
+
 
 
 #*------------------------------------*\
@@ -110,6 +124,9 @@ gulp.task "coffee", () ->
   return
 
 
+
+
+
 #*------------------------------------*\
 #    $WATCH
 #*------------------------------------*/
@@ -118,6 +135,9 @@ gulp.task "watch", ["browser-sync"], () ->
   gulp.watch conf.path.pvt.coffee + "/**/*.coffee", ["coffee", reload]
   # gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
   # gulp.watch conf.path.pvt.img + "/**/*", ['imagemin']
+
+
+
 
 
 #*------------------------------------*\
@@ -133,6 +153,9 @@ gulp.task "uglify", () ->
   .pipe gulp.dest('./')
 
 
+
+
+
 #*------------------------------------*\
 #    $SASS
 #*------------------------------------*/
@@ -144,6 +167,9 @@ gulp.task "minify", () ->
     .pipe gulp.dest(conf.path.pub.css)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
+
+
+
 
 
 #*------------------------------------*\
@@ -175,6 +201,9 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
     .pipe gulp.dest("./#{conf.path.pub.css}")
 
 
+
+
+
 #*------------------------------------*\
 #    $MYSQL-DUMP
 #*------------------------------------*/
@@ -191,6 +220,9 @@ gulp.task "db_dump:prod", shell.task [
   --password=#{pvt.db_prod.pass}
    #{pvt.db_prod.name} > ./database/prod/prod-db-#{new Date.now()}.sql"
 ]
+
+
+
 
 
 #*------------------------------------*\
@@ -293,10 +325,16 @@ gulp.task "rsync:staging-up", () ->
     gutil.log stdout
 
 
+
+
+
 #*------------------------------------*\
 #    $DEV UPDATE
 #*------------------------------------*/
 # No exsisting gulp task implemented
+
+
+
 
 
 #*------------------------------------*\
