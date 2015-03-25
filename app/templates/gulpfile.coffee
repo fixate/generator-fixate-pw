@@ -226,14 +226,14 @@ gulp.task "db_dump:dev", shell.task [
   "mysqldump --host=#{pvt.db_dev.host}
   --user=#{pvt.db_dev.user}
   --password=#{pvt.db_dev.pass}
-   #{pvt.db_dev.name} > ./database/dev/dev-db-#{new Date.now()}.sql"
+   #{pvt.db_dev.name} > ./database/dev/dev-db-#{Date()}.sql"
 ]
 
 gulp.task "db_dump:prod", shell.task [
   "mysqldump --host=#{pvt.db_prod.host}
   --user=#{pvt.db_prod.user}
   --password=#{pvt.db_prod.pass}
-   #{pvt.db_prod.name} > ./database/prod/prod-db-#{new Date.now()}.sql"
+   #{pvt.db_prod.name} > ./database/prod/prod-db-#{Date()}.sql"
 ]
 
 
