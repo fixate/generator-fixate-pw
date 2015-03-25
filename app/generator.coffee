@@ -70,6 +70,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       ]
 
       @copy ".bowerrc",             ".bowerrc"
+      @copy ".editorconfig",        ".editorconfig"
       @copy ".gitattributes",       ".gitattributes"
       @copy ".gitignore",           ".gitignore"
       @copy ".gitignore_pw",        "src/.gitignore"
@@ -78,8 +79,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy "setup.sh",             "setup.sh"
       @copy "private-sample.json",  "private-sample.json"
       @copy "private-sample.json",  "private.json"
+      @copy "gulpfile.coffee",      "gulpfile.coffee"
+      @copy "gulpconfig.json",      "gulpconfig.json"
       @template "_package.json",    "package.json"
-      @template "_gulpconfig.json", "gulpconfig.json"
       @template "_robots.txt",      "src/robots.txt"
 
 
@@ -190,8 +192,4 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     setupKSS()
     setupCSSFramework()
     setupGit()
-
-  projectfiles: () =>
-    @copy "_gulpfile.coffee", "gulpfile.coffee"
-    @copy ".editorconfig", ".editorconfig"
 
