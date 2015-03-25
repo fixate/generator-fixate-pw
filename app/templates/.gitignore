@@ -1,0 +1,11 @@
+.DS_STORE
+
+# Sass Generated Files
+config.rb
+.sass-cache/
+
+# Node
+node_modules
+npm-debug.log
+private.json
+
