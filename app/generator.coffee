@@ -71,7 +71,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       @copy ".bowerrc",             ".bowerrc"
       @copy ".gitattributes",       ".gitattributes"
-      @copy "_gitignore",           ".gitignore"
+      @copy ".gitignore",           ".gitignore"
+      @copy ".gitignore_pw",        "src/.gitignore"
       @copy ".gitkeep",             "database/dev/.gitkeep"
       @copy ".gitkeep",             "database/prod/.gitkeep"
       @copy "setup.sh",             "setup.sh"
