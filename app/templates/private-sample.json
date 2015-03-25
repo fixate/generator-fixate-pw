@@ -1,7 +1,7 @@
 {
 	"domain": "example.com",
 	"username": "ssh_username",
-	"localsite": "local.domain",
+	"bsProxy": "localsite.dev",
 	"db_prod": {
 		"name": "db_name",
 		"user": "db_username",
