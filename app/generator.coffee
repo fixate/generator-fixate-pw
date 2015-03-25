@@ -85,6 +85,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @template "_robots.txt",      "src/robots.txt"
 
 
+
+
     #*------------------------------------*\
     #   $PROCESSWIRE
     #*------------------------------------*/
@@ -192,4 +194,3 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     setupKSS()
     setupCSSFramework()
     setupGit()
-
