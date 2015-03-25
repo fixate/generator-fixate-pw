@@ -43,7 +43,7 @@ catch err
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
   browserSync {
-    proxy: pvt.localsite
+    proxy: pvt.bsProxy
   }
 
 

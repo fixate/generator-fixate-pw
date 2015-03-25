@@ -9,3 +9,11 @@ if ! [ -L styleguide/public/assets ]; then
 else
 	echo "assets already symlinked"
 fi
+
+# initialise bower if no bower.json exists
+if ! [ -f bower.json ]; then
+	echo "initialising bower"
+	bower init
+else
+	echo "bower already initialised"
+fi
