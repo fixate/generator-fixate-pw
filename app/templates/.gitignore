@@ -4,32 +4,8 @@
 config.rb
 .sass-cache/
 
-# Grunt Files
+# Node
 node_modules
 npm-debug.log
 private.json
 
-# ProcessWire Files And Folders
-*.old
-*.old/*
-*.new
-*.new/*
-old
-old/*
-*.1
-*.1/*
-sess_*
-*.cache
-*.swp
-*.swo
-*.sh
-**/site/config-dev.php
-**/site/assets/cache/**
-**/site/assets/files/**
-**/site/assets/logs/**
-**/site/assets/sessions/**
-!**/site/assets/**/.*
-**/site/assets/installed.php
-**/site/templates/assets/css/style.css
-**/site/templates/assets/css/style.min.css
-**/site/templates/assets/vendor

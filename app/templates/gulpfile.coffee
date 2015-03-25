@@ -43,7 +43,7 @@ catch err
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
   browserSync {
-    proxy: pvt.localsite
+    proxy: pvt.bsProxy
   }
 
 
@@ -344,7 +344,7 @@ gulp.task "rsync:staging-up", ["build"], () ->
 #*------------------------------------*\
 #    $DEV UPDATE
 #*------------------------------------*/
-# No exsisting gulp task implemented
+# No existing gulp task implemented
 
 
 
