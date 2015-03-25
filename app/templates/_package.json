@@ -1,6 +1,6 @@
 {
   "author": "Fixate",
-  "name": "example.com",
+  "name": "<%= props.domain %>",
   "version": "0.0.0",
   "scripts": {
     "preinstall": "cd styleguide/public && ln -s ../../src/site/templates/assets assets"
