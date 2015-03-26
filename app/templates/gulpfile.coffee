@@ -349,9 +349,9 @@ gulp.task "rsync:staging-up", ["build"], () ->
 
 
 #*------------------------------------*\
-#    $DEV UPDATE
+#    $UPDATE NPM DEPS
 #*------------------------------------*/
-# No existing gulp task implemented
+gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 
 
 
