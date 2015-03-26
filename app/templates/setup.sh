@@ -5,7 +5,7 @@
 if ! [ -L styleguide/public/assets ]; then
 	echo "assets not yet symlinked from styleguide - symlinking"
 	cd styleguide/public
-	ln -s ../../src/site/templates/assets
+	ln -s ../../src/site/templates/assets assets
 fi
 
 # initialise bower if no bower.json exists
