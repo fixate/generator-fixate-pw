@@ -28,6 +28,7 @@
     "gulp-watch": "~4.2.0",
     "imagemin-pngquant": "~4.0.0",
     "moment": "^2.9.0",
+    "npm-check-updates": "^1.5.1",
     "rsyncwrapper": "~0.4.2"
   }
 }
