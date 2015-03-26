@@ -46,6 +46,9 @@ catch err
 gulp.task 'browser-sync', () ->
   browserSync {
     proxy: pvt.bsProxy
+		injectchanges: true
+		open: false
+		# tunnel: true
   }
 
 
