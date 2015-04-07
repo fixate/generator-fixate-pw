@@ -69,7 +69,15 @@ Once Yeoman has done all the hard work, you have a few small tasks to run before
 
 #### 1. Install ProcessWire
 
-#### 2. Change Template Alternate Filename
+#### 2. Run Gulp
+
+Gulp will compile coffee and scss files when updated, and reload your browser via Browser Sync at the URL it specifies when starting Gulp (make sure to update the bsProxy property in the generated [private.json](https://github.com/fixate/generator-fixate-pw/blob/master/app/templates/private-sample.json#L4) with your local site's URL)
+
+```shell
+$ gulp
+```
+
+#### 3. Change Template Alternate Filename
 
 For each template, visit your admin and set all templates to use `mvc.php`:
 
