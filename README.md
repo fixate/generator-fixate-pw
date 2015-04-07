@@ -51,6 +51,9 @@ $ git clone https://github.com/fixate/generator-fixate-pw.git
 # let Yeoman know about the generator
 $ cd generator-fixate-pw
 $ npm link
+
+# install all the generator dependencies
+$ npm install
 ```
 
 ### Get Your Project Did!
