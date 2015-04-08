@@ -150,7 +150,6 @@ gulp.task "coffee", () ->
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
   gulp.watch "#{conf.path.pvt.scss}/**/*.scss", ["sass"]
   gulp.watch "#{conf.path.pvt.coffee}/**/*.coffee", ["coffee", "bs-reload"]
-  gulp.watch "#{conf.path.pvt.php}/**/*.php", ["bs-reload"]
   gulp.watch "#{conf.path.pvt.views}/**/*.html.php", ["bs-reload"]
 
 
