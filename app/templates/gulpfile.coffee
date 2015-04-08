@@ -1,49 +1,83 @@
 # Gulp
 gulp         = require "gulp"
+cache        = require "gulp-cache"
 coffee       = require "gulp-coffee"
 concat       = require "gulp-concat"
 exec         = require "gulp-exec"
+imagemin     = require "gulp-imagemin"
 minifyCSS    = require "gulp-minify-css"
 plumber      = require "gulp-plumber"
+remember     = require "gulp-remember"
 rename       = require "gulp-rename"
+replace      = require 'gulp-replace'
+rev          = require 'gulp-rev'
 sass         = require "gulp-sass"
+shell        = require "gulp-shell"
 uglifyJs     = require "gulp-uglify"
 gutil        = require "gulp-util"
 watch        = require "gulp-watch"
-cache        = require "gulp-cache"
-remember     = require "gulp-remember"
-shell        = require "gulp-shell"
+
 browserSync  = require "browser-sync"
-reload       = browserSync.reload
-imagemin     = require "gulp-imagemin"
+cp           = require "child_process"
+moment			 = require "moment"
 pngquant     = require "imagemin-pngquant"
+reload       = browserSync.reload
 rsyncwrapper = require "rsyncwrapper"
 rsync        = rsyncwrapper.rsync
-cp           = require 'child_process'
 spawn        = cp.spawn
-rev          = require 'gulp-rev'
-replace      = require 'gulp-replace'
 
 # Extra
-extend          = require "extend"
+extend = require "extend"
 
-pkg    = require './package.json'
-conf  = require './gulpconfig.json'
+pkg    = require "./package.json"
+conf   = require "./gulpconfig.json"
 try
-  pvt = require './private.json'
+  pvt = require "./private.json"
 catch err
   console.log err
+
+
+
+
+
+#*-------------------------------------*\
+# $BROWSER-SYNC
+#*-------------------------------------*/
+gulp.task 'browser-sync', () ->
+  browserSync {
+    proxy: pvt.bsProxy
+		injectchanges: true
+		open: false
+		# tunnel: true
+  }
+
+
+
+
+
+
+#*-------------------------------------*\
+# $RELOAD
+#*-------------------------------------*/
+gulp.task 'bs-reload', () ->
+  reload()
+
+
+
 
 
 #*------------------------------------*\
 #    $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src([conf.path.pvt.scss + "/style.scss"])
+  gulp.src(["#{conf.path.pvt.scss}/style.scss"])
     .pipe plumber(conf.plumber)
     .pipe sass({errLogToConsole: true})
     .pipe gulp.dest(conf.path.pvt.css)
     .pipe reload({stream: true})
+
+
+
 
 
 #*------------------------------------*\
@@ -51,26 +85,29 @@ gulp.task "sass", () ->
 #    $VECTOR OPTIM
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
-	files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
-		"#{conf.path.pvt.img}/**/*.#{ext}"
+  files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
+    "#{conf.path.pvt.img}/**/*.#{ext}"
 
-	return gulp.src([files])
-		.pipe cache(imagemin {
-			optimizationLevel: 3,
-			progressive: true,
-			interlaced: true,
-			svgoPlugins: [
-				{ removeViewBox: false },
-				{ removeUselessStrokeAndFill: false },
-				{ removeEmptyAttrs: false }
-			],
-			use: [pngquant()]
-		})
-		.pipe rev()
-		.pipe remember()
-		.pipe gulp.dest conf.path.pub.img
-		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-		.pipe gulp.dest('./')
+  return gulp.src([files])
+    .pipe cache(imagemin {
+      optimizationLevel: 3,
+      progressive: true,
+      interlaced: true,
+      svgoPlugins: [
+        { removeViewBox: false },
+        { removeUselessStrokeAndFill: false },
+        { removeEmptyAttrs: false }
+      ],
+      use: [pngquant()]
+    })
+    .pipe rev()
+    .pipe remember()
+    .pipe gulp.dest conf.path.pub.img
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
+
+
+
 
 
 #*------------------------------------*\
@@ -88,42 +125,43 @@ gulp.task "auto_reload", () ->
   restart()
 
 
-#*-------------------------------------*\
-# $BROWSER-SYNC
-#*-------------------------------------*/
-gulp.task 'browser-sync', ['sass', 'coffee'], () ->
-  browserSync {
-    proxy: pvt.localsite
-  }
+
 
 
 #*------------------------------------*\
 #    $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-  gulp.src [conf.path.pvt.coffee+"/**/*.coffee"]
+  gulp.src ["#{conf.path.pvt.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
     .pipe gulp.dest(conf.path.pvt.js)
     .pipe reload({stream: true})
+  return
+
+
+
 
 
 #*------------------------------------*\
 #    $WATCH
 #*------------------------------------*/
-gulp.task "watch", ["browser-sync"], () ->
-  gulp.watch conf.path.pvt.scss + "/**/*.scss", ["sass"]
-  gulp.watch conf.path.pvt.coffee + "/**/*.coffee", ["coffee", reload]
-  # gulp.watch conf.path.pvt.fnt + "/**/*", ['font']
-  # gulp.watch conf.path.pvt.img + "/**/*", ['imagemin']
+gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
+  gulp.watch "#{conf.path.pvt.scss}/**/*.scss", ["sass"]
+  gulp.watch "#{conf.path.pvt.coffee}/**/*.coffee", ["coffee", "bs-reload"]
+  gulp.watch "#{conf.path.pvt.php}/**/*.php", ["bs-reload"]
+  gulp.watch "#{conf.path.pvt.views}/**/*.html.php", ["bs-reload"]
+
+
+
 
 
 #*------------------------------------*\
 #    $UGLIFY
 #*------------------------------------*/
-gulp.task "uglify", () ->
-  gulp.src [conf.path.pvt.js + "/main.js"]
+gulp.task "uglify", ["coffee"], () ->
+  gulp.src ["#{conf.path.pvt.js}/main.js"]
   .pipe uglifyJs()
   .pipe rev()
   .pipe rename({suffix: '.min'})
@@ -132,10 +170,13 @@ gulp.task "uglify", () ->
   .pipe gulp.dest('./')
 
 
+
+
+
 #*------------------------------------*\
-#    $SASS
+#    $MINIFY
 #*------------------------------------*/
-gulp.task "minify", () ->
+gulp.task "minify", ["sass"], () ->
   gulp.src(["#{conf.path.pvt.css}/style.css"])
     .pipe minifyCSS({keepSpecialComments: 0})
     .pipe rev()
@@ -145,19 +186,25 @@ gulp.task "minify", () ->
     .pipe gulp.dest('./')
 
 
+
+
+
 #*------------------------------------*\
 #    $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
-	files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
-		"#{conf.path.pvt.img}/**/*.#{ext}"
+  files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
+    "#{conf.path.pvt.img}/**/*.#{ext}"
 
-	gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
-		.pipe cache(rev())
-		.pipe remember()
-		.pipe gulp.dest(conf.path.pub.fnt)
-		.pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-		.pipe gulp.dest('./')
+  gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
+    .pipe cache(rev())
+    .pipe remember()
+    .pipe gulp.dest(conf.path.pub.fnt)
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
+
+
+
 
 
 #*------------------------------------*\
@@ -174,29 +221,38 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
     .pipe gulp.dest("./#{conf.path.pub.css}")
 
 
+
+
+
 #*------------------------------------*\
 #    $MYSQL-DUMP
 #*------------------------------------*/
-gulp.task "db_dump:dev", shell.task [
-  "mysqldump --host=#{pvt.db_dev.host}
-  --user=#{pvt.db_dev.user}
-  --password=#{pvt.db_dev.pass}
-   #{pvt.db_dev.name} > ./database/dev/dev-db-#{new Date.now()}.sql"
-]
+db_dump = (env) ->
+	date = moment()
+	db_env = "db_#{env}"
 
-gulp.task "db_dump:prod", shell.task [
-  "mysqldump --host=#{pvt.db_prod.host}
-  --user=#{pvt.db_prod.user}
-  --password=#{pvt.db_prod.pass}
-   #{pvt.db_prod.name} > ./database/prod/prod-db-#{new Date.now()}.sql"
-]
+	shell [
+		"mysqldump --host=#{pvt[db_env].host}
+			--user=#{pvt[db_env].user}
+			--password=#{pvt[db_env].pass}
+			 #{pvt[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+	]
+
+gulp.task "db_dump:dev", () ->
+	gulp.src('')
+		.pipe db_dump('dev')
+
+gulp.task "db_dump:prod", () ->
+	gulp.src('')
+		.pipe db_dump('prod')
+
+
+
 
 
 #*------------------------------------*\
 #    $RSYNC
 #*------------------------------------*/
-# rsync files to and from production
-
 # dry-run down
 gulp.task "rsync:downdry", () ->
   rsyncDown = {
@@ -246,7 +302,7 @@ gulp.task "rsync:staging-down", () ->
 
 
 # dry-run sync to prod
-gulp.task "rsync:updry", () ->
+gulp.task "rsync:updry", ["build"], () ->
   rsyncUp = {
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
     src: conf.rsyncFolders.localFolder,
@@ -258,7 +314,7 @@ gulp.task "rsync:updry", () ->
 
 
 # sync to production
-gulp.task 'rsync:up', () ->
+gulp.task "rsync:up", ["build"], () ->
   rsyncUp = {
     src: conf.rsyncFolders.localFolder,
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
@@ -269,7 +325,7 @@ gulp.task 'rsync:up', () ->
     gutil.log stdout
 
 # dry-run deploy to staging
-gulp.task "rsync:staging-updry", () ->
+gulp.task "rsync:staging-updry", ["build"], () ->
   rsyncUp = {
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
@@ -281,7 +337,7 @@ gulp.task "rsync:staging-updry", () ->
 
 
 # deploy local changes to staging
-gulp.task "rsync:staging-up", () ->
+gulp.task "rsync:staging-up", ["build"], () ->
   rsyncUp = {
     dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
@@ -292,10 +348,16 @@ gulp.task "rsync:staging-up", () ->
     gutil.log stdout
 
 
+
+
+
 #*------------------------------------*\
-#    $DEV UPDATE
+#    $UPDATE NPM DEPS
 #*------------------------------------*/
-# No exsisting gulp task implemented
+gulp.task 'update_deps', shell.task 'npm-check-updates -u'
+
+
+
 
 
 #*------------------------------------*\
