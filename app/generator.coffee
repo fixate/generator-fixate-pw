@@ -104,7 +104,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       @log.info "Installing ProcessWire site profile..."
       repo_path = GitUtils.cacheRepo github(@settings.github.pwProfile)
-      GitUtils.export repo_path, dest('src'), 'release/pw5.2'
+      GitUtils.export repo_path, dest('src')
       at dest('src/'), () =>
         shell.rm ".gitignore"
         shell.rm "README.md"
