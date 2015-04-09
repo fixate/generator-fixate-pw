@@ -12,6 +12,7 @@ rename       = require "gulp-rename"
 replace      = require 'gulp-replace'
 rev          = require 'gulp-rev'
 sass         = require "gulp-sass"
+sourcemaps   = require "gulp-sourcemaps"
 shell        = require "gulp-shell"
 uglifyJs     = require "gulp-uglify"
 gutil        = require "gulp-util"
@@ -19,7 +20,7 @@ watch        = require "gulp-watch"
 
 browserSync  = require "browser-sync"
 cp           = require "child_process"
-moment			 = require "moment"
+moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
 reload       = browserSync.reload
 rsyncwrapper = require "rsyncwrapper"
@@ -46,9 +47,9 @@ catch err
 gulp.task 'browser-sync', () ->
   browserSync {
     proxy: pvt.bsProxy
-		injectchanges: true
-		open: false
-		# tunnel: true
+    injectchanges: true
+    open: false
+    # tunnel: true
   }
 
 
@@ -70,9 +71,11 @@ gulp.task 'bs-reload', () ->
 #    $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src(["#{conf.path.pvt.scss}/style.scss"])
+  gulp.src(["#{conf.path.pvt.scss}/**/*.{scss,sass}"])
     .pipe plumber(conf.plumber)
-    .pipe sass({errLogToConsole: true})
+    .pipe(sourcemaps.init())
+      .pipe sass({errLogToConsole: true})
+    .pipe(sourcemaps.write('./'))
     .pipe gulp.dest(conf.path.pvt.css)
     .pipe reload({stream: true})
 
@@ -227,23 +230,23 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
 #    $MYSQL-DUMP
 #*------------------------------------*/
 db_dump = (env) ->
-	date = moment()
-	db_env = "db_#{env}"
+  date = moment()
+  db_env = "db_#{env}"
 
-	shell [
-		"mysqldump --host=#{pvt[db_env].host}
-			--user=#{pvt[db_env].user}
-			--password=#{pvt[db_env].pass}
-			 #{pvt[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
-	]
+  shell [
+    "mysqldump --host=#{pvt[db_env].host}
+      --user=#{pvt[db_env].user}
+      --password=#{pvt[db_env].pass}
+       #{pvt[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+  ]
 
 gulp.task "db_dump:dev", () ->
-	gulp.src('')
-		.pipe db_dump('dev')
+  gulp.src('')
+    .pipe db_dump('dev')
 
 gulp.task "db_dump:prod", () ->
-	gulp.src('')
-		.pipe db_dump('prod')
+  gulp.src('')
+    .pipe db_dump('prod')
 
 
 
