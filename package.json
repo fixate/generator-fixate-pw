@@ -30,6 +30,7 @@
     "gulp-shell": "~0.4.0",
     "mocha": "~2.2.1",
     "npm-check-updates": "^1.5.1",
+    "shelljs": "^0.4.0",
     "yeoman-generator": "~0.18.10"
   },
   "peerDependencies": {
