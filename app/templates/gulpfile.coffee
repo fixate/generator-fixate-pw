@@ -70,10 +70,10 @@ gulp.task 'bs-reload', () ->
 #    $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src(["#{conf.path.pvt.scss}/style.scss"])
+  gulp.src(["#{conf.path.dev.scss}/style.scss"])
     .pipe plumber(conf.plumber)
     .pipe sass({errLogToConsole: true})
-    .pipe gulp.dest(conf.path.pvt.css)
+    .pipe gulp.dest(conf.path.dev.css)
     .pipe reload({stream: true})
 
 
@@ -86,7 +86,7 @@ gulp.task "sass", () ->
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
   files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
-    "#{conf.path.pvt.img}/**/*.#{ext}"
+    "#{conf.path.dev.img}/**/*.#{ext}"
 
   return gulp.src([files])
     .pipe cache(imagemin {
@@ -102,7 +102,7 @@ gulp.task 'imagemin', () ->
     })
     .pipe rev()
     .pipe remember()
-    .pipe gulp.dest conf.path.pub.img
+    .pipe gulp.dest conf.path.prod.img
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -132,11 +132,11 @@ gulp.task "auto_reload", () ->
 #    $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-  gulp.src ["#{conf.path.pvt.coffee}/**/*.coffee"]
+  gulp.src ["#{conf.path.dev.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
-    .pipe gulp.dest(conf.path.pvt.js)
+    .pipe gulp.dest(conf.path.dev.js)
     .pipe reload({stream: true})
   return
 
@@ -148,9 +148,9 @@ gulp.task "coffee", () ->
 #    $WATCH
 #*------------------------------------*/
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
-  gulp.watch "#{conf.path.pvt.scss}/**/*.scss", ["sass"]
-  gulp.watch "#{conf.path.pvt.coffee}/**/*.coffee", ["coffee", "bs-reload"]
-  gulp.watch "#{conf.path.pvt.views}/**/*.html.php", ["bs-reload"]
+  gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
+  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "bs-reload"]
+  gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
 
 
 
@@ -160,11 +160,11 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 #    $UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", ["coffee"], () ->
-  gulp.src ["#{conf.path.pvt.js}/main.js"]
+  gulp.src ["#{conf.path.dev.js}/main.js"]
   .pipe uglifyJs()
   .pipe rev()
   .pipe rename({suffix: '.min'})
-  .pipe gulp.dest(conf.path.pub.js)
+  .pipe gulp.dest(conf.path.prod.js)
   .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
   .pipe gulp.dest('./')
 
@@ -176,11 +176,11 @@ gulp.task "uglify", ["coffee"], () ->
 #    $MINIFY
 #*------------------------------------*/
 gulp.task "minify", ["sass"], () ->
-  gulp.src(["#{conf.path.pvt.css}/style.css"])
+  gulp.src(["#{conf.path.dev.css}/style.css"])
     .pipe minifyCSS({keepSpecialComments: 0})
     .pipe rev()
     .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(conf.path.pub.css)
+    .pipe gulp.dest(conf.path.prod.css)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -193,12 +193,12 @@ gulp.task "minify", ["sass"], () ->
 #*------------------------------------*/
 gulp.task "font", () ->
   files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
-    "#{conf.path.pvt.img}/**/*.#{ext}"
+    "#{conf.path.dev.img}/**/*.#{ext}"
 
-  gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
+  gulp.src(["#{conf.path.dev.fnt}/**/*.#{exts[key]}"])
     .pipe cache(rev())
     .pipe remember()
-    .pipe gulp.dest(conf.path.pub.fnt)
+    .pipe gulp.dest(conf.path.prod.fnt)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -211,13 +211,13 @@ gulp.task "font", () ->
 #    github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
 gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
-  manifest = require "./#{conf.path.pvt.assets}/rev-manifest.json"
-  stream = gulp.src ["./#{conf.path.pub.css}/#{manifest['style.css']}"]
+  manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
+  stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
 
   Object.keys(manifest).reduce((stream, key) ->
     stream.pipe replace(key, manifest[key])
   , stream)
-    .pipe gulp.dest("./#{conf.path.pub.css}")
+    .pipe gulp.dest("./#{conf.path.prod.css}")
 
 
 
