@@ -3,6 +3,11 @@
     "processwire": "ryancramerdesign/ProcessWire",
     "pwBoilerplate": "fixate/pw-boilerplate",
     "pwProfile": "fixate/pw-mvc-boilerplate-site-profile",
+    "pwModules": {
+      "ProcessRedirects": "apeisa/ProcessRedirects",
+      "MarkupSimpleNavigation": "somatonic/MarkupSimpleNavigation",
+      "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML"
+    },
     "kssBoilerplate": "fixate/kss-boilerplate",
     "cssFramework": "larrybotha/styleguide"
   }

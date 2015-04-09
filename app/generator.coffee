@@ -39,6 +39,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       message: "What is the domain name for the production website (without protocol)?"
       default: "example.com"
 
+
+    prompts.push
+      type: 'checkbox',
+      name: 'pwModules',
+      message: 'Which ProcessWire modules would you like to install?',
+      choices: myUtils.getMultiChoices(@settings.github.pwModules)
+
     @prompt prompts, (props) =>
       @props = props
       cb()
@@ -169,6 +176,22 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       @log.ok('OK')
 
+    #*------------------------------------*\
+    #   $Processwire Modules
+    #*------------------------------------*/
+    setupProcessWireModules = () =>
+      Object.keys(@settings.github.pwModules).map (item) ->
+        at dest('src/site/modules/'), () =>
+          shell.mkdir item
+
+      @log.info "Installing processwire modules..."
+      for module in @props.pwModules
+        repo_path = GitUtils.cacheRepo github(module)
+        @log.info "Copying #{module} install..."
+        GitUtils.export repo_path, dest("src/site/modules/#{myUtils.getObjectKey(module, @settings.github.pwModules)}")
+
+
+
 
     #*------------------------------------*\
     #   $KSS BOILERPLATE
@@ -214,6 +237,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #*------------------------------------*/
     setupRepo()
     setupProcesswire()
+    setupProcessWireModules()
     setupKSS()
     setupCSSFramework()
     setupGit()
