@@ -39,6 +39,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       message: "What is the domain name for the production website (without protocol)?"
       default: "example.com"
 
+
+    prompts.push
+      type: 'checkbox',
+      name: 'pwModules',
+      message: 'Which ProcessWire modules would you like to install?',
+      choices: myUtils.getMultiChoices(@settings.github.pwModules)
+
     @prompt prompts, (props) =>
       @props = props
       cb()
