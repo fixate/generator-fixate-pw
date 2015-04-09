@@ -26,7 +26,8 @@ class GitUtils
 		shell.pushd repo_path
 		GitUtils.exec "git pull origin #{branch}"
 		GitUtils.exec "git checkout #{branch}"
-		GitUtils.exec "git archive #{branch} | tar -x -C #{dest_root}"
+		#GitUtils.exec "git archive #{branch}"
+		shell.cp "-R", "./*", "#{dest_root}/"
 		shell.popd()
 
 GitUtils.cache_dir = path.resolve(path.join(__dirname, '../templates/.gitcache'))
