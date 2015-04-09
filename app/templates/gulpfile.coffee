@@ -32,7 +32,7 @@ extend = require "extend"
 pkg    = require "./package.json"
 conf   = require "./gulpconfig.json"
 try
-  pvt = require "./private.json"
+  secrets = require "./secrets.json"
 catch err
   console.log err
 
@@ -45,7 +45,7 @@ catch err
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
   browserSync {
-    proxy: pvt.bsProxy
+    proxy: secrets.bsProxy
 		injectchanges: true
 		open: false
 		# tunnel: true
@@ -231,10 +231,10 @@ db_dump = (env) ->
 	db_env = "db_#{env}"
 
 	shell [
-		"mysqldump --host=#{pvt[db_env].host}
-			--user=#{pvt[db_env].user}
-			--password=#{pvt[db_env].pass}
-			 #{pvt[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+		"mysqldump --host=#{secrets[db_env].host}
+			--user=#{secrets[db_env].user}
+			--password=#{secrets[db_env].pass}
+			 #{secrets[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
 	]
 
 gulp.task "db_dump:dev", () ->
@@ -256,7 +256,7 @@ gulp.task "db_dump:prod", () ->
 gulp.task "rsync:downdry", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -268,7 +268,7 @@ gulp.task "rsync:downdry", () ->
 gulp.task "rsync:down", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -280,7 +280,7 @@ gulp.task "rsync:down", () ->
 gulp.task "rsync:staging-downdry", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -292,7 +292,7 @@ gulp.task "rsync:staging-downdry", () ->
 gulp.task "rsync:staging-down", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -303,7 +303,7 @@ gulp.task "rsync:staging-down", () ->
 # dry-run sync to prod
 gulp.task "rsync:updry", ["build"], () ->
   rsyncUp = {
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
     src: conf.rsyncFolders.localFolder,
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
@@ -316,7 +316,7 @@ gulp.task "rsync:updry", ["build"], () ->
 gulp.task "rsync:up", ["build"], () ->
   rsyncUp = {
     src: conf.rsyncFolders.localFolder,
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -326,7 +326,7 @@ gulp.task "rsync:up", ["build"], () ->
 # dry-run deploy to staging
 gulp.task "rsync:staging-updry", ["build"], () ->
   rsyncUp = {
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
@@ -338,7 +338,7 @@ gulp.task "rsync:staging-updry", ["build"], () ->
 # deploy local changes to staging
 gulp.task "rsync:staging-up", ["build"], () ->
   rsyncUp = {
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
