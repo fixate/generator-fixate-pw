@@ -169,6 +169,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       @log.ok('OK')
 
+    setupProcessWireModules = () =>
+
+
 
     #*------------------------------------*\
     #   $KSS BOILERPLATE
