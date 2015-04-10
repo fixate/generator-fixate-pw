@@ -39,6 +39,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       message: "What is the domain name for the production website (without protocol)?"
       default: "example.com"
 
+
+    prompts.push
+      type: 'checkbox',
+      name: 'pwModules',
+      message: 'Which ProcessWire modules would you like to install?',
+      choices: myUtils.getMultiChoices(@settings.github.pwModules)
+
     @prompt prompts, (props) =>
       @props = props
       cb()
@@ -98,9 +105,20 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       GitUtils.export repo_path, dest('src/'), @props.pwBranch
 
       at dest('/'), ->
-        shell.mv "src/site-default", "src/site"
+        shell.rm "-rf", "src/site-default"
 
       @log.ok('OK')
+
+
+      @log.info "Installing ProcessWire site profile..."
+      repo_path = GitUtils.cacheRepo github(@settings.github.pwProfile)
+      GitUtils.export repo_path, dest('src')
+      at dest('src/'), () =>
+        shell.rm ".gitignore"
+        shell.rm "README.md"
+
+      @log.ok('OK')
+
 
       @log.info "Installing ProcessWire MVC boilerplate..."
       repo_path = GitUtils.cacheRepo github(@settings.github.pwBoilerplate)
@@ -133,19 +151,47 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         shell.rm '-rf', "site-languages"
 
       # ensure processwire assets are committed
+      at dest('src/site/'), () =>
+        shell.mkdir 'assets/cache/'
+        shell.mkdir 'assets/files/'
+        shell.mkdir 'assets/logs/'
+        shell.mkdir 'assets/sessions/'
+        shell.chmod '-rf 777', 'assets/cache/'
+        shell.chmod '-rf 777', 'assets/files/'
+        shell.chmod '-rf 777', 'assets/logs/'
+        shell.chmod '-rf 777', 'assets/sessions/'
+
       @copy ".gitkeep", "src/site/assets/cache/.gitkeep"
       @copy ".gitkeep", "src/site/assets/sessions/.gitkeep"
       @copy ".gitkeep", "src/site/assets/files/.gitkeep"
       @copy ".gitkeep", "src/site/assets/logs/.gitkeep"
 
       # setup for ProcessWire install
-      at dest('src/site/'), () =>
-        shell.chmod '777', "assets"
-        shell.chmod '777', "assets/*"
-        shell.chmod '777', "modules"
-        shell.chmod '777', "config.php"
+      at dest('src/'), () =>
+        shell.chmod '777',    "site/assets"
+        shell.chmod '777',    "site/assets/*"
+        shell.chmod '777',    "site/modules"
+        shell.chmod '777',    "site/config.php"
+        shell.chmod '777',    "site/install"
+        shell.chmod '777',    "install.php"
 
       @log.ok('OK')
+
+    #*------------------------------------*\
+    #   $Processwire Modules
+    #*------------------------------------*/
+    setupProcessWireModules = () =>
+      Object.keys(@settings.github.pwModules).map (item) ->
+        at dest('src/site/modules/'), () =>
+          shell.mkdir item
+
+      @log.info "Installing processwire modules..."
+      for module in @props.pwModules
+        repo_path = GitUtils.cacheRepo github(module)
+        @log.info "Copying #{module} install..."
+        GitUtils.export repo_path, dest("src/site/modules/#{myUtils.getObjectKey(module, @settings.github.pwModules)}")
+
+
 
 
     #*------------------------------------*\
@@ -192,6 +238,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #*------------------------------------*/
     setupRepo()
     setupProcesswire()
+    setupProcessWireModules()
     setupKSS()
     setupCSSFramework()
     setupGit()
