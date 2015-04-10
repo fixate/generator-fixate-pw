@@ -1,4 +1,4 @@
-var shell = require("shelljs/global")
+var shell = require("shelljs/global"),
 		execSync = require("execSync");
 
 if (!test('-f', 'bower.json')) {
