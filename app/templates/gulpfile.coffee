@@ -33,7 +33,7 @@ extend = require "extend"
 pkg    = require "./package.json"
 conf   = require "./gulpconfig.json"
 try
-  pvt = require "./private.json"
+  secrets = require "./secrets.json"
 catch err
   console.log err
 
@@ -46,7 +46,7 @@ catch err
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
   browserSync {
-    proxy: pvt.bsProxy
+    proxy: secrets.bsProxy
     injectchanges: true
     open: false
     # tunnel: true
@@ -71,12 +71,12 @@ gulp.task 'bs-reload', () ->
 #    $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
-  gulp.src(["#{conf.path.pvt.scss}/**/*.{scss,sass}"])
+  gulp.src(["#{conf.path.dev.scss}/**/*.{scss,sass}"])
     .pipe plumber(conf.plumber)
     .pipe(sourcemaps.init())
       .pipe sass({errLogToConsole: true})
     .pipe(sourcemaps.write('./'))
-    .pipe gulp.dest(conf.path.pvt.css)
+    .pipe gulp.dest(conf.path.dev.css)
     .pipe reload({stream: true})
 
 
@@ -89,7 +89,7 @@ gulp.task "sass", () ->
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
   files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
-    "#{conf.path.pvt.img}/**/*.#{ext}"
+    "#{conf.path.dev.img}/**/*.#{ext}"
 
   return gulp.src([files])
     .pipe cache(imagemin {
@@ -105,7 +105,7 @@ gulp.task 'imagemin', () ->
     })
     .pipe rev()
     .pipe remember()
-    .pipe gulp.dest conf.path.pub.img
+    .pipe gulp.dest conf.path.prod.img
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -135,11 +135,11 @@ gulp.task "auto_reload", () ->
 #    $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-  gulp.src ["#{conf.path.pvt.coffee}/**/*.coffee"]
+  gulp.src ["#{conf.path.dev.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
-    .pipe gulp.dest(conf.path.pvt.js)
+    .pipe gulp.dest(conf.path.dev.js)
     .pipe reload({stream: true})
   return
 
@@ -151,9 +151,9 @@ gulp.task "coffee", () ->
 #    $WATCH
 #*------------------------------------*/
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
-  gulp.watch "#{conf.path.pvt.scss}/**/*.scss", ["sass"]
-  gulp.watch "#{conf.path.pvt.coffee}/**/*.coffee", ["coffee", "bs-reload"]
-  gulp.watch "#{conf.path.pvt.views}/**/*.html.php", ["bs-reload"]
+  gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
+  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "bs-reload"]
+  gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
 
 
 
@@ -163,11 +163,11 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 #    $UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", ["coffee"], () ->
-  gulp.src ["#{conf.path.pvt.js}/main.js"]
+  gulp.src ["#{conf.path.dev.js}/main.js"]
   .pipe uglifyJs()
   .pipe rev()
   .pipe rename({suffix: '.min'})
-  .pipe gulp.dest(conf.path.pub.js)
+  .pipe gulp.dest(conf.path.prod.js)
   .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
   .pipe gulp.dest('./')
 
@@ -179,11 +179,11 @@ gulp.task "uglify", ["coffee"], () ->
 #    $MINIFY
 #*------------------------------------*/
 gulp.task "minify", ["sass"], () ->
-  gulp.src(["#{conf.path.pvt.css}/style.css"])
+  gulp.src(["#{conf.path.dev.css}/style.css"])
     .pipe minifyCSS({keepSpecialComments: 0})
     .pipe rev()
     .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(conf.path.pub.css)
+    .pipe gulp.dest(conf.path.prod.css)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -196,12 +196,12 @@ gulp.task "minify", ["sass"], () ->
 #*------------------------------------*/
 gulp.task "font", () ->
   files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
-    "#{conf.path.pvt.img}/**/*.#{ext}"
+    "#{conf.path.dev.img}/**/*.#{ext}"
 
-  gulp.src(["#{conf.path.pvt.fnt}/**/*.#{exts[key]}"])
+  gulp.src(["#{conf.path.dev.fnt}/**/*.#{exts[key]}"])
     .pipe cache(rev())
     .pipe remember()
-    .pipe gulp.dest(conf.path.pub.fnt)
+    .pipe gulp.dest(conf.path.prod.fnt)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -214,13 +214,13 @@ gulp.task "font", () ->
 #    github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
 gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
-  manifest = require "./#{conf.path.pvt.assets}/rev-manifest.json"
-  stream = gulp.src ["./#{conf.path.pub.css}/#{manifest['style.css']}"]
+  manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
+  stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
 
   Object.keys(manifest).reduce((stream, key) ->
     stream.pipe replace(key, manifest[key])
   , stream)
-    .pipe gulp.dest("./#{conf.path.pub.css}")
+    .pipe gulp.dest("./#{conf.path.prod.css}")
 
 
 
@@ -234,10 +234,10 @@ db_dump = (env) ->
   db_env = "db_#{env}"
 
   shell [
-    "mysqldump --host=#{pvt[db_env].host}
-      --user=#{pvt[db_env].user}
-      --password=#{pvt[db_env].pass}
-       #{pvt[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+    "mysqldump --host=#{secrets[db_env].host}
+      --user=#{secrets[db_env].user}
+      --password=#{secrets[db_env].pass}
+       #{secrets[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
   ]
 
 gulp.task "db_dump:dev", () ->
@@ -259,7 +259,7 @@ gulp.task "db_dump:prod", () ->
 gulp.task "rsync:downdry", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -271,7 +271,7 @@ gulp.task "rsync:downdry", () ->
 gulp.task "rsync:down", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -283,7 +283,7 @@ gulp.task "rsync:down", () ->
 gulp.task "rsync:staging-downdry", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -295,7 +295,7 @@ gulp.task "rsync:staging-downdry", () ->
 gulp.task "rsync:staging-down", () ->
   rsyncDown = {
     dest: conf.rsyncFolders.localFolder,
-    src: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
   }
   opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -306,7 +306,7 @@ gulp.task "rsync:staging-down", () ->
 # dry-run sync to prod
 gulp.task "rsync:updry", ["build"], () ->
   rsyncUp = {
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
     src: conf.rsyncFolders.localFolder,
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
@@ -319,7 +319,7 @@ gulp.task "rsync:updry", ["build"], () ->
 gulp.task "rsync:up", ["build"], () ->
   rsyncUp = {
     src: conf.rsyncFolders.localFolder,
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
   rsync opts, (error, stdout, stderr, cmd) ->
@@ -329,7 +329,7 @@ gulp.task "rsync:up", ["build"], () ->
 # dry-run deploy to staging
 gulp.task "rsync:staging-updry", ["build"], () ->
   rsyncUp = {
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
@@ -341,7 +341,7 @@ gulp.task "rsync:staging-updry", ["build"], () ->
 # deploy local changes to staging
 gulp.task "rsync:staging-up", ["build"], () ->
   rsyncUp = {
-    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
     src: conf.rsyncFolders.localFolder,
   }
   opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
