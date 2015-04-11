@@ -1,22 +1,22 @@
 # Gulp
 gulp         = require "gulp"
-cache        = require "gulp-cache"
+cache         = require "gulp-cache"
 coffee       = require "gulp-coffee"
 concat       = require "gulp-concat"
 exec         = require "gulp-exec"
 imagemin     = require "gulp-imagemin"
-minifyCSS    = require "gulp-minify-css"
-plumber      = require "gulp-plumber"
+minifyCSS     = require "gulp-minify-css"
+plumber       = require "gulp-plumber"
 remember     = require "gulp-remember"
 rename       = require "gulp-rename"
-replace      = require 'gulp-replace'
-rev          = require 'gulp-rev'
+replace       = require 'gulp-replace'
+rev           = require 'gulp-rev'
 sass         = require "gulp-sass"
 sourcemaps   = require "gulp-sourcemaps"
-shell        = require "gulp-shell"
+shell         = require "gulp-shell"
 uglifyJs     = require "gulp-uglify"
-gutil        = require "gulp-util"
-watch        = require "gulp-watch"
+gutil         = require "gulp-util"
+watch         = require "gulp-watch"
 
 browserSync  = require "browser-sync"
 cp           = require "child_process"
@@ -24,16 +24,16 @@ moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
 reload       = browserSync.reload
 rsyncwrapper = require "rsyncwrapper"
-rsync        = rsyncwrapper.rsync
-spawn        = cp.spawn
+rsync         = rsyncwrapper.rsync
+spawn         = cp.spawn
 
 # Extra
 extend = require "extend"
 
-pkg    = require "./package.json"
+pkg     = require "./package.json"
 conf   = require "./gulpconfig.json"
 try
-  secrets = require "./secrets.json"
+  scrt= require "./secrets.json"
 catch err
   console.log err
 
@@ -46,7 +46,7 @@ catch err
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
   browserSync {
-    proxy: secrets.bsProxy
+    proxy: scrt.bsProxy
     injectchanges: true
     open: false
     # tunnel: true
@@ -68,7 +68,7 @@ gulp.task 'bs-reload', () ->
 
 
 #*------------------------------------*\
-#    $SASS
+#     $SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
   gulp.src(["#{conf.path.dev.scss}/**/*.{scss,sass}"])
@@ -84,8 +84,8 @@ gulp.task "sass", () ->
 
 
 #*------------------------------------*\
-#    $PIXEL &
-#    $VECTOR OPTIM
+#     $PIXEL &
+#     $VECTOR OPTIM
 #*------------------------------------*/
 gulp.task 'imagemin', () ->
   files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
@@ -114,8 +114,8 @@ gulp.task 'imagemin', () ->
 
 
 #*------------------------------------*\
-#    $AUTO RELOAD GULPFILE ON SAVE
-#    noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
+#     $AUTO RELOAD GULPFILE ON SAVE
+#     noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
 #*------------------------------------*/
 gulp.task "auto_reload", () ->
   process = undefined
@@ -132,7 +132,7 @@ gulp.task "auto_reload", () ->
 
 
 #*------------------------------------*\
-#    $COFFEE
+#     $COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
   gulp.src ["#{conf.path.dev.coffee}/**/*.coffee"]
@@ -148,7 +148,7 @@ gulp.task "coffee", () ->
 
 
 #*------------------------------------*\
-#    $WATCH
+#     $WATCH
 #*------------------------------------*/
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
   gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
@@ -160,7 +160,7 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 
 
 #*------------------------------------*\
-#    $UGLIFY
+#     $UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", ["coffee"], () ->
   gulp.src ["#{conf.path.dev.js}/main.js"]
@@ -176,7 +176,7 @@ gulp.task "uglify", ["coffee"], () ->
 
 
 #*------------------------------------*\
-#    $MINIFY
+#     $MINIFY
 #*------------------------------------*/
 gulp.task "minify", ["sass"], () ->
   gulp.src(["#{conf.path.dev.css}/style.css"])
@@ -192,7 +192,7 @@ gulp.task "minify", ["sass"], () ->
 
 
 #*------------------------------------*\
-#    $FONT REV
+#     $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
   files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
@@ -210,8 +210,8 @@ gulp.task "font", () ->
 
 
 #*------------------------------------*\
-#    $REV REPLACE
-#    github.com/jamesknelson/gulp-rev-replace/issues/23
+#     $REV REPLACE
+#     github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
 gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
   manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
@@ -227,134 +227,84 @@ gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
 
 
 #*------------------------------------*\
-#    $MYSQL-DUMP
+#     $MYSQL-DUMP
 #*------------------------------------*/
-db_dump = (env) ->
+dbDump = (env) ->
   date = moment()
-  db_env = "db_#{env}"
+  dbEnv = "db_#{env}"
 
   shell [
-    "mysqldump --host=#{secrets[db_env].host}
-      --user=#{secrets[db_env].user}
-      --password=#{secrets[db_env].pass}
-       #{secrets[db_env].name} > ./database/#{env}/db_#{env}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+    "mysqldump --host=#{scrt[dbEnv].host}
+      --user=#{scrt[dbEnv].user}
+      --password=#{scrt[dbEnv].pass}
+       #{scrt[dbEnv].name} > ./database/#{env}/#{dbEnv}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
   ]
 
-gulp.task "db_dump:dev", () ->
+gulp.task "db-dump:dev", () ->
   gulp.src('')
-    .pipe db_dump('dev')
+    .pipe dbDump('dev')
 
-gulp.task "db_dump:prod", () ->
+gulp.task "db-dump:prod", () ->
   gulp.src('')
-    .pipe db_dump('prod')
+    .pipe dbDump('prod')
 
 
 
 
 
 #*------------------------------------*\
-#    $RSYNC
+#     $RSYNC
 #*------------------------------------*/
+doRsync = (type, opts, rsyncOpts = {}) ->
+  opts =
+    isDry: opts.isDry || false
+    isToRemote: opts.isToRemote || true
+
+  if opts.isToRemote
+    dest = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].src}"
+    src = conf.rsync[type].src
+  else
+    dest = conf.rsync[type].dest
+    src = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].dest}"
+
+  rsyncOpts = extend {
+    dest: dest
+    src: src
+    dryRun: dryRun
+    exclude: conf.rsync[type].exclude || ""
+    port: conf.ssh.port
+    ssh: true
+    recursive: true
+    compareMode: "checksum"
+  }, rsyncOpts
+
+  rsync rsyncOpts, (error, stdout, stderr, cmd) ->
+    gutil.log stderr
+    gutil.log stdout
+
+
 # dry-run down
 gulp.task "rsync:downdry", () ->
-  rsyncDown = {
-    dest: conf.rsyncFolders.localFolder,
-    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
-  }
-  opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
+  doRsync "down", {isToRemote: false, isDry: true}
 
 # sync down
-gulp.task "rsync:down", () ->
-  rsyncDown = {
-    dest: conf.rsyncFolders.localFolder,
-    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
-  }
-  opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
-
-# staging dry-run down
-gulp.task "rsync:staging-downdry", () ->
-  rsyncDown = {
-    dest: conf.rsyncFolders.localFolder,
-    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
-  }
-  opts = extend rsyncDown, conf.ssh, conf.rsyncOpts, conf.rsyncDry
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
-
-# sync staging to local
-gulp.task "rsync:staging-down", () ->
-  rsyncDown = {
-    dest: conf.rsyncFolders.localFolder,
-    src: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
-  }
-  opts = extend rsyncDown, conf.ssh, conf.rsyncOpts
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
+gulp.task "rsync:downdry", () ->
+  doRsync "down", {isToRemote: false}
 
 # dry-run sync to prod
 gulp.task "rsync:updry", ["build"], () ->
-  rsyncUp = {
-    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
-    src: conf.rsyncFolders.localFolder,
-  }
-  opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
+  doRsync "up", {isDry: true}
 
 # sync to production
 gulp.task "rsync:up", ["build"], () ->
-  rsyncUp = {
-    src: conf.rsyncFolders.localFolder,
-    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}"
-  }
-  opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
-# dry-run deploy to staging
-gulp.task "rsync:staging-updry", ["build"], () ->
-  rsyncUp = {
-    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
-    src: conf.rsyncFolders.localFolder,
-  }
-  opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
-
-
-# deploy local changes to staging
-gulp.task "rsync:staging-up", ["build"], () ->
-  rsyncUp = {
-    dest: "#{secrets.username}@#{secrets.domain}:#{conf.rsyncFolders.hostFolder}/staging"
-    src: conf.rsyncFolders.localFolder,
-  }
-  opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
-  rsync opts, (error, stdout, stderr, cmd) ->
-    gutil.log stderr
-    gutil.log stdout
+  doRsync "up"
 
 
 
 
 
 #*------------------------------------*\
-#    $UPDATE NPM DEPS
+#     $UPDATE NPM DEPS
 #*------------------------------------*/
 gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 
@@ -363,7 +313,7 @@ gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 
 
 #*------------------------------------*\
-#    $TASKS
+#     $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
 gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
