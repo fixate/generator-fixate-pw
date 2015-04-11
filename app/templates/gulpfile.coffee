@@ -90,7 +90,7 @@ gulp.task 'imagemin', () ->
   files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
     "#{conf.path.dev.img}/**/*.#{ext}"
 
-  return gulp.src([files])
+  return gulp.src(files)
     .pipe cache(imagemin {
       optimizationLevel: 3,
       progressive: true,
