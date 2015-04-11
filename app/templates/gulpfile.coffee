@@ -194,10 +194,10 @@ gulp.task "minify", ["sass"], () ->
 #     $FONT REV
 #*------------------------------------*/
 gulp.task "font", () ->
-  files = ['eot', 'woff', 'ttf', 'svg'].map (ext) ->
-    "#{conf.path.dev.img}/**/*.#{ext}"
+  files = ['eot', 'woff', 'ttf', 'svg'].map (curr) ->
+    "#{conf.path.dev.fnt}/**/*#{curr}"
 
-  gulp.src(["#{conf.path.dev.fnt}/**/*.#{exts[key]}"])
+  gulp.src(files)
     .pipe cache(rev())
     .pipe remember()
     .pipe gulp.dest(conf.path.prod.fnt)
