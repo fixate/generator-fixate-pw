@@ -82,7 +82,7 @@ $ gulp
 For each template, visit your admin and set all templates to use `mvc.php`:
 
 ```
-Setup -> [your template] -> Advanced -> Alternate Template Filename
+Setup -> [your template] -> Files -> Alternate Template Filename
 ```
 
 
