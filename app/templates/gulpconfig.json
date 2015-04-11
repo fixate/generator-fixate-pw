@@ -1,7 +1,7 @@
 {
 	"path": {
 		"db_backup": "database",
-		"pvt": {
+		"dev": {
 			"assets": "src/site/templates/assets",
 			"css":    "src/site/templates/assets/css",
 			"js":     "src/site/templates/assets/js",
@@ -12,7 +12,7 @@
 			"php":    "src/site/templates",
 			"views":  "src/site/templates/views"
 		},
-		"pub": {
+		"prod": {
 			"assets": "src/site/templates/assets/public",
 			"css":    "src/site/templates/assets/public/css",
 			"fnt":    "src/site/templates/assets/public/fnt",

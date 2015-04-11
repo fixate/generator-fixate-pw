@@ -83,9 +83,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy ".gitignore_pw",        "src/.gitignore"
       @copy ".gitkeep",             "database/dev/.gitkeep"
       @copy ".gitkeep",             "database/prod/.gitkeep"
-      @copy "setup.sh",             "setup.sh"
-      @copy "private-sample.json",  "private-sample.json"
-      @copy "private-sample.json",  "private.json"
+      @copy "setup.js",             "setup.js"
+      @copy "secrets-sample.json",  "secrets-sample.json"
+      @copy "secrets-sample.json",  "secrets.json"
       @copy "gulpfile.coffee",      "gulpfile.coffee"
       @copy "gulpconfig.json",      "gulpconfig.json"
       @template "_package.json",    "package.json"
@@ -134,13 +134,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         shell.rm '-rf', "scripts"
         shell.rm '-rf', "styles"
         shell.rm "README.txt"
-        shell.rm "basic-page.php"
-        shell.rm "search.php"
-        shell.rm "sitemap.php"
-        shell.rm "home.php"
-        shell.rm "_init.php"
-        shell.rm "_main.php"
-        shell.rm "_func.php"
 
       # remove alternative ProcessWire site profiles
       at dest('src/'), () =>
