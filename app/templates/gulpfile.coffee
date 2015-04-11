@@ -1,39 +1,38 @@
 # Gulp
-gulp         = require "gulp"
-cache         = require "gulp-cache"
-coffee       = require "gulp-coffee"
-concat       = require "gulp-concat"
-exec         = require "gulp-exec"
-imagemin     = require "gulp-imagemin"
-minifyCSS     = require "gulp-minify-css"
-plumber       = require "gulp-plumber"
-remember     = require "gulp-remember"
-rename       = require "gulp-rename"
-replace       = require 'gulp-replace'
-rev           = require 'gulp-rev'
-sass         = require "gulp-sass"
-sourcemaps   = require "gulp-sourcemaps"
-shell         = require "gulp-shell"
-uglifyJs     = require "gulp-uglify"
-gutil         = require "gulp-util"
-watch         = require "gulp-watch"
+gulp       = require "gulp"
+cache      = require "gulp-cache"
+coffee     = require "gulp-coffee"
+concat     = require "gulp-concat"
+exec       = require "gulp-exec"
+imagemin   = require "gulp-imagemin"
+minifyCSS  = require "gulp-minify-css"
+plumber    = require "gulp-plumber"
+remember   = require "gulp-remember"
+rename     = require "gulp-rename"
+replace    = require 'gulp-replace'
+rev        = require 'gulp-rev'
+sass       = require "gulp-sass"
+sourcemaps = require "gulp-sourcemaps"
+shell      = require "gulp-shell"
+uglifyJs   = require "gulp-uglify"
+gutil      = require "gulp-util"
+watch      = require "gulp-watch"
 
 browserSync  = require "browser-sync"
 cp           = require "child_process"
+extend       = require "extend"
 moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
 reload       = browserSync.reload
 rsyncwrapper = require "rsyncwrapper"
-rsync         = rsyncwrapper.rsync
-spawn         = cp.spawn
+rsync        = rsyncwrapper.rsync
+spawn        = cp.spawn
 
-# Extra
-extend = require "extend"
+pkg  = require "./package.json"
+conf = require "./gulpconfig.json"
 
-pkg     = require "./package.json"
-conf   = require "./gulpconfig.json"
 try
-  scrt= require "./secrets.json"
+  scrt = require "./secrets.json"
 catch err
   console.log err
 
