@@ -253,7 +253,7 @@ gulp.task "db-dump:prod", () ->
 #*------------------------------------*\
 #     $RSYNC
 #*------------------------------------*/
-doRsync = (type, opts = {isDry: false, isToRemote: true}, rsyncOpts = {}) ->
+doRsync = (type, opts, rsyncOpts = {}) ->
   opts = extend {
     isDry: false
     isToRemote: true
