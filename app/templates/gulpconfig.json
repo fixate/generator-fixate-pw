@@ -24,7 +24,7 @@
 		"errorHandler": false
 	},
 	"ssh": {
-		"port": "21"
+		"port": "22"
 	},
 	"rsync": {
 		"up": {
