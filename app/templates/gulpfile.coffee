@@ -273,9 +273,12 @@ doRsync = (type, opts = {isDry: false, isToRemote: true}, rsyncOpts = {}) ->
   }, rsyncOpts
 
   rsync rsyncOpts, (error, stdout, stderr, cmd) ->
+    if error
+      gutil.log error
+
+    gutil.log cmd
     gutil.log stderr
     gutil.log stdout
-
 
 # dry-run down
 gulp.task "rsync:downdry", () ->
