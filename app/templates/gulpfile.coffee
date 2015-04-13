@@ -24,8 +24,7 @@ extend       = require "extend"
 moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
 reload       = browserSync.reload
-rsyncwrapper = require "rsyncwrapper"
-rsync        = rsyncwrapper.rsync
+rsync        = require("rsyncwrapper").rsync
 spawn        = cp.spawn
 
 pkg  = require "./package.json"
@@ -269,7 +268,7 @@ doRsync = (type, opts, rsyncOpts = {}) ->
   rsyncOpts = extend {
     dest: dest
     src: src
-    dryRun: dryRun
+    dryRun: opts.isDry
     exclude: conf.rsync[type].exclude || ""
     port: conf.ssh.port
     ssh: true
