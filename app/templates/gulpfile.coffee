@@ -275,6 +275,7 @@ doRsync = (type, opts, rsyncOpts) ->
     ssh: true
     recursive: true
     compareMode: "checksum"
+    args: ["--verbose"]
   }, rsyncOpts
 
   rsync rsyncOpts, (error, stdout, stderr, cmd) ->
