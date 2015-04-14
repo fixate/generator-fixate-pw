@@ -1,7 +1,7 @@
 {
 	"path": {
 		"db_backup": "database",
-		"pvt": {
+		"dev": {
 			"assets": "src/site/templates/assets",
 			"css":    "src/site/templates/assets/css",
 			"js":     "src/site/templates/assets/js",
@@ -12,7 +12,7 @@
 			"php":    "src/site/templates",
 			"views":  "src/site/templates/views"
 		},
-		"pub": {
+		"prod": {
 			"assets": "src/site/templates/assets/public",
 			"css":    "src/site/templates/assets/public/css",
 			"fnt":    "src/site/templates/assets/public/fnt",
@@ -24,38 +24,36 @@
 		"errorHandler": false
 	},
 	"ssh": {
-		"port": "21"
+		"port": "22"
 	},
-	"rsyncFolders": {
-		"localFolder": "./src/**",
-		"hostFolder": "public_html"
-	},
-	"rsyncOpts": {
-		"ssh": true,
-		"recursive": true,
-		"compareMode": "checksum",
-		"exclude": [
-			".git*",
-			".DS_Store",
-			"node_modules",
-			"config-dev.php",
-			".sass-cache",
-			"*.scss",
-			"*.css.map",
-			"assets/css/style.css",
-			"assets/js/main.js",
-			"*.js.map",
-			"*.coffee",
-			"assets/cache",
-			"assets/files",
-			"assets/logs",
-			"assets/sessions",
-			"config.php",
-			"robots.txt"
-		]
-	},
-	"rsyncDry": {
-		"dryRun": true
+	"rsync": {
+		"up": {
+			"dest": "public_html",
+			"src": "./src/**",
+				"exclude": [
+				".git*",
+				".DS_Store",
+				"node_modules",
+				"config-dev.php",
+				".sass-cache",
+				"*.scss",
+				"*.css.map",
+				"assets/css/style.css",
+				"assets/js/main.js",
+				"*.js.map",
+				"*.coffee",
+				"assets/cache",
+				"assets/files",
+				"assets/logs",
+				"assets/sessions",
+				"config.php",
+				"robots.txt"
+			]
+		},
+		"down": {
+			"dest": "./src/site/assets/files",
+			"src": "public_html/site/assets/files"
+		}
 	},
 	"revManifest": {
 		"path": "src/site/templates/assets/rev-manifest.json",
