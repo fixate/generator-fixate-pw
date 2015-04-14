@@ -260,7 +260,7 @@ doRsync = (type, opts, rsyncOpts) ->
   }, opts
 
   if opts.isToRemote
-    dest = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].src}"
+    dest = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].dest}"
     src = conf.rsync[type].src
   else
     dest = conf.rsync[type].dest
