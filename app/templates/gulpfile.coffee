@@ -264,7 +264,7 @@ doRsync = (type, opts, rsyncOpts) ->
     src = conf.rsync[type].src
   else
     dest = conf.rsync[type].dest
-    src = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].dest}"
+    src = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].src}"
 
   rsyncOpts = extend {
     dest: dest
