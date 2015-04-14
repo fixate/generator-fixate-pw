@@ -286,7 +286,7 @@ gulp.task "rsync:downdry", () ->
   doRsync "down", {isToRemote: false, isDry: true}
 
 # sync down
-gulp.task "rsync:downdry", () ->
+gulp.task "rsync:down", () ->
   doRsync "down", {isToRemote: false}
 
 # dry-run sync to prod
