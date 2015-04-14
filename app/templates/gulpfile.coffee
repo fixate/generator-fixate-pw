@@ -253,10 +253,11 @@ gulp.task "db-dump:prod", () ->
 #*------------------------------------*\
 #     $RSYNC
 #*------------------------------------*/
-doRsync = (type, opts, rsyncOpts = {}) ->
-  opts =
-    isDry: opts.isDry || false
-    isToRemote: opts.isToRemote || true
+doRsync = (type, opts, rsyncOpts) ->
+  opts = extend {
+    isDry: false
+    isToRemote: true
+  }, opts
 
   if opts.isToRemote
     dest = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].src}"
@@ -274,12 +275,16 @@ doRsync = (type, opts, rsyncOpts = {}) ->
     ssh: true
     recursive: true
     compareMode: "checksum"
+    args: ["--verbose"]
   }, rsyncOpts
 
   rsync rsyncOpts, (error, stdout, stderr, cmd) ->
+    if error
+      gutil.log error
+
+    gutil.log cmd
     gutil.log stderr
     gutil.log stdout
-
 
 # dry-run down
 gulp.task "rsync:downdry", () ->
