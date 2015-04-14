@@ -259,16 +259,15 @@ doRsync = (type, opts, rsyncOpts) ->
     isToRemote: true
   }, opts
 
+  dest = rsyncOpts.dest || conf.rsync[type].dest
+  src = rsyncOpts.src || conf.rsync[type].src
+
   if opts.isToRemote
-    dest = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].src}"
-    src = conf.rsync[type].src
+    dest = "#{scrt.username}@#{scrt.domain}:#{dest}"
   else
-    dest = conf.rsync[type].dest
-    src = "#{scrt.username}@#{scrt.domain}:#{conf.rsync[type].dest}"
+    src = "#{scrt.username}@#{scrt.domain}:#{src}"
 
   rsyncOpts = extend {
-    dest: dest
-    src: src
     dryRun: opts.isDry
     exclude: conf.rsync[type].exclude || ""
     port: conf.ssh.port
@@ -276,7 +275,10 @@ doRsync = (type, opts, rsyncOpts) ->
     recursive: true
     compareMode: "checksum"
     args: ["--verbose"]
-  }, rsyncOpts
+  }, rsyncOpts, {
+    dest: dest
+    src: src
+  }
 
   rsync rsyncOpts, (error, stdout, stderr, cmd) ->
     if error
