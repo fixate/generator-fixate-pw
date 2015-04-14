@@ -254,10 +254,6 @@ gulp.task "db-dump:prod", () ->
 #     $RSYNC
 #*------------------------------------*/
 _rsyncDo = (rsyncOpts = {}) ->
-  if !rsyncOpts.src || !rsyncOpts.dest
-    gutil.log "No source and/or destination provided for rsync. Exiting..."
-    return
-
   rsyncOpts = extend {
     port: conf.ssh.port
     ssh: true
