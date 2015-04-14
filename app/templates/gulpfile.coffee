@@ -254,22 +254,23 @@ gulp.task "db-dump:prod", () ->
 #     $RSYNC
 #*------------------------------------*/
 _rsyncDo = (rsyncOpts = {}) ->
-  if rsyncOpts.src && rsyncOpts.dest
-    rsyncOpts = extend {
-      port: conf.ssh.port
-      ssh: true
-      recursive: true
-      compareMode: "checksum"
-      args: ["--verbose"]
-    }, rsyncOpts
+  if !rsyncOpts.src || !rsyncOpts.dest
+    gutil.log "No source and/or destination provided for rsync. Exiting..."
+    return
 
-    gutil.log "Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}"
+  rsyncOpts = extend {
+    port: conf.ssh.port
+    ssh: true
+    recursive: true
+    compareMode: "checksum"
+    args: ["--verbose"]
+  }, rsyncOpts
 
-    rsync rsyncOpts, (error, stdout, stderr, cmd) ->
-      gutil.log error if error
-      gutil.log cmd, stderr, stdout
-  else
-    gutil.log "No source and/or destination provided for rsync"
+  gutil.log "Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}"
+
+  rsync rsyncOpts, (error, stdout, stderr, cmd) ->
+    gutil.log error if error
+    gutil.log cmd, stderr, stdout
 
 _rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
   ["dest", "src"].forEach (curr) ->
