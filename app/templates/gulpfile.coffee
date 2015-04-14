@@ -253,56 +253,51 @@ gulp.task "db-dump:prod", () ->
 #*------------------------------------*\
 #     $RSYNC
 #*------------------------------------*/
-doRsync = (type, opts, rsyncOpts) ->
-  opts = extend {
-    isDry: false
-    isToRemote: true
-  }, opts
+_rsyncDo = (rsyncOpts = {}) ->
+  if rsyncOpts.src && rsyncOpts.dest
+    rsyncOpts = extend {
+      port: conf.ssh.port
+      ssh: true
+      recursive: true
+      compareMode: "checksum"
+      args: ["--verbose"]
+    }, rsyncOpts
 
-  dest = rsyncOpts.dest || conf.rsync[type].dest
-  src = rsyncOpts.src || conf.rsync[type].src
+    gutil.log "Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}"
 
-  if opts.isToRemote
-    dest = "#{scrt.username}@#{scrt.domain}:#{dest}"
+    rsync rsyncOpts, (error, stdout, stderr, cmd) ->
+      gutil.log error if error
+      gutil.log cmd, stderr, stdout
   else
-    src = "#{scrt.username}@#{scrt.domain}:#{src}"
+    gutil.log "No source and/or destination provided for rsync"
 
-  rsyncOpts = extend {
-    dryRun: opts.isDry
-    exclude: conf.rsync[type].exclude || ""
-    port: conf.ssh.port
-    ssh: true
-    recursive: true
-    compareMode: "checksum"
-    args: ["--verbose"]
-  }, rsyncOpts, {
-    dest: dest
-    src: src
-  }
+_rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
+  ["dest", "src"].forEach (curr) ->
+    remoteHost = if isToRemote then "#{scrt.username}@#{scrt.domain}:" else ""
+    rsyncOpts[curr] = if rsyncOpts[curr] then rsyncOpts[curr] else conf.rsync[prop][curr]
 
-  rsync rsyncOpts, (error, stdout, stderr, cmd) ->
-    if error
-      gutil.log error
+    rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if isToRemote && curr == "dest"
+    rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if !isToRemote && curr == "src"
 
-    gutil.log cmd
-    gutil.log stderr
-    gutil.log stdout
+  rsyncOpts.exclude = conf.rsync[prop].exclude || ""
+
+  _rsyncDo(rsyncOpts)
 
 # dry-run down
 gulp.task "rsync:downdry", () ->
-  doRsync "down", {isToRemote: false, isDry: true}
+  _rsyncPrepare "down", false, dryRun: true
 
 # sync down
 gulp.task "rsync:down", () ->
-  doRsync "down", {isToRemote: false}
+  _rsyncPrepare "down", false
 
 # dry-run sync to prod
 gulp.task "rsync:updry", ["build"], () ->
-  doRsync "up", {isDry: true}
+  _rsyncPrepare "up", true, dryRun: true
 
 # sync to production
 gulp.task "rsync:up", ["build"], () ->
-  doRsync "up"
+  _rsyncPrepare "up"
 
 
 
