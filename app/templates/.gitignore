@@ -8,5 +8,5 @@ config.rb
 # Node
 node_modules
 npm-debug.log
-private.json
+secrets.json
 
