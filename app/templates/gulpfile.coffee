@@ -254,22 +254,19 @@ gulp.task "db-dump:prod", () ->
 #     $RSYNC
 #*------------------------------------*/
 _rsyncDo = (rsyncOpts = {}) ->
-  if rsyncOpts.src && rsyncOpts.dest
-    rsyncOpts = extend {
-      port: conf.ssh.port
-      ssh: true
-      recursive: true
-      compareMode: "checksum"
-      args: ["--verbose"]
-    }, rsyncOpts
+  rsyncOpts = extend {
+    port: conf.ssh.port
+    ssh: true
+    recursive: true
+    compareMode: "checksum"
+    args: ["--verbose"]
+  }, rsyncOpts
 
-    gutil.log "Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}"
+  gutil.log "Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}"
 
-    rsync rsyncOpts, (error, stdout, stderr, cmd) ->
-      gutil.log error if error
-      gutil.log cmd, stderr, stdout
-  else
-    gutil.log "No source and/or destination provided for rsync"
+  rsync rsyncOpts, (error, stdout, stderr, cmd) ->
+    gutil.log error if error
+    gutil.log cmd, stderr, stdout
 
 _rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
   ["dest", "src"].forEach (curr) ->
@@ -316,4 +313,4 @@ gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 #     $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
-gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
+gulp.task "build", ["rev_replace"]
