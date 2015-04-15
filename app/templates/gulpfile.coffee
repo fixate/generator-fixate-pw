@@ -313,4 +313,4 @@ gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 #     $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
-gulp.task "build", ["uglify", "minify", "font", "imagemin", "rev_replace"]
+gulp.task "build", ["rev_replace"]
