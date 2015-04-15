@@ -190,6 +190,10 @@ gulp.task "uglify-vendors", () ->
     .pipe rename({suffix: '.min'})
     .pipe gulp.dest('./')
 
+
+
+
+
 #*------------------------------------*\
 #     $MINIFY
 #*------------------------------------*/
