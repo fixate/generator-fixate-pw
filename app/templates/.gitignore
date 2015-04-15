@@ -3,6 +3,7 @@
 # Sass Generated Files
 config.rb
 .sass-cache/
+*.css.map
 
 # Node
 node_modules
