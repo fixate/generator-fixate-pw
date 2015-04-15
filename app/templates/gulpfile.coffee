@@ -161,17 +161,34 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 #     $UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", ["coffee"], () ->
-  gulp.src ["#{conf.path.dev.js}/main.js"]
-  .pipe uglifyJs()
-  .pipe rev()
-  .pipe rename({suffix: '.min'})
-  .pipe gulp.dest(conf.path.prod.js)
-  .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-  .pipe gulp.dest('./')
+  files = [
+    "#{conf.path.dev.js}/main.js"
+  ]
+
+  gulp.src [files]
+    .pipe uglifyJs()
+    .pipe rev()
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest(conf.path.prod.js)
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
 
 
 
 
+
+#*------------------------------------*\
+#     $UGLIFY VENDORS
+#*------------------------------------*/
+gulp.task "uglify-vendors", () ->
+  files = [
+    # "**/#{conf.path.dev.assets}/vendor/[your vendor].js",
+  ]
+
+  gulp.src files
+    .pipe uglifyJs()
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest('./')
 
 #*------------------------------------*\
 #     $MINIFY
@@ -313,4 +330,4 @@ gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 #     $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['watch']
-gulp.task "build", ["rev_replace"]
+gulp.task "build", ["uglify-vendors", "rev_replace"]
