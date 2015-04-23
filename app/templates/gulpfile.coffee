@@ -74,7 +74,7 @@ gulp.task "sass", () ->
     .pipe(sourcemaps.init())
       .pipe sass({errLogToConsole: true})
     .pipe(sourcemaps.write('./'))
-    .pipe gulp.dest(conf.path.dev.css)
+    .pipe gulp.dest(conf.path.pvt.css)
     .pipe reload({stream: true})
 
 
@@ -313,9 +313,33 @@ gulp.task "rsync:down", () ->
 gulp.task "rsync:updry", ["build"], () ->
   _rsyncPrepare "up", true, dryRun: true
 
+
 # sync to production
 gulp.task "rsync:up", ["build"], () ->
   _rsyncPrepare "up"
+
+# dry-run deploy to staging
+gulp.task "rsync:staging-updry", ["build"], () ->
+  rsyncUp = {
+    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    src: conf.rsyncFolders.localFolder,
+  }
+  opts = extend rsyncUp, conf.ssh, conf.rsyncOpts, conf.rsyncDry
+  rsync opts, (error, stdout, stderr, cmd) ->
+    gutil.log stderr
+    gutil.log stdout
+
+
+# deploy local changes to staging
+gulp.task "rsync:staging-up", ["build"], () ->
+  rsyncUp = {
+    dest: "#{pvt.username}@#{pvt.domain}:#{conf.rsyncFolders.hostFolder}/staging"
+    src: conf.rsyncFolders.localFolder,
+  }
+  opts = extend rsyncUp, conf.ssh, conf.rsyncOpts
+  rsync opts, (error, stdout, stderr, cmd) ->
+    gutil.log stderr
+    gutil.log stdout
 
 
 

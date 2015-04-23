@@ -1,5 +1,5 @@
 var shell = require("shelljs/global"),
-		execSync = require("execSync");
+		execSync = require("sync-exec");
 
 if (!test('-f', 'bower.json')) {
 	if (!which('bower')) {
@@ -9,7 +9,7 @@ if (!test('-f', 'bower.json')) {
 		exit(1);
 	} else {
 		echo('bower not initialiased... initialising');
-		execSync.run('bower init');
+		execSync('bower init');
 	}
 } else {
 	echo('bower.json is initialised');
