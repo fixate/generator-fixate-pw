@@ -1,6 +1,6 @@
 {
-  "author": "Fixate",
-  "version": "0.0.0",
+	"author": "Fixate",
+	"version": "0.0.0",
 	"name": "<%= props.domain %>",
   "scripts": {
     "preinstall": "./setup.sh"
