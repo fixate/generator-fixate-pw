@@ -19,7 +19,9 @@ site/assets/logs/**
 site/assets/sessions/**
 !site/assets/**/.*
 site/assets/installed.php
+site/templates/assets/**/rev-manifest.json
 site/templates/assets/**/*.css
+site/templates/assets/**/*.map.css
 !site/templates/assets/**/editor.css
 site/templates/assets/**/*.js
 site/templates/assets/vendor
