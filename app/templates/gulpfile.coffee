@@ -165,7 +165,7 @@ gulp.task "uglify", ["coffee"], () ->
     "#{conf.path.dev.js}/main.js"
   ]
 
-  gulp.src [files]
+  gulp.src(files)
     .pipe uglifyJs()
     .pipe rev()
     .pipe rename({suffix: '.min'})
@@ -189,6 +189,10 @@ gulp.task "uglify-vendors", () ->
     .pipe uglifyJs()
     .pipe rename({suffix: '.min'})
     .pipe gulp.dest('./')
+
+
+
+
 
 #*------------------------------------*\
 #     $MINIFY
