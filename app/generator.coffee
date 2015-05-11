@@ -19,6 +19,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     cb = @async()
 
 
+
+
     #*------------------------------------*\
     #   $YEOMAN PROMPTS
     #*------------------------------------*/
@@ -63,6 +65,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         cb()
       finally
         shell.popd()
+
+
 
 
     #*------------------------------------*\
@@ -169,6 +173,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       @log.ok('OK')
 
+
+
+
     #*------------------------------------*\
     #   $Processwire Modules
     #*------------------------------------*/
@@ -194,11 +201,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
       @mkdir 'styleguide'
       GitUtils.export repo_path, dest('styleguide/')
-      at dest('styleguide/'), () =>
-        @log.info 'Fabricator UI Toolkit - npm install'
-        GitUtils.exec 'npm install'
 
       @log.ok('OK')
+
+
 
 
     #*------------------------------------*\
@@ -213,11 +219,15 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @log.ok('OK')
 
 
+
+
     #*------------------------------------*\
     #   $GIT
     #*------------------------------------*/
     setupGit = () =>
       GitUtils.init(dest())
+
+
 
 
     #*------------------------------------*\
