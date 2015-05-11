@@ -8,7 +8,7 @@
       "MarkupSimpleNavigation": "somatonic/MarkupSimpleNavigation",
       "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML"
     },
-    "kssBoilerplate": "fixate/kss-boilerplate",
+    "styleguide": "fixate/fixate-fabricator",
     "cssFramework": "larrybotha/styleguide"
   }
 }

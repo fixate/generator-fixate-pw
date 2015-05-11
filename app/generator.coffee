@@ -187,17 +187,16 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
     #*------------------------------------*\
-    #   $KSS BOILERPLATE
+    #   $STYLEGUIDE
     #*------------------------------------*/
-    setupKSS = () =>
-      @log.info "Installing KSS Boilerplate"
-      repo_path = GitUtils.cacheRepo github(@settings.github.kssBoilerplate)
+    setupStyleguide = () =>
+      @log.info "Installing fabricator styleguide / UI toolkit"
+      repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
       @mkdir 'styleguide'
       GitUtils.export repo_path, dest('styleguide/')
       at dest('styleguide/'), () =>
-        @log.info 'KSS Living Styleguide - bundle install'
-        GitUtils.exec 'bundle install'
-        shell.mv '-f', './scss', '../src/site/templates/assets/css'
+        @log.info 'Fabricator UI Toolkit - npm install'
+        GitUtils.exec 'npm install'
 
       @log.ok('OK')
 
@@ -210,10 +209,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       repo_path = GitUtils.cacheRepo github(@settings.github.cssFramework)
       GitUtils.export repo_path, dest('src/site/templates/assets/css/'), @props.cssBranch
-
-      at dest('styleguide/'), ->
-        shell.mv "style.css", "../src/site/templates/assets/css/style.css"
-        shell.rm "style.css"
 
       @log.ok('OK')
 
@@ -231,6 +226,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     setupRepo()
     setupProcesswire()
     setupProcessWireModules()
-    setupKSS()
+    setupStyleguide()
     setupCSSFramework()
     setupGit()
