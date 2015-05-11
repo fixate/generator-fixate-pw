@@ -15,15 +15,15 @@ if (!test('-f', 'bower.json')) {
 	echo('bower.json is initialised');
 }
 
-if (test('-f', 'secrets.json') && !test('-f', 'secrets.json')) {
-	echo('creating your vey own secrets');
+if (test('-f', 'secrets-sample.json') && !test('-f', 'secrets.json')) {
+	echo('creating your very own secrets');
 	cp('secrets-sample.json', 'secrets.json');
 	echo('secrets.json created');
 } else {
 	echo('secrets.json is ready');
 }
 
-if (!test('-L', 'styleguide/src/toolkit/assets')) {
+if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
 	echo('symlinking styleguide assets to site assets');
 	cd('styleguide/src/assets/toolkit');
 	ln('-s', '../../../../src/site/templates/assets', 'assets');
