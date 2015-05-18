@@ -47,6 +47,7 @@ gulp.task 'browser-sync', () ->
     proxy: scrt.bsProxy
     injectchanges: true
     open: false
+    # notify: false
     # tunnel: true
   }
 
