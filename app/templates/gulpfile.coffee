@@ -164,18 +164,6 @@ gulp.task "concat", () ->
 
 
 #*------------------------------------*\
-#     $WATCH
-#*------------------------------------*/
-gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
-  gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
-  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "concat", "bs-reload"]
-  gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
-
-
-
-
-
-#*------------------------------------*\
 #     $UGLIFY
 #*------------------------------------*/
 gulp.task "uglify", ["coffee", "concat"], () ->
@@ -343,6 +331,18 @@ gulp.task "rsync:up", ["build"], () ->
 #     $UPDATE NPM DEPS
 #*------------------------------------*/
 gulp.task 'update_deps', shell.task 'npm-check-updates -u'
+
+
+
+
+
+#*------------------------------------*\
+#     $WATCH
+#*------------------------------------*/
+gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
+  gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
+  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "concat", "bs-reload"]
+  gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
 
 
 
