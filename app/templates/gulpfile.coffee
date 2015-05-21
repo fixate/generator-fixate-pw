@@ -147,11 +147,28 @@ gulp.task "coffee", () ->
 
 
 #*------------------------------------*\
+#     $CONCAT
+#*------------------------------------*/
+gulp.task "concat", () ->
+  gulp.src [
+    "#{conf.path.dev.coffee}/lib/toggler.js"
+    "#{conf.path.dev.coffee}/main.js"
+  ]
+    .pipe concat('built.js')
+    .pipe gulp.dest(conf.path.dev.js)
+    .pipe reload({stream: true})
+  return
+
+
+
+
+
+#*------------------------------------*\
 #     $WATCH
 #*------------------------------------*/
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
   gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
-  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "bs-reload"]
+  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "concat", "bs-reload"]
   gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
 
 
@@ -161,9 +178,9 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 #*------------------------------------*\
 #     $UGLIFY
 #*------------------------------------*/
-gulp.task "uglify", ["coffee"], () ->
+gulp.task "uglify", ["coffee", "concat"], () ->
   files = [
-    "#{conf.path.dev.js}/main.js"
+    "#{conf.path.dev.js}/built.js"
   ]
 
   gulp.src(files)
