@@ -149,7 +149,7 @@ gulp.task "coffee", () ->
 #*------------------------------------*\
 #     $CONCAT
 #*------------------------------------*/
-gulp.task "concat", () ->
+gulp.task "concat", ["coffee"], () ->
   gulp.src [
     "#{conf.path.dev.coffee}/lib/toggler.js"
     "#{conf.path.dev.coffee}/main.js"
