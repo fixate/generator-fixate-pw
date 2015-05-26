@@ -156,7 +156,6 @@ gulp.task "concat", ["coffee"], () ->
     .pipe concat('built.js')
     .pipe gulp.dest(conf.path.dev.js)
     .pipe reload({stream: true})
-  return
 
 
 
@@ -350,5 +349,5 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 #*------------------------------------*\
 #     $TASKS
 #*------------------------------------*/
-gulp.task 'default', ['watch']
+gulp.task 'default', ['sass', 'concat', 'watch']
 gulp.task "build", ["uglify-vendors", "rev_replace"]
