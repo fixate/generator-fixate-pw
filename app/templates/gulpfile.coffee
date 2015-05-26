@@ -140,7 +140,6 @@ gulp.task "coffee", () ->
     .pipe remember()
     .pipe gulp.dest(conf.path.dev.js)
     .pipe reload({stream: true})
-  return
 
 
 
