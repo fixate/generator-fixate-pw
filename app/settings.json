@@ -6,7 +6,8 @@
     "pwModules": {
       "ProcessRedirects": "apeisa/ProcessRedirects",
       "MarkupSimpleNavigation": "somatonic/MarkupSimpleNavigation",
-      "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML"
+      "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML",
+      "ProcessWireUpgrade": "ryancramerdesign/ProcessWireUpgrade"
     },
     "styleguide": "fixate/fixate-fabricator",
     "cssFramework": "larrybotha/styleguide"
