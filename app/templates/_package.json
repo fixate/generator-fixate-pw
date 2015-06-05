@@ -8,6 +8,7 @@
 	"devDependencies": {
 		"browser-sync": "~2.4.0",
 		"coffee-script": "~1.9.1",
+    "del": "^1.2.0",
 		"extend": "~2.0.0",
 		"gulp": "~3.8.11",
 		"gulp-cache": "~0.2.8",
