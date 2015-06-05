@@ -114,7 +114,6 @@ gulp.task 'imagemin', () ->
       use: [pngquant()]
     })
     .pipe rev()
-    .pipe remember()
     .pipe gulp.dest conf.path.prod.img
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
@@ -234,7 +233,6 @@ gulp.task "font", () ->
 
   gulp.src(files)
     .pipe cache(rev())
-    .pipe remember()
     .pipe gulp.dest(conf.path.prod.fnt)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
