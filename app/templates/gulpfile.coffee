@@ -219,7 +219,7 @@ gulp.task "minify", ["sass"], () ->
 #*------------------------------------*/
 gulp.task "font", () ->
   files = ['eot', 'woff', 'ttf', 'svg'].map (curr) ->
-    "#{conf.path.dev.fnt}/**/*#{curr}"
+    "#{conf.path.dev.fnt}/**/*.#{curr}"
 
   gulp.src(files)
     .pipe cache(rev())
