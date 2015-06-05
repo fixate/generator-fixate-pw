@@ -20,6 +20,7 @@ watch      = require "gulp-watch"
 
 browserSync  = require "browser-sync"
 cp           = require "child_process"
+del          = require "del"
 extend       = require "extend"
 moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
@@ -51,6 +52,16 @@ gulp.task 'browser-sync', () ->
     # tunnel: true
   }
 
+
+
+
+
+
+#*-------------------------------------*\
+# $CLEAN
+#*-------------------------------------*/
+gulp.task 'clean:public', () ->
+  del "#{conf.path.prod.assets}/**/*"
 
 
 
@@ -184,7 +195,7 @@ gulp.task "uglify", ["coffee", "concat"], () ->
 #*------------------------------------*\
 #     $UGLIFY VENDORS
 #*------------------------------------*/
-gulp.task "uglify-vendors", () ->
+gulp.task "uglify:vendors", () ->
   files = [
     # "**/#{conf.path.dev.assets}/vendor/[your vendor].js",
   ]
@@ -350,4 +361,4 @@ gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
 #     $TASKS
 #*------------------------------------*/
 gulp.task 'default', ['sass', 'concat', 'watch']
-gulp.task "build", ["uglify-vendors", "rev_replace"]
+gulp.task "build", ["clean:public", "rev_replace", "uglify", "uglify:vendors", "minify"]
