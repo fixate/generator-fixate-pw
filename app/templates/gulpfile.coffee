@@ -18,13 +18,12 @@ uglifyJs   = require "gulp-uglify"
 gutil      = require "gulp-util"
 watch      = require "gulp-watch"
 
-browserSync  = require "browser-sync"
+bs           = require("browser-sync").create()
 cp           = require "child_process"
 del          = require "del"
 extend       = require "extend"
 moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
-reload       = browserSync.reload
 rsync        = require("rsyncwrapper").rsync
 spawn        = cp.spawn
 
@@ -44,7 +43,7 @@ catch err
 # $BROWSER-SYNC
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
-  browserSync {
+  bs.init {
     proxy: scrt.bsProxy
     injectchanges: true
     open: false
@@ -71,7 +70,7 @@ gulp.task 'clean:public', () ->
 # $RELOAD
 #*-------------------------------------*/
 gulp.task 'bs-reload', () ->
-  reload()
+  bs.reload()
 
 
 
@@ -87,7 +86,7 @@ gulp.task "sass", () ->
       .pipe sass({errLogToConsole: true})
     .pipe(sourcemaps.write('./'))
     .pipe gulp.dest(conf.path.dev.css)
-    .pipe reload({stream: true})
+    .pipe bs.reload(match: '**/*.css')
 
 
 
@@ -149,7 +148,7 @@ gulp.task "coffee", () ->
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
     .pipe gulp.dest(conf.path.dev.js)
-    .pipe reload({stream: true})
+    .pipe bs.reload({stream: true})
 
 
 
@@ -165,7 +164,7 @@ gulp.task "concat", ["coffee"], () ->
   ]
     .pipe concat('built.js')
     .pipe gulp.dest(conf.path.dev.js)
-    .pipe reload({stream: true})
+    .pipe bs.reload({stream: true})
 
 
 
