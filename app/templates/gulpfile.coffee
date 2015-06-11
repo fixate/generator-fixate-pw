@@ -129,7 +129,7 @@ gulp.task "minify:css", ["sass"], () ->
 #*------------------------------------*\
 #     $MINIFY JS
 #*------------------------------------*/
-gulp.task "minify:js", ["coffee"], () ->
+gulp.task "minify:js", ["concat"], () ->
   files = [
     "#{conf.path.dev.js}/built.js"
   ]
