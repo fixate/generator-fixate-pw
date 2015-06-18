@@ -76,7 +76,7 @@ gulp.task "sass", () ->
     .pipe sass({errLogToConsole: true})
     .pipe(sourcemaps.write('./'))
     .pipe gulp.dest(conf.path.dev.css)
-    .pipe reload({stream: true})
+    .pipe bs.stream match: '**/*.css'
 
 
 
