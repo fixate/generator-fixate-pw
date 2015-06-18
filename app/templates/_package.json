@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"name": "<%= props.domain %>",
 	"scripts": {
-		"preinstall": "npm install shelljs execSync && node setup.js"
+		"preinstall": "npm install shelljs && node setup.js"
 	},
 	"devDependencies": {
     "browser-sync": "~2.7.6",
