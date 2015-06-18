@@ -1,6 +1,6 @@
 # Yeoman Generator For ProcessWire
 
-This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [KSS Styleguide](http://github.com/kneath/kss).
+This is a [Yeoman generator](http://yeoman.io) for kickstarting ProcessWire projects with a [Fabricator UI Toolkit](https://github.com/fbrctr/fabricator).
 
 The generator:
 
@@ -10,8 +10,8 @@ The generator:
 	- living styleguide
 - downloads [ProcessWire](http://processwire.com)
 - installs Fixate's [ProcessWire MVC Boilerplate](http://github.com/fixate/pw-mvc-boilerplate)
-- installs Fixate's [KSS Boilerplate](http://github.com/fixate/kss-boilerplate)
-- installs a [SCSS Framework](http://github.com/larrybotha/styleguide) in the KSS Boilerplate
+- installs Fixate's [Fabricator Boilerplate](http://github.com/fixate/fixate-fabricator)
+- installs a [SCSS Framework](http://github.com/larrybotha/styleguide)
 - installs [Bower](http://bower.io) for easily managing your dependencies
 - creates a number of files for smoother development and collaboration:
 	- .editorconfig
@@ -79,7 +79,7 @@ $ gulp
 
 #### 3. Change Template Alternate Filename
 
-For each template, visit your admin and set all templates to use `mvc.php`:
+For each template, visit your admin and set all templates to use `mvc`:
 
 ```
 Setup -> [your template] -> Files -> Alternate Template Filename
