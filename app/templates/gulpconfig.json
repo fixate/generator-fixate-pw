@@ -45,8 +45,7 @@
 				"assets/cache",
 				"assets/files",
 				"assets/logs",
-				"assets/sessions",
-				"robots.txt"
+				"assets/sessions"
 			]
 		},
 		"down": {
