@@ -239,14 +239,13 @@ gulp.task 'rev:images', () ->
 #     github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
 gulp.task 'rev:replace', ["rev:css", "rev:js"], () ->
-	manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
-	stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
+  manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
+  stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
 
-	Object.keys(manifest).reduce((stream, key) ->
-		# could do with a regex to handle files ending the same
-		stream.pipe replace(key, manifest[key])
-	, stream)
-		.pipe gulp.dest("./#{conf.path.prod.css}")
+  Object.keys(manifest).reduce((stream, key) ->
+    stream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
+  , stream)
+    .pipe gulp.dest("./#{conf.path.prod.css}")
 
 
 
@@ -356,20 +355,20 @@ gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 
 
 #*-------------------------------------*\
-#			 $CLEAN
+#      $CLEAN
 #*-------------------------------------*/
 gulp.task 'clean:build', (done) ->
-	del ["#{conf.path.prod.assets}/**/*", "#{conf.path.dev.assets}/rev-manifest.json"], done
+  del ["#{conf.path.prod.assets}/**/*", "#{conf.path.dev.assets}/rev-manifest.json"], done
 
 
 
 
 
 #*-------------------------------------*\
-#			 $BUILD
+#      $BUILD
 #*-------------------------------------*/
 gulp.task 'build', () ->
-	runSequence "clean:build", "rev:fonts", "rev:images", ["rev:replace", "minify:js:vendors"]
+  runSequence "clean:build", "rev:fonts", "rev:images", ["rev:replace", "minify:js:vendors"]
 
 
 
