@@ -196,7 +196,7 @@ gulp.task 'rev:js', ["minify:js"], () ->
 #     $REV FONTS
 #*------------------------------------*/
 gulp.task "rev:fonts", () ->
-  files = ['eot', 'woff', 'ttf', 'svg'].map (curr) ->
+  files = ['eot', 'woff', 'woff2', 'ttf', 'svg'].map (curr) ->
     "#{conf.path.dev.fnt}/**/*#{curr}"
 
   gulp.src(files)
