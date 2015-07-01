@@ -240,11 +240,12 @@ gulp.task 'rev:images', () ->
 #*------------------------------------*/
 gulp.task 'rev:replace', ["rev:css", "rev:js"], () ->
   manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
-  stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
+  cssStream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
 
-  Object.keys(manifest).reduce((stream, key) ->
-    stream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
-  , stream)
+  Object.keys(manifest).reduce((cssStream, key) ->
+    regkey = key.replace('/', '\\/')
+    cssStream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
+  , cssStream)
     .pipe gulp.dest("./#{conf.path.prod.css}")
 
 
