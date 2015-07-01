@@ -1,5 +1,5 @@
 var shell = require("shelljs/global"),
-		execSync = require("execSync");
+		exec = require("child_process").exec;
 
 if (!test('-f', 'bower.json')) {
 	if (!which('bower')) {
@@ -9,24 +9,24 @@ if (!test('-f', 'bower.json')) {
 		exit(1);
 	} else {
 		echo('bower not initialiased... initialising');
-		execSync.run('bower init');
+		exec('bower init');
 	}
 } else {
 	echo('bower.json is initialised');
 }
 
-if (test('-f', 'secrets.json') && !test('-f', 'secrets.json')) {
-	echo('creating your vey own secrets');
+if (test('-f', 'secrets-sample.json') && !test('-f', 'secrets.json')) {
+	echo('creating your very own secrets');
 	cp('secrets-sample.json', 'secrets.json');
 	echo('secrets.json created');
 } else {
 	echo('secrets.json is ready');
 }
 
-if (!test('-L', 'styleguide/public/assets')) {
+if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
 	echo('symlinking styleguide assets to site assets');
-	cd('styleguide/public');
-	ln('-s', '../../src/site/templates/assets', 'assets');
+	cd('styleguide/src/assets/toolkit');
+	ln('-s', '../../../../src/site/templates/assets', 'assets');
 	echo('assets symlinked');
 } else {
 	echo('styleguide correctly symlinked to site assets');

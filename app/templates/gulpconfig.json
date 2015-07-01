@@ -45,9 +45,7 @@
 				"assets/cache",
 				"assets/files",
 				"assets/logs",
-				"assets/sessions",
-				"config.php",
-				"robots.txt"
+				"assets/sessions"
 			]
 		},
 		"down": {

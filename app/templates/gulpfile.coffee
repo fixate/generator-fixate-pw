@@ -18,13 +18,14 @@ uglifyJs   = require "gulp-uglify"
 gutil      = require "gulp-util"
 watch      = require "gulp-watch"
 
-browserSync  = require "browser-sync"
+bs           = require("browser-sync").create()
 cp           = require "child_process"
+del          = require "del"
 extend       = require "extend"
 moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
-reload       = browserSync.reload
 rsync        = require("rsyncwrapper").rsync
+runSequence  = require "run-sequence"
 spawn        = cp.spawn
 
 pkg  = require "./package.json"
@@ -40,13 +41,14 @@ catch err
 
 
 #*-------------------------------------*\
-# $BROWSER-SYNC
+#     $BROWSER-SYNC
 #*-------------------------------------*/
 gulp.task 'browser-sync', () ->
-  browserSync {
+  bs.init {
     proxy: scrt.bsProxy
     injectchanges: true
     open: false
+    # notify: false
     # tunnel: true
   }
 
@@ -54,83 +56,34 @@ gulp.task 'browser-sync', () ->
 
 
 
-
 #*-------------------------------------*\
-# $RELOAD
+#     $RELOAD
 #*-------------------------------------*/
 gulp.task 'bs-reload', () ->
-  reload()
+  bs.reload()
 
 
 
 
 
 #*------------------------------------*\
-#     $SASS
+#     $COMPILE SASS
 #*------------------------------------*/
 gulp.task "sass", () ->
   gulp.src(["#{conf.path.dev.scss}/**/*.{scss,sass}"])
     .pipe plumber(conf.plumber)
     .pipe(sourcemaps.init())
-      .pipe sass({errLogToConsole: true})
+    .pipe sass({errLogToConsole: true})
     .pipe(sourcemaps.write('./'))
     .pipe gulp.dest(conf.path.dev.css)
-    .pipe reload({stream: true})
+    .pipe bs.stream match: '**/*.css'
 
 
 
 
 
 #*------------------------------------*\
-#     $PIXEL &
-#     $VECTOR OPTIM
-#*------------------------------------*/
-gulp.task 'imagemin', () ->
-  files = ['jpg', 'jpeg', 'png', 'svg'].map (ext) ->
-    "#{conf.path.dev.img}/**/*.#{ext}"
-
-  return gulp.src(files)
-    .pipe cache(imagemin {
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true,
-      svgoPlugins: [
-        { removeViewBox: false },
-        { removeUselessStrokeAndFill: false },
-        { removeEmptyAttrs: false }
-      ],
-      use: [pngquant()]
-    })
-    .pipe rev()
-    .pipe remember()
-    .pipe gulp.dest conf.path.prod.img
-    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-    .pipe gulp.dest('./')
-
-
-
-
-
-#*------------------------------------*\
-#     $AUTO RELOAD GULPFILE ON SAVE
-#     noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
-#*------------------------------------*/
-gulp.task "auto_reload", () ->
-  process = undefined
-  restart = () ->
-    if process != undefined
-      process.kill()
-    process = spawn 'gulp', ['default'], {stdio: 'inherit'}
-
-  gulp.watch 'gulpfile.coffee', restart
-  restart()
-
-
-
-
-
-#*------------------------------------*\
-#     $COFFEE
+#     $COMPILE COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
   gulp.src ["#{conf.path.dev.coffee}/**/*.coffee"]
@@ -138,51 +91,64 @@ gulp.task "coffee", () ->
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
     .pipe gulp.dest(conf.path.dev.js)
-    .pipe reload({stream: true})
-  return
+    .pipe bs.reload({stream: true})
 
 
 
 
 
 #*------------------------------------*\
-#     $WATCH
+#     $CONCAT JS
 #*------------------------------------*/
-gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
-  gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
-  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["coffee", "bs-reload"]
-  gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
+gulp.task "concat", ["coffee"], () ->
+  gulp.src [
+    "#{conf.path.dev.coffee}/lib/toggler.js"
+    "#{conf.path.dev.coffee}/main.js"
+  ]
+    .pipe concat('built.js')
+    .pipe gulp.dest(conf.path.dev.js)
+    .pipe bs.reload({stream: true})
 
 
 
 
 
 #*------------------------------------*\
-#     $UGLIFY
+#     $MINIFY CSS
 #*------------------------------------*/
-gulp.task "uglify", ["coffee"], () ->
+gulp.task "minify:css", ["sass"], () ->
+  gulp.src(["#{conf.path.dev.css}/style.css"])
+    .pipe minifyCSS({keepSpecialComments: 0})
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest(conf.path.dev.css)
+
+
+
+
+
+#*------------------------------------*\
+#     $MINIFY JS
+#*------------------------------------*/
+gulp.task "minify:js", ["concat"], () ->
   files = [
-    "#{conf.path.dev.js}/main.js"
+    "#{conf.path.dev.js}/built.js"
   ]
 
-  gulp.src(files)
+  gulp.src files
     .pipe uglifyJs()
-    .pipe rev()
     .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(conf.path.prod.js)
-    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-    .pipe gulp.dest('./')
+    .pipe gulp.dest(conf.path.dev.js)
 
 
 
 
 
 #*------------------------------------*\
-#     $UGLIFY VENDORS
+#     $MINIFY VENDORS
 #*------------------------------------*/
-gulp.task "uglify-vendors", () ->
+gulp.task "minify:js:vendors", () ->
   files = [
-    # "**/#{conf.path.dev.assets}/vendor/[your vendor].js",
+    # "**/#{conf.path.dev.assets}/vendor/[path/to/your/vendor].js",
   ]
 
   gulp.src files
@@ -195,11 +161,11 @@ gulp.task "uglify-vendors", () ->
 
 
 #*------------------------------------*\
-#     $MINIFY
+#     $REV CSS
 #*------------------------------------*/
-gulp.task "minify", ["sass"], () ->
-  gulp.src(["#{conf.path.dev.css}/style.css"])
-    .pipe minifyCSS({keepSpecialComments: 0})
+gulp.task "rev:css", ["minify:css"], () ->
+  gulp.src(["#{conf.path.dev.css}/style.min.css"])
+    .pipe rename('style.css')
     .pipe rev()
     .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.prod.css)
@@ -211,16 +177,56 @@ gulp.task "minify", ["sass"], () ->
 
 
 #*------------------------------------*\
-#     $FONT REV
+#     $REV JS
 #*------------------------------------*/
-gulp.task "font", () ->
-  files = ['eot', 'woff', 'ttf', 'svg'].map (curr) ->
+gulp.task 'rev:js', ["minify:js"], () ->
+  gulp.src(["#{conf.path.dev.js}/built.min.js"])
+    .pipe rename('built.js')
+    .pipe rev()
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest(conf.path.prod.js)
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
+
+
+
+
+
+#*------------------------------------*\
+#     $REV FONTS
+#*------------------------------------*/
+gulp.task "rev:fonts", () ->
+  files = ['eot', 'woff', 'woff2', 'ttf', 'svg'].map (curr) ->
     "#{conf.path.dev.fnt}/**/*#{curr}"
 
   gulp.src(files)
-    .pipe cache(rev())
-    .pipe remember()
+    .pipe rev()
     .pipe gulp.dest(conf.path.prod.fnt)
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
+
+
+
+
+
+#*------------------------------------*\
+#     $REV IMAGES & OPTIMISE
+#*------------------------------------*/
+gulp.task 'rev:images', () ->
+  return gulp.src("#{conf.path.dev.img}/**/*.{jpg,jpeg,png,svg}")
+    .pipe imagemin {
+      optimizationLevel: 3,
+      progressive: true,
+      interlaced: true,
+      svgoPlugins: [
+        { removeViewBox: false },
+        { removeUselessStrokeAndFill: false },
+        { removeEmptyAttrs: false }
+      ],
+      use: [pngquant()]
+    }
+    .pipe rev()
+    .pipe gulp.dest conf.path.prod.img
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
 
@@ -232,12 +238,12 @@ gulp.task "font", () ->
 #     $REV REPLACE
 #     github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
-gulp.task 'rev_replace', ["uglify", "minify", "font", "imagemin"], () ->
+gulp.task 'rev:replace', ["rev:css", "rev:js"], () ->
   manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
   stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
 
   Object.keys(manifest).reduce((stream, key) ->
-    stream.pipe replace(key, manifest[key])
+    stream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
   , stream)
     .pipe gulp.dest("./#{conf.path.prod.css}")
 
@@ -322,6 +328,24 @@ gulp.task "rsync:up", ["build"], () ->
 
 
 #*------------------------------------*\
+#     $AUTO RELOAD GULPFILE ON SAVE
+#     noxoc.de/2014/06/25/reload-gulpfile-js-on-change/
+#*------------------------------------*/
+gulp.task "auto_reload", () ->
+  process = undefined
+  restart = () ->
+    if process != undefined
+      process.kill()
+    process = spawn 'gulp', ['default'], {stdio: 'inherit'}
+
+  gulp.watch 'gulpfile.coffee', restart
+  restart()
+
+
+
+
+
+#*------------------------------------*\
 #     $UPDATE NPM DEPS
 #*------------------------------------*/
 gulp.task 'update_deps', shell.task 'npm-check-updates -u'
@@ -330,8 +354,39 @@ gulp.task 'update_deps', shell.task 'npm-check-updates -u'
 
 
 
+#*-------------------------------------*\
+#      $CLEAN
+#*-------------------------------------*/
+gulp.task 'clean:build', (done) ->
+  del ["#{conf.path.prod.assets}/**/*", "#{conf.path.dev.assets}/rev-manifest.json"], done
+
+
+
+
+
+#*-------------------------------------*\
+#      $BUILD
+#*-------------------------------------*/
+gulp.task 'build', () ->
+  runSequence "clean:build", "rev:fonts", "rev:images", ["rev:replace", "minify:js:vendors"]
+
+
+
+
+
+#*------------------------------------*\
+#     $WATCH
+#*------------------------------------*/
+gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
+  gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
+  gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["concat", "bs-reload"]
+  gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
+
+
+
+
+
 #*------------------------------------*\
 #     $TASKS
 #*------------------------------------*/
-gulp.task 'default', ['watch']
-gulp.task "build", ["uglify-vendors", "rev_replace"]
+gulp.task 'default', ['sass', 'concat', 'watch']
