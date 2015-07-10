@@ -29,7 +29,7 @@
 	"rsync": {
 		"up": {
 			"dest": "public_html",
-			"src": "./src/**",
+			"src": "./src/",
 				"exclude": [
 				".git*",
 				".DS_Store",
