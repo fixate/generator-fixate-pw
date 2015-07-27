@@ -148,7 +148,7 @@ gulp.task "minify:js", ["concat"], () ->
 #*------------------------------------*/
 gulp.task "minify:js:vendors", () ->
   files = [
-    # "**/#{conf.path.dev.assets}/vendor/[path/to/your/vendor].js",
+    # "./#{conf.path.dev.assets}/**/vendor/[path/to/your/vendor].js",
   ]
 
   gulp.src files
