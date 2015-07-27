@@ -86,7 +86,7 @@ gulp.task "sass", () ->
 #     $COMPILE COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-  gulp.src ["#{conf.path.dev.coffee}/**/*.coffee"]
+  gulp.src ["./#{conf.path.dev.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
     .pipe cache(coffee({bare: true}).on('error', gutil.log))
     .pipe remember()
