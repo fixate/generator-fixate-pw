@@ -41,7 +41,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       message: "What is the domain name for the production website (without protocol)?"
       default: "example.com"
 
-
     prompts.push
       type: 'checkbox',
       name: 'pwModules',
