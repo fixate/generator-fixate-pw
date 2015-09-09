@@ -298,7 +298,7 @@ _rsyncDo = (rsyncOpts = {}) ->
 
 _rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
   ["dest", "src"].forEach (curr) ->
-    remoteHost = if isToRemote then "#{scrt.username}@#{scrt.domain}:" else ""
+    remoteHost = "#{scrt.username}@#{scrt.domain}:"
     rsyncOpts[curr] = if rsyncOpts[curr] then rsyncOpts[curr] else conf.rsync[prop][curr]
 
     rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if isToRemote && curr == "dest"
