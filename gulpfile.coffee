@@ -4,6 +4,9 @@
 pkg = require './package.json'
 
 
+
+
+
 #*------------------------------------*\
 #   $LOAD DEPENDENCIES
 #*------------------------------------*/
@@ -13,12 +16,17 @@ bump  = require "gulp-bump"
 git   = require "gulp-git"
 
 
+
+
+
 #*------------------------------------*\
 #   $SHELL
 #*------------------------------------*/
 gulp.task 'shell', shell.task [
   "echo pkg version: " + pkg.version
 ]
+
+
 
 
 #*------------------------------------*\
@@ -43,10 +51,16 @@ gulp.task 'bump', (ver) ->
     .pipe git.commit('bump version')
 
 
+
+
+
 #*------------------------------------*\
 #   $DEV DEPENDENCIES UPDATE
 #*------------------------------------*/
-# no gulp task found yet
+gulp.task 'update_deps', shell.task 'npm-check-updates -u'
+
+
+
 
 
 #*------------------------------------*\
