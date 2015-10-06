@@ -112,16 +112,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @log.ok('OK')
 
 
-      @log.info "Installing ProcessWire site profile..."
-      repo_path = GitUtils.cacheRepo github(@settings.github.pwProfile)
-      GitUtils.export repo_path, dest('src')
-      at dest('src/'), () =>
-        shell.rm ".gitignore"
-        shell.rm "README.md"
-
-      @log.ok('OK')
-
-
       @log.info "Installing ProcessWire MVC boilerplate..."
       repo_path = GitUtils.cacheRepo github(@settings.github.pwBoilerplate)
       GitUtils.export repo_path, dest('src/site/templates')
