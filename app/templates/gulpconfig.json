@@ -49,7 +49,7 @@
 			]
 		},
 		"down": {
-			"dest": "./src/site/assets/files",
+			"dest": "./src/site/assets",
 			"src": "public_html/site/assets/files"
 		}
 	},
