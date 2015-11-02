@@ -50,7 +50,7 @@
 			"assets/files",
 			"assets/logs",
 			"assets/sessions",
-			"config.php",
+			"src/site/config.php",
 			"robots.txt"
 		]
 	},
