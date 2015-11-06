@@ -1,13 +1,11 @@
 # Gulp
 gulp       = require "gulp"
-cache      = require "gulp-cache"
 coffee     = require "gulp-coffee"
 concat     = require "gulp-concat"
 exec       = require "gulp-exec"
 imagemin   = require "gulp-imagemin"
 minifyCSS  = require "gulp-minify-css"
 plumber    = require "gulp-plumber"
-remember   = require "gulp-remember"
 rename     = require "gulp-rename"
 replace    = require 'gulp-replace'
 rev        = require 'gulp-rev'
@@ -35,6 +33,19 @@ try
   scrt = require "./secrets.json"
 catch err
   console.log err
+
+
+
+
+
+#*------------------------------------*\
+#     $HANDLE ERRORS
+#*------------------------------------*/
+watching = false
+
+handleError = (err) ->
+  console.log err.toString()
+  if watching then @emit('end') else process.exit(1)
 
 
 
@@ -73,7 +84,7 @@ gulp.task "sass", () ->
   gulp.src(["#{conf.path.dev.scss}/**/*.{scss,sass}"])
     .pipe plumber(conf.plumber)
     .pipe(sourcemaps.init())
-    .pipe sass({errLogToConsole: true})
+    .pipe sass({errLogToConsole: true}).on('error', errorHandler)
     .pipe(sourcemaps.write('./'))
     .pipe gulp.dest(conf.path.dev.css)
     .pipe bs.stream match: '**/*.css'
@@ -88,8 +99,7 @@ gulp.task "sass", () ->
 gulp.task "coffee", () ->
   gulp.src ["./#{conf.path.dev.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
-    .pipe cache(coffee({bare: true}).on('error', gutil.log))
-    .pipe remember()
+    .pipe coffee({bare: true}).on('error', gutil.log)
     .pipe gulp.dest(conf.path.dev.js)
     .pipe bs.reload({stream: true})
 
@@ -379,6 +389,8 @@ gulp.task 'build', () ->
 #     $WATCH
 #*------------------------------------*/
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
+  watching = true
+
   gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
   gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["concat", "bs-reload"]
   gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
