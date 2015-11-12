@@ -1,6 +1,6 @@
 {
   "name": "generator-fixate-pw",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "description": "A ProcessWire generator for Yeoman",
   "keywords": [
     "yeoman-generator"
@@ -21,17 +21,17 @@
     "test": "mocha"
   },
   "dependencies": {
-    "coffee-script": "~1.9.1",
+    "coffee-script": "~1.10.0",
     "moment": "^2.9.0"
   },
   "devDependencies": {
-    "gulp": "~3.8.11",
-    "gulp-bump": "~0.3.0",
+    "gulp": "~3.9.0",
+    "gulp-bump": "~1.0.0",
     "gulp-shell": "~0.4.0",
-    "mocha": "~2.2.1",
-    "npm-check-updates": "^1.5.1",
-    "shelljs": "^0.4.0",
-    "yeoman-generator": "~0.18.10"
+    "mocha": "~2.3.3",
+    "npm-check-updates": "^2.3.0",
+    "shelljs": "^0.5.3",
+    "yeoman-generator": "~0.20.3"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"

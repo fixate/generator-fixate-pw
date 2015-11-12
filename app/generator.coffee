@@ -41,7 +41,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       message: "What is the domain name for the production website (without protocol)?"
       default: "example.com"
 
-
     prompts.push
       type: 'checkbox',
       name: 'pwModules',
@@ -109,16 +108,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
       at dest('/'), ->
         shell.rm "-rf", "src/site-default"
-
-      @log.ok('OK')
-
-
-      @log.info "Installing ProcessWire site profile..."
-      repo_path = GitUtils.cacheRepo github(@settings.github.pwProfile)
-      GitUtils.export repo_path, dest('src')
-      at dest('src/'), () =>
-        shell.rm ".gitignore"
-        shell.rm "README.md"
 
       @log.ok('OK')
 

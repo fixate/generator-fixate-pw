@@ -1,13 +1,11 @@
 # Gulp
 gulp       = require "gulp"
-cache      = require "gulp-cache"
 coffee     = require "gulp-coffee"
 concat     = require "gulp-concat"
 exec       = require "gulp-exec"
 imagemin   = require "gulp-imagemin"
 minifyCSS  = require "gulp-minify-css"
 plumber    = require "gulp-plumber"
-remember   = require "gulp-remember"
 rename     = require "gulp-rename"
 replace    = require 'gulp-replace'
 rev        = require 'gulp-rev'
@@ -35,6 +33,19 @@ try
   scrt = require "./secrets.json"
 catch err
   console.log err
+
+
+
+
+
+#*------------------------------------*\
+#     $HANDLE ERRORS
+#*------------------------------------*/
+watching = false
+
+handleError = (err) ->
+  console.log err.toString()
+  if watching then @emit('end') else process.exit(1)
 
 
 
@@ -73,7 +84,7 @@ gulp.task "sass", () ->
   gulp.src(["#{conf.path.dev.scss}/**/*.{scss,sass}"])
     .pipe plumber(conf.plumber)
     .pipe(sourcemaps.init())
-    .pipe sass({errLogToConsole: true})
+    .pipe sass({errLogToConsole: true}).on('error', errorHandler)
     .pipe(sourcemaps.write('./'))
     .pipe gulp.dest(conf.path.dev.css)
     .pipe bs.stream match: '**/*.css'
@@ -86,10 +97,9 @@ gulp.task "sass", () ->
 #     $COMPILE COFFEE
 #*------------------------------------*/
 gulp.task "coffee", () ->
-  gulp.src ["#{conf.path.dev.coffee}/**/*.coffee"]
+  gulp.src ["./#{conf.path.dev.coffee}/**/*.coffee"]
     .pipe plumber(conf.plumber)
-    .pipe cache(coffee({bare: true}).on('error', gutil.log))
-    .pipe remember()
+    .pipe coffee({bare: true}).on('error', gutil.log)
     .pipe gulp.dest(conf.path.dev.js)
     .pipe bs.reload({stream: true})
 
@@ -148,7 +158,7 @@ gulp.task "minify:js", ["concat"], () ->
 #*------------------------------------*/
 gulp.task "minify:js:vendors", () ->
   files = [
-    # "**/#{conf.path.dev.assets}/vendor/[path/to/your/vendor].js",
+    # "./#{conf.path.dev.assets}/**/vendor/[path/to/your/vendor].js",
   ]
 
   gulp.src files
@@ -240,11 +250,12 @@ gulp.task 'rev:images', () ->
 #*------------------------------------*/
 gulp.task 'rev:replace', ["rev:css", "rev:js"], () ->
   manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
-  stream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
+  cssStream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
 
-  Object.keys(manifest).reduce((stream, key) ->
-    stream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
-  , stream)
+  Object.keys(manifest).reduce((cssStream, key) ->
+    regkey = key.replace('/', '\\/')
+    cssStream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
+  , cssStream)
     .pipe gulp.dest("./#{conf.path.prod.css}")
 
 
@@ -297,7 +308,7 @@ _rsyncDo = (rsyncOpts = {}) ->
 
 _rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
   ["dest", "src"].forEach (curr) ->
-    remoteHost = if isToRemote then "#{scrt.username}@#{scrt.domain}:" else ""
+    remoteHost = "#{scrt.username}@#{scrt.domain}:"
     rsyncOpts[curr] = if rsyncOpts[curr] then rsyncOpts[curr] else conf.rsync[prop][curr]
 
     rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if isToRemote && curr == "dest"
@@ -378,6 +389,8 @@ gulp.task 'build', () ->
 #     $WATCH
 #*------------------------------------*/
 gulp.task "watch", ["sass", "coffee", "browser-sync"], () ->
+  watching = true
+
   gulp.watch "#{conf.path.dev.scss}/**/*.scss", ["sass"]
   gulp.watch "#{conf.path.dev.coffee}/**/*.coffee", ["concat", "bs-reload"]
   gulp.watch "#{conf.path.dev.views}/**/*.html.php", ["bs-reload"]
