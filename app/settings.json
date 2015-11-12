@@ -2,6 +2,7 @@
   "github": {
     "processwire": "ryancramerdesign/ProcessWire",
     "pwBoilerplate": "fixate/pw-boilerplate",
+    "pwProfile": "fixate/pw-mvc-boilerplate-site-profile",
     "pwModules": {
       "ProcessRedirects": "apeisa/ProcessRedirects",
       "MarkupSimpleNavigation": "somatonic/MarkupSimpleNavigation",
