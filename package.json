@@ -1,6 +1,6 @@
 {
   "name": "generator-fixate-pw",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "description": "A ProcessWire generator for Yeoman",
   "keywords": [
     "yeoman-generator"
