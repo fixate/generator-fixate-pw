@@ -1,20 +1,21 @@
 # Gulp
-gulp       = require "gulp"
-coffee     = require "gulp-coffee"
-concat     = require "gulp-concat"
-exec       = require "gulp-exec"
-imagemin   = require "gulp-imagemin"
-minifyCSS  = require "gulp-minify-css"
-plumber    = require "gulp-plumber"
-rename     = require "gulp-rename"
-replace    = require 'gulp-replace'
-rev        = require 'gulp-rev'
-sass       = require "gulp-sass"
-sourcemaps = require "gulp-sourcemaps"
-shell      = require "gulp-shell"
-uglifyJs   = require "gulp-uglify"
-gutil      = require "gulp-util"
-watch      = require "gulp-watch"
+gulp         = require "gulp"
+autoprefixer = require "gulp-autoprefixer"
+coffee       = require "gulp-coffee"
+concat       = require "gulp-concat"
+exec         = require "gulp-exec"
+gutil        = require "gulp-util"
+imagemin     = require "gulp-imagemin"
+minifyCSS    = require "gulp-minify-css"
+plumber      = require "gulp-plumber"
+rename       = require "gulp-rename"
+replace      = require 'gulp-replace'
+rev          = require 'gulp-rev'
+sass         = require "gulp-sass"
+sourcemaps   = require "gulp-sourcemaps"
+shell        = require "gulp-shell"
+uglifyJs     = require "gulp-uglify"
+watch        = require "gulp-watch"
 
 bs           = require("browser-sync").create()
 cp           = require "child_process"
@@ -86,6 +87,7 @@ gulp.task "sass", () ->
     .pipe(sourcemaps.init())
     .pipe sass({errLogToConsole: true}).on('error', handleError)
     .pipe(sourcemaps.write('./'))
+    .pipe autoprefixer({browsers: ['last 2 versions']})
     .pipe gulp.dest(conf.path.dev.css)
     .pipe bs.stream match: '**/*.css'
 
