@@ -1,9 +1,10 @@
 GitUtils = require './lib/git-utils'
 myUtils  = require './lib/utils'
-yeoman   = require 'yeoman-generator'
-shell    = require 'shelljs'
 fs       = require 'fs'
+mkdirp   = require 'mkdirp'
 path     = require 'path'
+shell    = require 'shelljs'
+yeoman   = require 'yeoman-generator'
 
 module.exports = class FixatePwGenerator extends yeoman.generators.Base
   constructor: (args, options, config) ->
@@ -72,7 +73,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #   $REPOSITORY
     #*------------------------------------*/
     setupRepo = () =>
-      @mkdir d for d in [
+      mkdirp d for d in [
         'src',
         'database/dev',
         'database/prod',
@@ -198,7 +199,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     setupStyleguide = () =>
       @log.info "Installing fabricator styleguide / UI toolkit"
       repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
-      @mkdir 'styleguide'
+      mkdirp 'styleguide'
       GitUtils.export repo_path, dest('styleguide/')
 
       @log.ok('OK')
