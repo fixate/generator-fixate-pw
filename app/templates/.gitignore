@@ -9,6 +9,8 @@ config.rb
 node_modules
 npm-debug.log
 secrets.json
+# JSPM
+jspm_packages
 
 # Fabricator Symlinked Assets
 styleguide/src/assets/toolkit/assets
