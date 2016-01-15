@@ -8,7 +8,8 @@ config.rb
 # Node
 node_modules
 npm-debug.log
-secrets.json
+gulp/secrets.coffee
+
 # JSPM
 jspm_packages
 
