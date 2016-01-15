@@ -1,12 +1,12 @@
 {
-	"author": "Fixate",
-	"version": "0.0.0",
-	"name": "project-name",
-	"scripts": {
-		"preinstall": "npm install shelljs && node setup.js"
-	},
-	"devDependencies": {
-    "browser-sync": "~2.10.0",
+  "author": "Fixate",
+  "version": "0.0.0",
+  "name": "project-name",
+  "scripts": {
+    "preinstall": "npm install shelljs && node setup.js"
+  },
+  "devDependencies": {
+    "browser-sync": "~2.11.0",
     "coffee-script": "~1.10.0",
     "del": "^2.1.0",
     "extend": "~3.0.0",
@@ -27,9 +27,11 @@
     "gulp-util": "~3.0.5",
     "gulp-watch": "~4.3.5",
     "imagemin-pngquant": "~4.2.0",
+    "jspm": "^0.16.23",
     "moment": "^2.10.3",
     "npm-check-updates": "^2.5.2",
-    "rsyncwrapper": "~0.4.2",
+    "require-dir": "^0.3.0",
+    "rsyncwrapper": "~1.0.0",
     "run-sequence": "^1.1.0"
-	}
+  }
 }
