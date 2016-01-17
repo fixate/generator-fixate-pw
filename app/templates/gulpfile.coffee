@@ -26,7 +26,6 @@ minifyCSS    = require "gulp-minify-css"
 plumber      = require "gulp-plumber"
 rename       = require "gulp-rename"
 replace      = require 'gulp-replace'
-rev          = require 'gulp-rev'
 sass         = require "gulp-sass"
 sourcemaps   = require "gulp-sourcemaps"
 shell        = require "gulp-shell"
