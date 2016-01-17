@@ -1,4 +1,6 @@
 gulp         = require "gulp"
+rename       = require "gulp-rename"
+rev          = require 'gulp-rev'
 
 conf = require '../gulpconfig'
 
