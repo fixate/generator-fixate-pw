@@ -1,5 +1,6 @@
 gulp         = require "gulp"
 minifyCSS    = require "gulp-minify-css"
+rename       = require "gulp-rename"
 
 conf = require '../gulpconfig'
 
