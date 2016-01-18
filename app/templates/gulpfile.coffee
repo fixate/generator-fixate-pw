@@ -34,10 +34,7 @@ rename       = require "gulp-rename"
 replace      = require 'gulp-replace'
 sass         = require "gulp-sass"
 sourcemaps   = require "gulp-sourcemaps"
-shell        = require "gulp-shell"
-uglifyJs     = require "gulp-uglify"
 
-cp           = require "child_process"
 extend       = require "extend"
 moment       = require "moment"
 pngquant     = require "imagemin-pngquant"
