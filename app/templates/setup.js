@@ -3,13 +3,13 @@ var shell = require("shelljs/global"),
 
 if (!test('-f', 'bower.json')) {
 	if (!which('bower')) {
-		echo('bower not installed');
+		echo('bower module not installed');
 		echo('run npm install -g bower && npm install');
 		echo('aborting');
 		exit(1);
 	} else {
-		echo('bower not initialiased... initialising');
-		exec('bower init');
+		echo('installing bower components');
+		exec('bower installed');
 	}
 } else {
 	echo('bower.json is initialised');
