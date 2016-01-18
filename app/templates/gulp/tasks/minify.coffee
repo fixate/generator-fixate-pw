@@ -1,4 +1,5 @@
 gulp         = require "gulp"
+cssnano      = require "gulp-cssnano"
 imagemin     = require 'gulp-imagemin'
 pngquant     = require 'imagemin-pngquant'
 rename       = require "gulp-rename"
