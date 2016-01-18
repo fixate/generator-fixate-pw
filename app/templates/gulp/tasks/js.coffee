@@ -8,7 +8,7 @@ path = require('../gulpconfig').path
 #*------------------------------------*/
 gulp.task 'js', () ->
   gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/main.js #{path.dev.js}/built.js")
+    .pipe exec("jspm bundle-sfx #{path.dev.js}/main.js #{path.dev.js}/main.bundle.js")
     .pipe global.browserSync.reload({stream: true})
 
 
@@ -20,6 +20,5 @@ gulp.task 'js', () ->
 #*------------------------------------*/
 gulp.task 'js:vendors', () ->
   gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.js #{path.dev.js}/vendor.built.js")
+    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.js #{path.dev.js}/vendor.bundle.js")
     .pipe global.browserSync.reload({stream: true})
-

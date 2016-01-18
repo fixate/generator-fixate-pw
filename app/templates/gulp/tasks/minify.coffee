@@ -1,7 +1,8 @@
 gulp         = require "gulp"
-cssnano      = require "gulp-cssnano"
+imagemin     = require 'gulp-imagemin'
+pngquant     = require 'imagemin-pngquant'
 rename       = require "gulp-rename"
-exec         = require "gulp-exec"
+rev          = require 'gulp-rev'
 
 path = require('../gulpconfig').path
 
@@ -15,7 +16,7 @@ gulp.task "minify:css", ["sass"], () ->
   gulp.src(["#{path.dev.css}/style.css"])
     .pipe cssnano()
     .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(path.dev.css)
+    .pipe gulp.dest(path.prod.css)
 
 
 
@@ -26,7 +27,7 @@ gulp.task "minify:css", ["sass"], () ->
 #*------------------------------------*/
 gulp.task "minify:js", ["js"], () ->
   gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/built.js #{path.prod.js}/built.min.js --skip-source-maps --minify")
+    .pipe exec("jspm bundle-sfx #{path.dev.js}/main.bundle.js #{path.prod.js}/main.bundle.min.js --skip-source-maps --minify")
 
 
 
@@ -37,7 +38,7 @@ gulp.task "minify:js", ["js"], () ->
 #*------------------------------------*/
 gulp.task "minify:js:vendors", ["js:vendors"], () ->
   gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.built.js #{path.prod.js}/vendor.built.min.js --skip-source-maps --minify")
+    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.bundle.js #{path.prod.js}/vendor.bundle.min.js --skip-source-maps --minify")
 
 
 
