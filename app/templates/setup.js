@@ -23,6 +23,20 @@ if (test('-f', 'secrets-sample.coffee') && !test('-f', 'secrets.coffee')) {
 	echo('secrets.coffee is ready');
 }
 
+if (!test('-d', 'jspm_packages')) {
+	if (!which('jspm')) {
+		echo('jspm not installed');
+		echo('run npm install -g jspm && npm install');
+		echo('aborting');
+		exit(1);
+	} else {
+		echo('installing jspm packages');
+		exec('jspm install');
+	}
+} else {
+	echo('jspm packages installed');
+}
+
 if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
 	echo('symlinking styleguide assets to site assets');
 	cd('styleguide/src/assets/toolkit');
