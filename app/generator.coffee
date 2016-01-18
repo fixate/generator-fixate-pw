@@ -88,7 +88,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy ".gitkeep",             "database/dev/.gitkeep"
       @copy ".gitkeep",             "database/prod/.gitkeep"
       @copy "setup.js",             "setup.js"
-      @copy "gulp",                 "gulp"
+      @directory "gulp",             "gulp"
       @copy "gulp/secrets-sample.coffee",  "gulp/secrets.coffee"
       @copy "gulpfile.coffee",      "gulpfile.coffee"
       @copy "package.json",         "package.json"
