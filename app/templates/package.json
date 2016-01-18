@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "name": "project-name",
   "scripts": {
-    "preinstall": "npm install shelljs && jspm install && node setup.js"
+    "preinstall": "npm install shelljs && node setup.js"
   },
   "devDependencies": {
     "browser-sync": "~2.11.0",
