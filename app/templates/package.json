@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "name": "project-name",
   "scripts": {
-    "preinstall": "npm install shelljs && node setup.js"
+    "postinstall": "node setup.js && jspm install && bower install"
   },
   "devDependencies": {
     "browser-sync": "~2.11.0",
@@ -31,7 +31,8 @@
     "npm-check-updates": "^2.5.2",
     "require-dir": "^0.3.0",
     "rsyncwrapper": "~1.0.0",
-    "run-sequence": "^1.1.0"
+    "run-sequence": "^1.1.0",
+    "shelljs": "^0.5.3"
   },
   "jspm": {
     "configFile": "config.js",
