@@ -1,4 +1,4 @@
 gulp         = require "gulp"
-shell        = require "gulp-shell"
+exec         = require("child_process").exec
 
-gulp.task 'updateDeps', shell.task 'ncu -u'
+gulp.task 'updateDeps', () -> exec('ncu -u').stdout.pipe(process.stdout)

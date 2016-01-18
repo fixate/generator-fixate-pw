@@ -1,5 +1,8 @@
 gulp         = require "gulp"
+imagemin     = require 'gulp-imagemin'
+pngquant     = require 'imagemin-pngquant'
 rename       = require "gulp-rename"
+replace      = require "gulp-replace"
 rev          = require 'gulp-rev'
 
 conf = require '../gulpconfig'
@@ -11,10 +14,8 @@ conf = require '../gulpconfig'
 #     $REV CSS
 #*------------------------------------*/
 gulp.task "rev:css", ["minify:css"], () ->
-  gulp.src(["#{conf.path.dev.css}/style.min.css"])
-    .pipe rename('style.css')
+  gulp.src(["#{conf.path.prod.css}/style.min.css"])
     .pipe rev()
-    .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.prod.css)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
@@ -27,10 +28,8 @@ gulp.task "rev:css", ["minify:css"], () ->
 #     $REV JS
 #*------------------------------------*/
 gulp.task 'rev:js', ["minify:js"], () ->
-  gulp.src(["#{conf.path.dev.js}/built.min.js"])
-    .pipe rename('built.js')
+  gulp.src(["#{conf.path.prod.js}/built.min.js"])
     .pipe rev()
-    .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.prod.js)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
@@ -66,9 +65,7 @@ gulp.task 'rev:images', () ->
       progressive: true,
       interlaced: true,
       svgoPlugins: [
-        { removeViewBox: false },
-        { removeUselessStrokeAndFill: false },
-        { removeEmptyAttrs: false }
+        { removeViewBox: false }
       ],
       use: [pngquant()]
     }
@@ -86,8 +83,8 @@ gulp.task 'rev:images', () ->
 #     github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
 gulp.task 'rev:replace', ["rev:css", "rev:js"], () ->
-  manifest = require "./#{conf.path.dev.assets}/rev-manifest.json"
-  cssStream = gulp.src ["./#{conf.path.prod.css}/#{manifest['style.css']}"]
+  manifest = require "../../#{conf.path.dev.assets}/rev-manifest.json"
+  cssStream = gulp.src ["../../#{conf.path.prod.css}/#{manifest['style.css']}"]
 
   Object.keys(manifest).reduce((cssStream, key) ->
     regkey = key.replace('/', '\\/')

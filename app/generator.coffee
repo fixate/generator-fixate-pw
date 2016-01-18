@@ -87,11 +87,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy ".gitignore_pw",        "src/.gitignore"
       @copy ".gitkeep",             "database/dev/.gitkeep"
       @copy ".gitkeep",             "database/prod/.gitkeep"
-      @copy "setup.js",             "setup.js"
-      @copy "gulp",                 "gulp"
-      @copy "gulp/secrets-sample.coffee",  "gulp/secrets.coffee"
+      @copy "bower.json",           "bower.json"
+      @copy "config.js",            "config.js"
       @copy "gulpfile.coffee",      "gulpfile.coffee"
+      @copy "gulp/secrets-sample.coffee",  "gulp/secrets.coffee"
       @copy "package.json",         "package.json"
+      @copy "setup.js",             "setup.js"
+      @directory "gulp",            "gulp"
       @template "_robots.txt",      "src/robots.txt"
 
 
@@ -225,6 +227,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #*------------------------------------*/
     setupGit = () =>
       GitUtils.init(dest())
+
 
 
 
