@@ -15,12 +15,12 @@ if (!test('-f', 'bower.json')) {
 	echo('bower.json is initialised');
 }
 
-if (test('-f', 'secrets-sample.json') && !test('-f', 'secrets.json')) {
+if (test('-f', 'secrets-sample.coffee') && !test('-f', 'secrets.coffee')) {
 	echo('creating your very own secrets');
-	cp('secrets-sample.json', 'secrets.json');
-	echo('secrets.json created');
+	cp('secrets-sample.coffee', 'secrets.coffee');
+	echo('secrets.coffee created');
 } else {
-	echo('secrets.json is ready');
+	echo('secrets.coffee is ready');
 }
 
 if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
