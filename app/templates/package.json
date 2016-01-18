@@ -33,5 +33,13 @@
     "require-dir": "^0.3.0",
     "rsyncwrapper": "~1.0.0",
     "run-sequence": "^1.1.0"
+  },
+  "jspm": {
+    "configFile": "gulp/config.js",
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
   }
 }
