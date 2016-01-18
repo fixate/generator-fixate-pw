@@ -27,7 +27,7 @@ gulp.task "rev:css", ["minify:css"], () ->
 #     $REV JS
 #*------------------------------------*/
 gulp.task 'rev:js', ["minify:js"], () ->
-  gulp.src(["#{conf.path.dev.js}/built.min.js"])
+  gulp.src(["#{conf.path.prod.js}/built.min.js"])
     .pipe rename('built.js')
     .pipe rev()
     .pipe rename({suffix: '.min'})
