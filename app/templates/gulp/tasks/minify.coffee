@@ -24,9 +24,9 @@ gulp.task "minify:css", ["sass"], () ->
 #*------------------------------------*\
 #     $MINIFY JS
 #*------------------------------------*/
-gulp.task "minify:js", () ->
+gulp.task "minify:js", ["js"], () ->
   gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/main.js #{path.prod.js}/built.min.js --skip-source-maps --minify")
+    .pipe exec("jspm bundle-sfx #{path.dev.js}/built.js #{path.prod.js}/built.min.js --skip-source-maps --minify")
 
 
 
@@ -35,9 +35,9 @@ gulp.task "minify:js", () ->
 #*------------------------------------*\
 #     $MINIFY JS VENDORS
 #*------------------------------------*/
-gulp.task "minify:js:vendors", () ->
+gulp.task "minify:js:vendors", ["js:vendors"], () ->
   gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.js #{path.prod.js}/vendor.min.js --skip-source-maps --minify")
+    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.built.js #{path.prod.js}/vendor.built.min.js --skip-source-maps --minify")
 
 
 
