@@ -23,7 +23,7 @@ site/templates/assets/**/rev-manifest.json
 site/templates/assets/**/*.css
 site/templates/assets/**/*.map.css
 !site/templates/assets/**/editor.css
-site/templates/assets/**/*built.js
+site/templates/assets/**/*bundle.js
 site/templates/assets/**/*.js.map
 site/templates/assets/vendor
 site/templates/assets/public
