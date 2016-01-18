@@ -19,6 +19,6 @@ gulp.task 'js', () ->
 #     $JS VENDORS
 #*------------------------------------*/
 gulp.task 'js:vendors', () ->
-  gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.js #{path.dev.js}/vendor.bundle.js")
-    .pipe global.browserSync.reload({stream: true})
+  # gulp.src('')
+  #   .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.js #{path.dev.js}/vendor.bundle.js")
+  #   .pipe global.browserSync.reload({stream: true})

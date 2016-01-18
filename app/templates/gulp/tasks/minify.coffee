@@ -37,8 +37,8 @@ gulp.task "minify:js", ["js"], () ->
 #     $MINIFY JS VENDORS
 #*------------------------------------*/
 gulp.task "minify:js:vendors", ["js:vendors"], () ->
-  gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.bundle.js #{path.prod.js}/vendor.bundle.min.js --skip-source-maps --minify")
+  # gulp.src('')
+  #   .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.bundle.js #{path.prod.js}/vendor.bundle.min.js --skip-source-maps --minify")
 
 
 
