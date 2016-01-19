@@ -1,5 +1,6 @@
 gulp         = require "gulp"
 
+# add your vhost to secrets.coffee to allow for live reloading and css injection
 secret = require '../secrets'
 
 gulp.task 'browser-sync', () ->
