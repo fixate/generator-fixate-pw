@@ -13,7 +13,7 @@ conf = require '../gulpconfig'
 #*------------------------------------*\
 #     $REV CSS
 #*------------------------------------*/
-gulp.task "rev:styles", ["minify:css"], () ->
+gulp.task "rev:css", ["minify:css"], () ->
   gulp.src(["#{conf.path.prod.css}/style.min.css"])
     .pipe rev()
     .pipe gulp.dest(conf.path.prod.css)
@@ -82,7 +82,7 @@ gulp.task 'rev:images', () ->
 #     $REV REPLACE
 #     github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
-gulp.task 'rev:replace', ["rev:styles", "rev:scripts"], () ->
+gulp.task 'rev:replace', ["rev:css", "rev:scripts"], () ->
   manifest = require "../../#{conf.path.dev.assets}/rev-manifest.json"
   cssStream = gulp.src ["../../#{conf.path.prod.css}/#{manifest['style.css']}"]
 
