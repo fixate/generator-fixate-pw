@@ -16,8 +16,10 @@ dbDump = (env) ->
 
   exec cmd, (err, stdout, stderr) ->
    console.log stdout
-   console.log stdout
-   console.log err
+   console.log stderr
+
+   if err
+     console.log err
 
 
 
