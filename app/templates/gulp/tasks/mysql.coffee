@@ -2,6 +2,7 @@ gulp         = require "gulp"
 moment       = require "moment"
 exec         = require("child_process").exec
 
+# add database credentials to your secrets.coffee
 secret = require '../secrets'
 
 dbDump = (env) ->
