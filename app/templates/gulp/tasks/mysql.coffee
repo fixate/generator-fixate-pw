@@ -4,23 +4,22 @@ exec         = require("child_process").exec
 
 secret = require '../secrets'
 
-
-
-
 dbDump = (env) ->
   date = moment()
   dbEnv = "db_#{env}"
+  cmd = [
+    "mysqldump --host=#{secret[dbEnv].host},
+    --user=#{secret[dbEnv].user},
+    --password=#{secret[dbEnv].pass},
+    #{secret[dbEnv].name} > ./database/#{env}/#{dbEnv}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+  ].join(' ')
 
-  exec [
-      "mysqldump --host=#{secret[dbEnv].host},
-      --user=#{secret[dbEnv].user},
-      --password=#{secret[dbEnv].pass},
-      #{secret[dbEnv].name} > ./database/#{env}/#{dbEnv}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
-    ].join(' '),
-   (err, stdout, stderr) ->
-     console.log stdout
-     console.log stdout
-     console.log err
+  return
+
+  exec cmd, (err, stdout, stderr) ->
+   console.log stdout
+   console.log stdout
+   console.log err
 
 
 
@@ -28,10 +27,9 @@ dbDump = (env) ->
 
 
 gulp.task "db-dump:dev", () ->
-  gulp.src('')
-    .pipe dbDump('dev')
+  dbDump('dev')
 
 gulp.task "db-dump:prod", () ->
-  gulp.src('')
-    .pipe dbDump('prod')
+  dbDump('prod')
+
 
