@@ -14,7 +14,7 @@ path = require('../gulpconfig').path
 #*------------------------------------*\
 #     $MINIFY CSS
 #*------------------------------------*/
-gulp.task "minify:css", ["sass"], () ->
+gulp.task "minify:css", ["css"], () ->
   gulp.src(["#{path.dev.css}/style.css"])
     .pipe cssnano()
     .pipe rename({suffix: '.min'})
@@ -25,9 +25,9 @@ gulp.task "minify:css", ["sass"], () ->
 
 
 #*------------------------------------*\
-#     $MINIFY JS
+#     $MINIFY SCRIPTS
 #*------------------------------------*/
-gulp.task "minify:js", ["js"], () ->
+gulp.task "minify:scripts", ["scripts"], () ->
   gulp.src('')
     .pipe exec("jspm bundle-sfx #{path.dev.js}/main.bundle.js #{path.prod.js}/main.bundle.min.js --skip-source-maps --minify")
 
@@ -36,9 +36,9 @@ gulp.task "minify:js", ["js"], () ->
 
 
 #*------------------------------------*\
-#     $MINIFY JS VENDORS
+#     $MINIFY SCRIPTS VENDORS
 #*------------------------------------*/
-gulp.task "minify:js:vendors", ["js:vendors"], () ->
+gulp.task "minify:scripts:vendors", ["scripts:vendors"], () ->
   # gulp.src('')
   #   .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.bundle.js #{path.prod.js}/vendor.bundle.min.js --skip-source-maps --minify")
 
