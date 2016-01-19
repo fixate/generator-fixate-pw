@@ -8,13 +8,11 @@ dbDump = (env) ->
   date = moment()
   dbEnv = "db_#{env}"
   cmd = [
-    "mysqldump --host=#{secret[dbEnv].host},
-    --user=#{secret[dbEnv].user},
-    --password=#{secret[dbEnv].pass},
-    #{secret[dbEnv].name} > ./database/#{env}/#{dbEnv}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
+    "mysqldump --host=#{secret[dbEnv].host}"
+    "--user=#{secret[dbEnv].user}"
+    "--password=#{secret[dbEnv].pass}"
+    "#{secret[dbEnv].name} > ./database/#{env}/#{dbEnv}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
   ].join(' ')
-
-  return
 
   exec cmd, (err, stdout, stderr) ->
    console.log stdout
