@@ -1,20 +1,24 @@
-gulp        = require "gulp"
-exec        = require "gulp-exec"
+gulp       = require "gulp"
+babelify   = require "babelify"
+browserify = require "browserify"
+es         = require "event-stream"
+rename     = require "gulp-rename"
+source     = require "vinyl-source-stream"
+transform  = require "vinyl-transform"
+gutil      = require "gulp-util"
 
-path = require('../gulpconfig').path
+bundleScripts = (files) ->
+  tasks = files.map (entry) ->
+    browserify({ entries: [entry], debug: true })
+      .transform(babelify, {presets: ['react', 'es2015', 'stage-0']})
+      .bundle().on 'error', (err) -> gutil.log(err.message)
+      .pipe(source(entry))
+      .pipe(rename({
+        extname: '.bundle.js'
+      }))
+      .pipe(gulp.dest('./'))
 
-bundleScripts = (filenames) ->
-  filenames.forEach (filename) ->
-    gulp.src('')
-      .pipe exec(
-        "jspm bundle-sfx #{path.dev.js}/#{filename}.js #{path.dev.js}/#{filename}.bundle.js",
-        { continueOnError: true }
-      )
-      .pipe exec.reporter({
-        err: true,
-        stderr: true,
-        stdout: true
-      })
+  es.merge.apply(null, tasks)
 
 
 
@@ -23,8 +27,12 @@ bundleScripts = (filenames) ->
 #*------------------------------------*\
 #     $SCRIPTS
 #*------------------------------------*/
-gulp.task 'scripts', () ->
-  bundleScripts(['main', 'map'])
+gulp.task 'scripts',  () ->
+  files = [
+    "#{path.dev.js}/map.js"
+  ]
+
+  bundleScripts(files)
 
 
 
@@ -34,5 +42,9 @@ gulp.task 'scripts', () ->
 #     $SCRIPTS VENDORS
 #*------------------------------------*/
 gulp.task 'scripts:vendors', () ->
-  # bundleScripts(['vendor'])
+  # files = [
+  #   "#{path.dev.js}/vendor.js"
+  # ]
+
+  # bundleScripts(files)
 
