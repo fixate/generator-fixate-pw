@@ -13,7 +13,10 @@ bundleScripts = (files) ->
   tasks = files.map (entry) ->
     browserify({ entries: [entry], debug: true })
       .transform(babelify, {presets: ['react', 'es2015', 'stage-0']})
-      .bundle().on 'error', (err) -> gutil.log(err.message)
+      .bundle().on('error', (err) ->
+        gutil.log(err.message)
+        this.emit 'end'
+      )
       .pipe(source(entry))
       .pipe(rename({
         extname: '.bundle.js'
