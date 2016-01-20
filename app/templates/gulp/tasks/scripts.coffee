@@ -7,6 +7,8 @@ rename     = require "gulp-rename"
 source     = require "vinyl-source-stream"
 transform  = require "vinyl-transform"
 
+path       = require("../gulpconfig").path
+
 bundleScripts = (files) ->
   tasks = files.map (entry) ->
     browserify({ entries: [entry], debug: true })
