@@ -1,11 +1,11 @@
 gulp       = require "gulp"
+gutil      = require "gulp-util"
 babelify   = require "babelify"
 browserify = require "browserify"
 es         = require "event-stream"
 rename     = require "gulp-rename"
 source     = require "vinyl-source-stream"
 transform  = require "vinyl-transform"
-gutil      = require "gulp-util"
 
 bundleScripts = (files) ->
   tasks = files.map (entry) ->
