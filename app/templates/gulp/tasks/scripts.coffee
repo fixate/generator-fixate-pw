@@ -3,6 +3,7 @@ gutil      = require "gulp-util"
 babelify   = require "babelify"
 browserify = require "browserify"
 es         = require "event-stream"
+eslint     = require "gulp-eslint"
 rename     = require "gulp-rename"
 source     = require "vinyl-source-stream"
 transform  = require "vinyl-transform"
@@ -53,3 +54,18 @@ gulp.task 'scripts:vendors', () ->
 
   # bundleScripts(files)
 
+
+
+
+
+#*------------------------------------*\
+#     $LINT
+#*------------------------------------*/
+gulp.task 'scripts:lint',  () ->
+  files = [
+    "#{path.dev.js}/**/!(*.bundle).js"
+  ]
+
+  gulp.src(files)
+    .pipe(eslint())
+    .pipe(eslint.format())
