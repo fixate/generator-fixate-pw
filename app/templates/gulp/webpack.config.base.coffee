@@ -21,6 +21,8 @@ module.exports =
   externals:
     'react': 'React'
 
+  devtool: 'source-map'
+
   plugins: [
     new HappyPack({
       loaders: [{
