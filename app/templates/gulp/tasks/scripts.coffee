@@ -1,30 +1,21 @@
-gulp       = require "gulp"
-gutil      = require "gulp-util"
-babelify   = require "babelify"
-browserify = require "browserify"
-es         = require "event-stream"
-eslint     = require "gulp-eslint"
-rename     = require "gulp-rename"
-source     = require "vinyl-source-stream"
-transform  = require "vinyl-transform"
+gulp        = require 'gulp'
+assign      = require 'object.assign'
+eslint      = require 'gulp-eslint'
+webpack     = require 'webpack'
 
-path       = require("../gulpconfig").path
+path        = require('../gulpconfig').path
+webpackConf = require '../webpack.config.base'
 
-bundleScripts = (files) ->
-  tasks = files.map (entry) ->
-    browserify({ entries: [entry], debug: true })
-      .transform(babelify, {presets: ['react', 'es2015', 'stage-0']})
-      .bundle().on('error', (err) ->
-        gutil.log(err.message)
-        this.emit 'end'
-      )
-      .pipe(source(entry))
-      .pipe(rename({
-        extname: '.bundle.js'
-      }))
-      .pipe(gulp.dest('./'))
+runWebPack = (entries, config, done) ->
+  config = assign {entry: entries}, config, webpackConf
 
-  es.merge.apply(null, tasks)
+  webpack(config).run (err, stats) ->
+    if err
+      console.log 'Error', err
+    else
+      console.log stats.toString()
+      done()
+    return
 
 
 
@@ -33,12 +24,12 @@ bundleScripts = (files) ->
 #*------------------------------------*\
 #     $SCRIPTS
 #*------------------------------------*/
-gulp.task 'scripts',  () ->
-  files = [
-    "#{path.dev.js}/map.js"
-  ]
+gulp.task 'scripts',  (done) ->
+  # entries compile to [name].bundle.js
+  entries =
+    "main": "./#{path.dev.js}/main.js"
 
-  bundleScripts(files)
+  runWebPack(entries, {}, done)
 
 
 
@@ -47,12 +38,13 @@ gulp.task 'scripts',  () ->
 #*------------------------------------*\
 #     $SCRIPTS VENDORS
 #*------------------------------------*/
-gulp.task 'scripts:vendors', () ->
+gulp.task 'scripts:vendors', (done) ->
   # files = [
   #   "#{path.dev.js}/vendor.js"
   # ]
 
-  # bundleScripts(files)
+  # runWebPack(entries, {}, done)
+  #
 
 
 
@@ -69,3 +61,4 @@ gulp.task 'scripts:lint',  () ->
   gulp.src(files)
     .pipe(eslint())
     .pipe(eslint.format())
+
