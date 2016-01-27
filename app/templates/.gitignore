@@ -10,8 +10,8 @@ node_modules
 npm-debug.log
 gulp/secrets.coffee
 
-# JSPM
-jspm_packages
+# Webpack
+.happypack
 
 # Fabricator Symlinked Assets
 styleguide/src/assets/toolkit/assets
