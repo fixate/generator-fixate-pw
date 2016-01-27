@@ -13,7 +13,7 @@ runWebPack = (entries, config, done) ->
     if err
       console.log 'Error', err
     else
-      console.log stats.toString()
+      console.log stats.toString({ chunks: false })
       done()
     return
 
