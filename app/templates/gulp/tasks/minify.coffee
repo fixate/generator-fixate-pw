@@ -1,10 +1,11 @@
-gulp         = require "gulp"
-cssnano      = require "gulp-cssnano"
-exec         = require "gulp-exec"
+gulp         = require 'gulp'
+cssnano      = require 'gulp-cssnano'
+exec         = require 'gulp-exec'
 imagemin     = require 'gulp-imagemin'
 pngquant     = require 'imagemin-pngquant'
-rename       = require "gulp-rename"
+rename       = require 'gulp-rename'
 rev          = require 'gulp-rev'
+uglify       = require 'gulp-uglify'
 
 path = require('../gulpconfig').path
 
@@ -14,7 +15,7 @@ path = require('../gulpconfig').path
 #*------------------------------------*\
 #     $MINIFY CSS
 #*------------------------------------*/
-gulp.task "minify:css", ["css"], () ->
+gulp.task 'minify:css', ['css'], () ->
   gulp.src(["#{path.dev.css}/style.css"])
     .pipe cssnano()
     .pipe rename({suffix: '.min'})
@@ -27,9 +28,15 @@ gulp.task "minify:css", ["css"], () ->
 #*------------------------------------*\
 #     $MINIFY SCRIPTS
 #*------------------------------------*/
-gulp.task "minify:scripts", ["scripts"], () ->
-  gulp.src('')
-    .pipe exec("jspm bundle-sfx #{path.dev.js}/main.bundle.js #{path.prod.js}/main.bundle.min.js --skip-source-maps --minify")
+gulp.task 'minify:scripts', ['scripts'], () ->
+  files = [
+    "#{path.dev.js}/main.bundle.js"
+  ]
+
+  gulp.src(files)
+    .pipe uglify()
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest(path.prod.js)
 
 
 
@@ -38,9 +45,16 @@ gulp.task "minify:scripts", ["scripts"], () ->
 #*------------------------------------*\
 #     $MINIFY SCRIPTS VENDORS
 #*------------------------------------*/
-gulp.task "minify:scripts:vendors", ["scripts:vendors"], () ->
-  # gulp.src('')
-  #   .pipe exec("jspm bundle-sfx #{path.dev.js}/vendor.bundle.js #{path.prod.js}/vendor.bundle.min.js --skip-source-maps --minify")
+gulp.task 'minify:scripts:vendors', ['scripts:vendors'], () ->
+  # files = [
+  #   "#{path.dev.js}/vendor.bundle.js"
+  # ]
+
+  # gulp.src(files)
+  #   .pipe uglify()
+  #   .pipe rename({suffix: '.min'})
+  #   .pipe gulp.dest(path.prod.js)
+
 
 
 
