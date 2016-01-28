@@ -17,9 +17,21 @@ module.exports =
       }
     ]
 
-  # don't bundle with React, use React global
-  externals:
-    'react': 'React'
+  ###
+  # EXCLUDE REACT FROM BUNDLE
+  #
+  # Create a dummy-react.js exporting window.React and window.ReactDOM
+  #
+  # https://github.com/webpack/webpack/issues/1275#issuecomment-123751735
+  ###
+  # externals:
+  #   'react': 'React'
+  #   'react-dom': 'ReactDOM'
+
+  # resolve:
+  #   alias:
+  #     'react': path.resolve(__dirname, '../', conf.path.dev.js, 'lib/dummy-react.js')
+  #     'react-dom': path.resolve(__dirname, '../', conf.path.dev.js, 'lib/dummy-react.js')
 
   devtool: 'source-map'
 
