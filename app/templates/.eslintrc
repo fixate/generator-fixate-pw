@@ -1,4 +1,7 @@
 {
-  "extends": "airbnb"
+  'extends': 'airbnb',
+  'rules': {
+    'react/prefer-es6-class': [2, 'never'],
+  }
 }
 
