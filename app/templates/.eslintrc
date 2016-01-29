@@ -2,6 +2,7 @@
   'extends': 'airbnb',
   'rules': {
     'react/prefer-es6-class': [2, 'never'],
+    'react/jsx-no-bind': [2, { 'ignoreRefs': true }]
   }
 }
 
