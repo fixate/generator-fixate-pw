@@ -69,15 +69,41 @@ Once Yeoman has done all the hard work, you have a few small tasks to run before
 
 #### 1. Install ProcessWire
 
-#### 2. Run Gulp
+#### 2. Install Project Dependencies
 
-Gulp will compile coffee and scss files when updated, and reload your browser via Browser Sync at the URL it specifies when starting Gulp (make sure to update the bsProxy property in the generated [private.json](https://github.com/fixate/generator-fixate-pw/blob/master/app/templates/private-sample.json#L4) with your local site's URL)
+All task automation is handled through Gulp and Webpack.
 
 ```shell
+$ npm install
+```
+
+This will install all development dependencies, as well as create copies for non-committed config files, and creation of symlinks for assets in the living styleguide
+
+#### 2. Install And Run Living Styleguide
+
+This project makes use of [Fabricator](https://github.com/fbrctr/fabricator) as a living styleguide. To get up and running:
+
+```shell
+$ cd styleguide && npm install
+```
+
+Once installed, you can start a server for the styleguide that will automatically update on chnages to styles with the following:
+
+```shell
+# from styleguide/
+$ gulp --dev
+```
+
+#### 3. Work On ProcessWire
+
+Gulp will compile coffee and scss files when updated, and reload your browser via Browser Sync at the URL it specifies when starting Gulp (make sure to update the bsProxy property in the generated [secrets.coffee](https://github.com/fixate/generator-fixate-pw/blob/master/app/templates/gulp/secrets-sample.coffee#L4) with your local site's URL)
+
+```shell
+# from project root
 $ gulp
 ```
 
-#### 3. Change Template Alternate Filename
+#### 4. Change Template Alternate Filename
 
 For each template, visit your admin and set all templates to use `mvc`:
 
