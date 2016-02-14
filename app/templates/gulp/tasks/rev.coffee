@@ -65,7 +65,8 @@ gulp.task 'rev:images', () ->
       progressive: true,
       interlaced: true,
       svgoPlugins: [
-        { removeViewBox: false }
+        { removeViewBox: false },
+        { cleanupIDs: false },
       ],
       use: [pngquant()]
     }
