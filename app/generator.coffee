@@ -80,6 +80,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         'styleguide'
       ]
 
+      @copy ".babelrc",             ".babelrc"
       @copy ".bowerrc",             ".bowerrc"
       @copy ".editorconfig",        ".editorconfig"
       @copy ".eslintrc",            ".eslintrc"
