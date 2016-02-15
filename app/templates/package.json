@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "name": "project-name",
   "scripts": {
-    "postinstall": "node setup.js && jspm install && bower install"
+    "postinstall": "node setup.js && bower install"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
