@@ -47,13 +47,5 @@
     "run-sequence": "^1.1.0",
     "shelljs": "^0.5.3",
     "webpack": "^1.12.12"
-  },
-  "jspm": {
-    "configFile": "config.js",
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
-    }
   }
 }
