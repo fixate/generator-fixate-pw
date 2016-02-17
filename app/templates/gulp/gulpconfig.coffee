@@ -21,9 +21,6 @@ module.exports =
       img:    "#{assets}/public/img"
       js:     "#{assets}/public/js"
 
-  plumber:
-    errorHandler: false
-
   ssh:
     port: 22
 
