@@ -5,7 +5,7 @@ imagemin = require 'gulp-imagemin'
 pngquant = require 'imagemin-pngquant'
 
 gulp.task 'favicons', () ->
-  gulp.src('./src/device-icon.png')
+  gulp.src('./src/device-icon-template.png')
     .pipe favicons({
       background: "#fff"
       display: "browser"
