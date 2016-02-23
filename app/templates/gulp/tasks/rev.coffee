@@ -1,9 +1,11 @@
-gulp         = require "gulp"
-imagemin     = require 'gulp-imagemin'
-pngquant     = require 'imagemin-pngquant'
-rename       = require "gulp-rename"
-replace      = require "gulp-replace"
-rev          = require 'gulp-rev'
+gulp       = require 'gulp'
+imagemin   = require 'gulp-imagemin'
+pngquant   = require 'imagemin-pngquant'
+rename     = require 'gulp-rename'
+replace    = require 'gulp-replace'
+rev        = require 'gulp-rev'
+revReplace = require 'gulp-rev-replace'
+
 
 conf = require '../gulpconfig'
 
@@ -13,7 +15,7 @@ conf = require '../gulpconfig'
 #*------------------------------------*\
 #     $REV CSS
 #*------------------------------------*/
-gulp.task "rev:css", ["minify:css"], () ->
+gulp.task 'rev:css', ['minify:css'], () ->
   gulp.src(["#{conf.path.prod.css}/style.min.css"])
     .pipe rename('style.css')
     .pipe rev()
@@ -29,7 +31,7 @@ gulp.task "rev:css", ["minify:css"], () ->
 #*------------------------------------*\
 #     $REV SCRIPTS
 #*------------------------------------*/
-gulp.task 'rev:scripts', ["minify:scripts"], () ->
+gulp.task 'rev:scripts', ['minify:scripts'], () ->
   gulp.src(["#{conf.path.prod.js}/main.bundle.min.js"])
     .pipe rename('main.bundle.js')
     .pipe rev()
@@ -45,7 +47,7 @@ gulp.task 'rev:scripts', ["minify:scripts"], () ->
 #*------------------------------------*\
 #     $REV FONTS
 #*------------------------------------*/
-gulp.task "rev:fonts", () ->
+gulp.task 'rev:fonts', () ->
   files = ['eot', 'woff', 'woff2', 'ttf', 'svg'].map (curr) ->
     "#{conf.path.dev.fnt}/**/*#{curr}"
 
@@ -85,15 +87,10 @@ gulp.task 'rev:images', () ->
 
 #*------------------------------------*\
 #     $REV REPLACE
-#     github.com/jamesknelson/gulp-rev-replace/issues/23
 #*------------------------------------*/
-gulp.task 'rev:replace', ["rev:css", "rev:scripts"], () ->
-  manifest = require "../../#{conf.path.dev.assets}/rev-manifest.json"
-  cssStream = gulp.src ["../../#{conf.path.prod.css}/#{manifest['style.css']}"]
+gulp.task 'rev:replace', ['rev:css', 'rev:scripts'], () ->
+  manifest = gulp.src("./#{conf.revManifest.path}")
 
-  Object.keys(manifest).reduce((cssStream, key) ->
-    regkey = key.replace('/', '\\/')
-    cssStream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
-  , cssStream)
-    .pipe gulp.dest("./#{conf.path.prod.css}")
-
+  gulp.src(["#{conf.path.prod.css}/*.css", "#{conf.path.prod.js}/*.js"], { base: './' })
+    .pipe revReplace({ manifest: manifest })
+    .pipe gulp.dest('./')
