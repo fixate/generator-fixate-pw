@@ -15,7 +15,9 @@ conf = require '../gulpconfig'
 #*------------------------------------*/
 gulp.task "rev:css", ["minify:css"], () ->
   gulp.src(["#{conf.path.prod.css}/style.min.css"])
+    .pipe rename('style.css')
     .pipe rev()
+    .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.prod.css)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
@@ -29,7 +31,9 @@ gulp.task "rev:css", ["minify:css"], () ->
 #*------------------------------------*/
 gulp.task 'rev:scripts', ["minify:scripts"], () ->
   gulp.src(["#{conf.path.prod.js}/main.bundle.min.js"])
+    .pipe rename('main.bundle.js')
     .pipe rev()
+    .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.prod.js)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
@@ -92,3 +96,4 @@ gulp.task 'rev:replace', ["rev:css", "rev:scripts"], () ->
     cssStream.pipe replace(new RegExp("(" + regkey + ")(?!\\w)", "g"), manifest[key])
   , cssStream)
     .pipe gulp.dest("./#{conf.path.prod.css}")
+
