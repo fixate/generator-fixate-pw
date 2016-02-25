@@ -49,9 +49,9 @@ gulp.task "rsync:down", () ->
   _rsyncPrepare "down", false
 
 # dry-run sync to prod
-gulp.task "rsync:updry", ["build"], () ->
+gulp.task "rsync:updry", () ->
   _rsyncPrepare "up", true, dryRun: true
 
 # sync to production
-gulp.task "rsync:up", ["build"], () ->
+gulp.task "rsync:up", () ->
   _rsyncPrepare "up"
