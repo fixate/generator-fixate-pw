@@ -1,6 +1,7 @@
 gulp         = require "gulp"
 extend       = require "extend"
-rsync        = require("rsyncwrapper").rsync
+rsync        = require "rsyncwrapper"
+gutil        = require "gutil"
 
 conf = require '../gulpconfig'
 secret = require '../secrets'
