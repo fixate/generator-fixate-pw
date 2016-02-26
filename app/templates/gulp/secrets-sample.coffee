@@ -1,7 +1,7 @@
 module.exports =
 	domain: "example.com"
 	username: "ssh_username"
-	bsProxy: "localsite.dev"
+	browserSyncProxy: "localsite.dev"
 
 	db_prod:
 		name: "db_name"

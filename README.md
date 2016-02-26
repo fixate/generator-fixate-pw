@@ -96,7 +96,7 @@ $ gulp --dev
 
 #### 3. Work On ProcessWire
 
-Gulp will compile coffee and scss files when updated, and reload your browser via Browser Sync at the URL it specifies when starting Gulp (make sure to update the bsProxy property in the generated [secrets.coffee](https://github.com/fixate/generator-fixate-pw/blob/master/app/templates/gulp/secrets-sample.coffee#L4) with your local site's URL)
+Gulp will compile coffee and scss files when updated, and reload your browser via Browser Sync at the URL it specifies when starting Gulp (make sure to update the browserSyncProxy property in the generated [secrets.coffee](https://github.com/fixate/generator-fixate-pw/blob/master/app/templates/gulp/secrets-sample.coffee#L4) with your local site's URL)
 
 ```shell
 # from project root

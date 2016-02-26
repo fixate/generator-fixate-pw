@@ -5,7 +5,7 @@ secret = require '../secrets'
 
 gulp.task 'browser-sync', () ->
   global.browserSync.init {
-    proxy: secret.bsProxy
+    proxy: secret.browserSyncProxy
     injectchanges: true
     open: false
     # notify: false
