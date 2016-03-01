@@ -1,6 +1,6 @@
-exec = require('child_process').exec
-fs   = require 'fs'
-path = require 'path'
+exec    = require('child_process').exec
+fs      = require 'fs'
+path    = require 'path'
 exports = module.exports
 
 exports.execCommand = (cmd) ->
