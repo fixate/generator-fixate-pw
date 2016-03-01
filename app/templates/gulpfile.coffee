@@ -12,7 +12,7 @@ browserSync  = require("browser-sync").create()
 global.isWatching = false
 global.browserSync = browserSync
 
-requireDir('./gulp', recurse: true)
+requireDir('./gulp/tasks', recurse: false)
 
 
 
