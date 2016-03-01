@@ -6,7 +6,7 @@ utils  = require './utils'
 # add database credentials to your secrets.coffee
 secret = require '../secrets'
 
-dbImportFrom = (fromEnv, toEnv) ->
+dbImportFromTo = (fromEnv, toEnv) ->
   dbFromPath = path.resolve(__dirname, '../../database', fromEnv)
   dbEnv = "db_#{toEnv}"
   newestFile = path.resolve(dbFromPath, utils.getNewestFile(dbFromPath))
@@ -63,7 +63,7 @@ gulp.task 'db-droptables:dev', () ->
   dbDropTables('dev')
 
 gulp.task 'db-importlocally:prod', ['db-droptables:dev'], () ->
-  dbImportFrom('prod', 'dev')
+  dbImportFromTo('prod', 'dev')
 
 gulp.task 'db-importlocally:dev', ['db-droptables:dev'], () ->
-  dbImportFrom('dev', 'dev')
+  dbImportFromTo('dev', 'dev')
