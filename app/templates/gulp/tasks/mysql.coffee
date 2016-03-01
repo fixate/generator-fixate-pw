@@ -62,8 +62,8 @@ gulp.task 'db-dump:prod', () ->
 gulp.task 'db-droptables:dev', () ->
   dbDropTables('dev')
 
-gulp.task 'db-importlocally:prod', ['db-droptables:dev'], () ->
+gulp.task 'db-import:prodtodev', ['db-droptables:dev'], () ->
   dbImportFromTo('prod', 'dev')
 
-gulp.task 'db-importlocally:dev', ['db-droptables:dev'], () ->
+gulp.task 'db-import:devtodev', ['db-droptables:dev'], () ->
   dbImportFromTo('dev', 'dev')
