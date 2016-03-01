@@ -1,6 +1,7 @@
 gulp         = require "gulp"
 extend       = require "extend"
-rsync        = require("rsyncwrapper").rsync
+rsync        = require "rsyncwrapper"
+gutil        = require "gulp-util"
 
 conf = require '../gulpconfig'
 secret = require '../secrets'
@@ -48,9 +49,9 @@ gulp.task "rsync:down", () ->
   _rsyncPrepare "down", false
 
 # dry-run sync to prod
-gulp.task "rsync:updry", ["build"], () ->
+gulp.task "rsync:updry", () ->
   _rsyncPrepare "up", true, dryRun: true
 
 # sync to production
-gulp.task "rsync:up", ["build"], () ->
+gulp.task "rsync:up", () ->
   _rsyncPrepare "up"
