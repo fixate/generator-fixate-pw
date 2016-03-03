@@ -10,6 +10,12 @@
       "ProcessWireUpgrade": "ryancramerdesign/ProcessWireUpgrade"
     },
     "styleguide": "fixate/fixate-fabricator",
-    "cssFramework": "larrybotha/styleguide"
+    "cssFrameworks": {
+      "bourbon.io": "thoughtbot/bourbon",
+      "susy": "ericam/susy",
+      "foundation": "zurb/foundation-sites",
+      "bootstrap": "twbs/bootstrap",
+      "styleguide": "larrybotha/styleguide"
+    }
   }
 }

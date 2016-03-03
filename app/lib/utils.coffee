@@ -22,3 +22,13 @@ module.exports = class Utils
         checked: true
       })
     return arr
+
+  @getMultiChoicesUnchecked: (obj) ->
+    arr = new Array()
+    Object.keys(obj).map (item) ->
+      arr.push({
+        value: "#{obj[item]}",
+        name: "#{item}",
+        checked: false
+      })
+    return arr

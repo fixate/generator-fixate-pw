@@ -33,9 +33,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       default: "master"
 
     prompts.push
-      name: "cssBranch"
-      message: "Which branch of the CSS Framework would you like to use?"
-      default: 'inuit'
+      type: 'checkbox'
+      name: "cssFrameworks"
+      message: "Which CSS Framework (master branch) would you like to use?"
+      choices: myUtils.getMultiChoicesUnchecked(@settings.github.cssFrameworks)
 
     prompts.push
       name: "domain"
@@ -49,6 +50,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       choices: myUtils.getMultiChoices(@settings.github.pwModules)
 
     @prompt prompts, (props) =>
+      @log.info "#{props}";
       @props = props
       cb()
 
@@ -213,10 +215,13 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #   $CSS FRAMEWORK
     #*------------------------------------*/
     setupCSSFramework = () =>
-      @log.info "Installing CSS framework..."
+      @log.info "@props"
 
-      repo_path = GitUtils.cacheRepo github(@settings.github.cssFramework)
-      GitUtils.export repo_path, dest('src/site/templates/assets/css/'), @props.cssBranch
+      @log.info "Installing CSS frameworks..."
+      for cssframework in @props.cssFrameworks
+        repo_path = GitUtils.cacheRepo github(cssframework)
+        @log.info "Copying #{cssframework} install..."
+        GitUtils.export repo_path, dest("src/site/templates/assets/css/#{myUtils.getObjectKey(cssframework, @settings.github.cssFrameworks)}")
 
       @log.ok('OK')
 
