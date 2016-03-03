@@ -5,9 +5,9 @@
 #
 # Simply add a new task there, and it will be automatically available as a gulp
 # task for your project
-gulp         = require "gulp"
-requireDir   = require "require-dir"
-browserSync  = require("browser-sync").create()
+gulp         = require 'gulp'
+requireDir   = require 'require-dir'
+browserSync  = require('browser-sync').create()
 
 global.isWatching = false
 global.browserSync = browserSync
