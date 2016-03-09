@@ -14,8 +14,8 @@ runWebPack = (entries, config, done) ->
       console.log 'Error', err
     else
       console.log stats.toString({ chunks: false })
-      done()
-    return
+
+    done()
 
 
 
@@ -30,6 +30,17 @@ gulp.task 'scripts',  (done) ->
     "main": "./#{path.dev.js}/main.js"
 
   runWebPack(entries, {}, done)
+
+
+
+
+
+
+#*------------------------------------*\
+#     $SCRIPTS WATCH
+#*------------------------------------*/
+gulp.task 'scripts:watch', ['scripts'],  (done) ->
+  global.browserSync.reload()
 
 
 
