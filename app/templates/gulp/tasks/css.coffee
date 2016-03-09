@@ -10,6 +10,7 @@ conf = require '../gulpconfig'
 
 
 
+
 #*------------------------------------*\
 #     $CSS
 #*------------------------------------*/
@@ -18,4 +19,13 @@ gulp.task 'css', () ->
     .pipe(sass().on('error', sass.logError))
     .pipe autoprefixer({browsers: ['last 2 versions']})
     .pipe gulp.dest(conf.path.dev.css)
-    .pipe global.browserSync.stream match: '**/*.css'
+
+
+
+
+
+#*------------------------------------*\
+#     $CSS WATCH
+#*------------------------------------*/
+gulp.task 'css:watch', ['css'], () ->
+  global.browserSync.reload('*.css')
