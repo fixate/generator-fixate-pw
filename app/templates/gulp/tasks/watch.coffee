@@ -1,5 +1,5 @@
-gulp         = require 'gulp'
-watch        = require 'gulp-watch'
+gulp  = require 'gulp'
+watch = require 'gulp-watch'
 
 conf = require '../gulpconfig'
 
