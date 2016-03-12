@@ -9,7 +9,6 @@ gulp         = require 'gulp'
 requireDir   = require 'require-dir'
 browserSync  = require('browser-sync').create()
 
-global.isWatching = false
 global.browserSync = browserSync
 
 requireDir('./gulp/tasks', recurse: false)
