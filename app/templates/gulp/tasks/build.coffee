@@ -1,25 +1,18 @@
-gulp       = require 'gulp'
-imagemin   = require 'gulp-imagemin'
-rename     = require 'gulp-rename'
-pngquant   = require 'imagemin-pngquant'
-
-conf = require '../gulpconfig'
+gulp         = require 'gulp'
+runSequence  = require 'run-sequence'
 
 
 
 
 
 #*------------------------------------*\
-#     $OPTIMISE SVG PARTIALS
+#     $BUILD
 #*------------------------------------*/
-gulp.task 'images:svgminify', () ->
-  return gulp.src("./#{conf.path.dev.views}/**/*.svg.php", { base: './' })
-    .pipe rename({ suffix: '', extname: '' })
-    .pipe imagemin {
-      svgoPlugins: [
-        { removeViewBox: false },
-        { cleanupIDs: false },
-      ],
-    }
-    .pipe rename({ suffix: '.svg', extname: '.php' })
-    .pipe gulp.dest('./')
+gulp.task 'build', () ->
+  runSequence(
+    'clean:build',
+    'images:svgminify'
+    'rev:fonts',
+    'rev:images',
+    ['rev:replace', 'minify:scripts:vendors']
+  )
