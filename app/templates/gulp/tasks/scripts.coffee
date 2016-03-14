@@ -6,8 +6,8 @@ webpack     = require 'webpack'
 path        = require('../gulpconfig').path
 webpackConf = require '../webpack.config.base'
 
-runWebPack = (entries, config, done) ->
-  config = assign {entry: entries}, config, webpackConf
+runWebPack = (config, done) ->
+  config = assign config, webpackConf
 
   webpack(config).run (err, stats) ->
     if err
@@ -29,7 +29,7 @@ gulp.task 'scripts',  (done) ->
   entries =
     "main": "./#{path.dev.js}/main.js"
 
-  runWebPack(entries, {}, done)
+  runWebPack({ entry: entries }, done)
 
 
 
