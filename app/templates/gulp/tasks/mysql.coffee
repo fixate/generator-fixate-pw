@@ -20,18 +20,16 @@ dbImportFromTo = (fromEnv, toEnv) ->
 
   utils.execCommand cmd
 
-dbDropTables = (env) ->
+dbDump = (env) ->
+  path = if env != 'prod' then 'dev' else env
+  date = moment()
   dbEnv = "db_#{env}"
+  secret = secrets[dbEnv]
   cmd = [
-    "mysqldump --host=#{secret[dbEnv].host}"
-    "--user=#{secret[dbEnv].user}"
-    "--password=#{secret[dbEnv].pass}"
-    "--add-drop-table --no-data #{secret[dbEnv].name}"
-    "| grep ^DROP"
-    "| mysql --host=#{secret[dbEnv].host}"
-    "--user=#{secret[dbEnv].user}"
-    "--password=#{secret[dbEnv].pass}"
-    "#{secret[dbEnv].name}"
+    "mysqldump --host=#{secret.host}"
+    "--user=#{secret.user}"
+    "--password=#{secret.pass}"
+    "#{secret.name} > ./database/#{path}/#{dbEnv}-#{date.format('YYYY-MM-DD-HH-mm-ss')}.sql"
   ].join(' ')
 
   utils.execCommand cmd
