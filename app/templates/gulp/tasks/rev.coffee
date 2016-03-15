@@ -1,13 +1,15 @@
-gulp       = require 'gulp'
-imagemin   = require 'gulp-imagemin'
-pngquant   = require 'imagemin-pngquant'
-rename     = require 'gulp-rename'
-replace    = require 'gulp-replace'
-rev        = require 'gulp-rev'
-revReplace = require 'gulp-rev-replace'
+gulp        = require 'gulp'
+imagemin    = require 'gulp-imagemin'
+pngquant    = require 'imagemin-pngquant'
+rename      = require 'gulp-rename'
+regexRename = require 'gulp-regex-rename'
+replace     = require 'gulp-replace'
+rev         = require 'gulp-rev'
+revReplace  = require 'gulp-rev-replace'
 
 
 conf = require '../gulpconfig'
+
 
 
 
@@ -17,7 +19,7 @@ conf = require '../gulpconfig'
 #*------------------------------------*/
 gulp.task 'rev:css', ['minify:css'], () ->
   gulp.src(["#{conf.path.prod.css}/style.min.css"])
-    .pipe rename('style.css')
+    .pipe regexRename(/\.min/, '')
     .pipe rev()
     .pipe rename({suffix: '.min'})
     .pipe gulp.dest(conf.path.prod.css)
@@ -33,9 +35,9 @@ gulp.task 'rev:css', ['minify:css'], () ->
 #*------------------------------------*/
 gulp.task 'rev:scripts', ['minify:scripts'], () ->
   gulp.src(["#{conf.path.prod.js}/*.bundle.min.js"])
-    .pipe rename({ suffix: '', extname: '', })
+    .pipe regexRename(/\.min/, '')
     .pipe rev()
-    .pipe rename({ suffix: '.min', extname: '.js' })
+    .pipe rename({ suffix: '.min' })
     .pipe gulp.dest(conf.path.prod.js)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
