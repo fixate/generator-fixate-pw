@@ -1,13 +1,14 @@
-gulp         = require 'gulp'
-cssnano      = require 'gulp-cssnano'
-exec         = require 'gulp-exec'
-imagemin     = require 'gulp-imagemin'
-pngquant     = require 'imagemin-pngquant'
-rename       = require 'gulp-rename'
-rev          = require 'gulp-rev'
-uglify       = require 'gulp-uglify'
+gulp        = require 'gulp'
+cssnano     = require 'gulp-cssnano'
+exec        = require 'gulp-exec'
+imagemin    = require 'gulp-imagemin'
+pngquant    = require 'imagemin-pngquant'
+regexRename = require 'gulp-regex-rename'
+rev         = require 'gulp-rev'
+uglify      = require 'gulp-uglify'
 
-path = require('../gulpconfig').path
+conf = require('../gulpconfig')
+
 
 
 
@@ -16,10 +17,10 @@ path = require('../gulpconfig').path
 #     $MINIFY CSS
 #*------------------------------------*/
 gulp.task 'minify:css', ['css'], () ->
-  gulp.src(["#{path.dev.css}/style.css"])
+  gulp.src(["#{conf.path.dev.css}/style.css"])
     .pipe cssnano()
-    .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(path.prod.css)
+    .pipe regexRename(/\.css/, '.min.css')
+    .pipe gulp.dest(conf.path.prod.css)
 
 
 
@@ -30,13 +31,14 @@ gulp.task 'minify:css', ['css'], () ->
 #*------------------------------------*/
 gulp.task 'minify:scripts', ['scripts'], () ->
   files = [
-    "#{path.dev.js}/main.bundle.js"
+    "#{conf.path.dev.js}/main.bundle.js",
+    "#{conf.path.dev.js}/map.bundle.js",
   ]
 
   gulp.src(files)
     .pipe uglify()
-    .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(path.prod.js)
+    .pipe regexRename(/\.js/, '.min.js')
+    .pipe gulp.dest(conf.path.prod.js)
 
 
 
@@ -47,13 +49,14 @@ gulp.task 'minify:scripts', ['scripts'], () ->
 #*------------------------------------*/
 gulp.task 'minify:scripts:vendors', ['scripts:vendors'], () ->
   # files = [
-  #   "#{path.dev.js}/vendor.bundle.js"
+  #   "#{conf.path.dev.js}/vendor.bundle.js"
   # ]
 
   # gulp.src(files)
   #   .pipe uglify()
-  #   .pipe rename({suffix: '.min'})
-  #   .pipe gulp.dest(path.prod.js)
+  #   .pipe regexRename(/\.js/, '.min.js')
+  #   .pipe gulp.dest(conf.path.prod.js)
+
 
 
 
