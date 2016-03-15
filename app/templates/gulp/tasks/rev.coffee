@@ -32,10 +32,10 @@ gulp.task 'rev:css', ['minify:css'], () ->
 #     $REV SCRIPTS
 #*------------------------------------*/
 gulp.task 'rev:scripts', ['minify:scripts'], () ->
-  gulp.src(["#{conf.path.prod.js}/main.bundle.min.js"])
-    .pipe rename('main.bundle.js')
+  gulp.src(["#{conf.path.prod.js}/*.bundle.min.js"])
+    .pipe rename({ suffix: '', extname: '', })
     .pipe rev()
-    .pipe rename({suffix: '.min'})
+    .pipe rename({ suffix: '.min', extname: '.js' })
     .pipe gulp.dest(conf.path.prod.js)
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
     .pipe gulp.dest('./')
