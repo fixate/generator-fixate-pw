@@ -1,22 +1,26 @@
 gulp   = require 'gulp'
+gutil  = require 'gulp-util'
 moment = require 'moment'
 path   = require 'path'
 utils  = require './utils'
 
 # add database credentials to your secrets.coffee
-secret = require '../secrets'
+secrets = require '../secrets'
 
 dbImportFromTo = (fromEnv, toEnv) ->
   dbFromPath = path.resolve(__dirname, '../../database', fromEnv)
   dbEnv = "db_#{toEnv}"
   newestFile = path.resolve(dbFromPath, utils.getNewestFile(dbFromPath))
+  secret = secrets[dbEnv]
 
   cmd = [
-    "mysql --user=#{secret[dbEnv].user}"
-    "--password=#{secret[dbEnv].pass}"
-    "#{secret[dbEnv].name}"
+    "mysql --host=#{secret.host} --user=#{secrets[dbEnv].user}"
+    "--password=#{secret.pass}"
+    "#{secret.name}"
     "< #{newestFile}"
   ].join(' ')
+
+  gutil.log gutil.colors.green("importing #{newestFile} into #{toEnv}")
 
   utils.execCommand cmd
 
@@ -34,6 +38,10 @@ dbDropTables = (env) ->
     "--password=#{secret.pass}"
     "#{secret.name}"
   ].join(' ')
+
+  gutil.log gutil.colors.red(
+    "dropping tables from #{secret.name} database in #{env} environment"
+  )
 
   utils.execCommand cmd
 
