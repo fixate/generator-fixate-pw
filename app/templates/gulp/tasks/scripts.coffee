@@ -39,7 +39,7 @@ gulp.task 'scripts',  (done) ->
 #*------------------------------------*\
 #     $SCRIPTS WATCH
 #*------------------------------------*/
-gulp.task 'scripts:watch', ['scripts'],  (done) ->
+gulp.task 'scripts:watch', ['scripts'],  () ->
   global.browserSync.reload()
 
 
