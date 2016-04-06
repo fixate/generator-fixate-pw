@@ -36,6 +36,7 @@ gulp.task 'rev:css', ['minify:css'], () ->
 gulp.task 'rev:scripts', ['minify:scripts'], () ->
   gulp.src(["#{conf.path.prod.js}/*.bundle.min.js"])
     .pipe regexRename(/\.min/, '')
+    .pipe replace(/templates\/assets/g, 'templates/assets/public')
     .pipe rev()
     .pipe rename({ suffix: '.min' })
     .pipe gulp.dest(conf.path.prod.js)
