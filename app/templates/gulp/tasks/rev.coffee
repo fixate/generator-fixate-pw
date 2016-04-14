@@ -1,14 +1,24 @@
 gulp        = require 'gulp'
+gulpif      = require 'gulp-if'
 imagemin    = require 'gulp-imagemin'
 pngquant    = require 'imagemin-pngquant'
-rename      = require 'gulp-rename'
 regexRename = require 'gulp-regex-rename'
+rename      = require 'gulp-rename'
 replace     = require 'gulp-replace'
 rev         = require 'gulp-rev'
 revReplace  = require 'gulp-rev-replace'
 
-
 conf = require '../gulpconfig'
+
+revMinifiedFiles = (files, dest) ->
+  gulp.src(files)
+    .pipe regexRename(/\.min/, '')
+    .pipe replace(/templates\/assets/g, 'templates/assets/public')
+    .pipe rev()
+    .pipe rename({suffix: '.min'})
+    .pipe gulp.dest(dest)
+    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
+    .pipe gulp.dest('./')
 
 
 
@@ -18,13 +28,7 @@ conf = require '../gulpconfig'
 #     $REV CSS
 #*------------------------------------*/
 gulp.task 'rev:css', ['minify:css'], () ->
-  gulp.src(["#{conf.path.prod.css}/style.min.css"])
-    .pipe regexRename(/\.min/, '')
-    .pipe rev()
-    .pipe rename({suffix: '.min'})
-    .pipe gulp.dest(conf.path.prod.css)
-    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-    .pipe gulp.dest('./')
+  revMinifiedFiles(["#{conf.path.prod.css}/*.min.css"], conf.path.prod.css)
 
 
 
@@ -34,14 +38,7 @@ gulp.task 'rev:css', ['minify:css'], () ->
 #     $REV SCRIPTS
 #*------------------------------------*/
 gulp.task 'rev:scripts', ['minify:scripts'], () ->
-  gulp.src(["#{conf.path.prod.js}/*.bundle.min.js"])
-    .pipe regexRename(/\.min/, '')
-    .pipe replace(/templates\/assets/g, 'templates/assets/public')
-    .pipe rev()
-    .pipe rename({ suffix: '.min' })
-    .pipe gulp.dest(conf.path.prod.js)
-    .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
-    .pipe gulp.dest('./')
+  revMinifiedFiles(["#{conf.path.prod.js}/*.bundle.min.js"], conf.path.prod.js)
 
 
 
@@ -94,6 +91,11 @@ gulp.task 'rev:images', () ->
 gulp.task 'rev:replace', ['rev:css', 'rev:scripts'], () ->
   manifest = gulp.src("./#{conf.revManifest.path}")
 
+  # we need a replace wrapping revReplace it doesn't replace js 'style.css'
+  # node properties with a rev'd filename
   gulp.src(["#{conf.path.prod.css}/*.css", "#{conf.path.prod.js}/*.js"], { base: './' })
+    .pipe replace(/style\.css/g, 'styleCssTmp')
     .pipe revReplace({ manifest: manifest })
+    .pipe replace(/styleCssTmp/g, 'style.css')
     .pipe gulp.dest('./')
+
