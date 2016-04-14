@@ -98,4 +98,3 @@ gulp.task 'rev:replace', ['rev:css', 'rev:scripts'], () ->
     .pipe revReplace({ manifest: manifest })
     .pipe replace(/styleCssTmp/g, 'style.css')
     .pipe gulp.dest('./')
-
