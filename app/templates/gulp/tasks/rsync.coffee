@@ -1,15 +1,12 @@
 gulp         = require "gulp"
-extend       = require "extend"
-rsync        = require "rsyncwrapper"
 gutil        = require "gulp-util"
+extend       = require "extend"
+rsync        = require("rsyncwrapper")
 
 conf = require '../gulpconfig'
 secret = require '../secrets'
 
-
-
-
-_rsyncDo = (rsyncOpts = {}) ->
+processRsync = (done, rsyncOpts = {}) ->
   rsyncOpts = extend {
     port: conf.ssh.port
     ssh: true
@@ -23,8 +20,9 @@ _rsyncDo = (rsyncOpts = {}) ->
   rsync rsyncOpts, (error, stdout, stderr, cmd) ->
     gutil.log error if error
     gutil.log cmd, stderr, stdout
+    done()
 
-_rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
+prepareRsync = (done, prop, isToRemote = true, rsyncOpts = {}) ->
   ["dest", "src"].forEach (curr) ->
     remoteHost = "#{secret.username}@#{secret.domain}:"
     rsyncOpts[curr] = if rsyncOpts[curr] then rsyncOpts[curr] else conf.rsync[prop][curr]
@@ -34,24 +32,46 @@ _rsyncPrepare = (prop, isToRemote = true, rsyncOpts = {}) ->
 
   rsyncOpts.exclude = conf.rsync[prop].exclude || ""
 
-  _rsyncDo(rsyncOpts)
+  processRsync(done, rsyncOpts)
 
 
 
 
 
-# dry-run down
-gulp.task "rsync:downdry", () ->
-  _rsyncPrepare "down", false, dryRun: true
+#*------------------------------------*\
+#     $RSYNC DOWN DRY RUN
+#*------------------------------------*/
+gulp.task "rsync:downdry", (done) ->
+  prepareRsync done, "down", false, dryRun: true
 
+
+
+
+
+#*------------------------------------*\
+#     $RSYNC DOWN
+#*------------------------------------*/
 # sync down
-gulp.task "rsync:down", () ->
-  _rsyncPrepare "down", false
+gulp.task "rsync:down", (done) ->
+  prepareRsync done, "down", false
 
+
+
+
+
+#*------------------------------------*\
+#     $RSYNC TO PROD DRY RUN
+#*------------------------------------*/
 # dry-run sync to prod
-gulp.task "rsync:updry", () ->
-  _rsyncPrepare "up", true, dryRun: true
+gulp.task "rsync:updry", (done) ->
+  prepareRsync done, "up", true, dryRun: true
 
-# sync to production
-gulp.task "rsync:up", () ->
-  _rsyncPrepare "up"
+
+
+
+
+#*------------------------------------*\
+#     $RSYNC TO PROD
+#*------------------------------------*/
+gulp.task "rsync:up", (done) ->
+  prepareRsync done, "up"
