@@ -15,11 +15,12 @@ processRsync = (done, rsyncOpts = {}) ->
     args: ['--verbose']
   }, rsyncOpts
 
-  gutil.log "Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}"
+  gutil.log gutil.colors.green("Rsyncing from #{rsyncOpts.src} to #{rsyncOpts.dest}")
 
   rsync rsyncOpts, (error, stdout, stderr, cmd) ->
-    gutil.log error if error
-    gutil.log cmd, stderr, stdout
+    gutil.log gutil.colors.red(error) if error
+    gutil.log 'Command: \n', cmd
+    gutil.log stderr, stdout
     done()
 
 prepareRsync = (done, prop, isToRemote = true, rsyncOpts = {}) ->
