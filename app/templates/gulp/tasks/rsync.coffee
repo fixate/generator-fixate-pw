@@ -27,8 +27,8 @@ prepareRsync = (done, prop, isToRemote = true, rsyncOpts = {}) ->
     remoteHost = "#{secret.username}@#{secret.domain}:"
     rsyncOpts[curr] = if rsyncOpts[curr] then rsyncOpts[curr] else conf.rsync[prop][curr]
 
-    rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if isToRemote && curr == "dest"
-    rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if !isToRemote && curr == "src"
+    rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if isToRemote && curr == 'dest'
+    rsyncOpts[curr] = "#{remoteHost}#{rsyncOpts[curr]}" if !isToRemote && curr == 'src'
 
   rsyncOpts.exclude = conf.rsync[prop].exclude || ''
 
