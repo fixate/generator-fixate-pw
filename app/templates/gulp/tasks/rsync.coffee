@@ -51,7 +51,6 @@ gulp.task 'rsync:downdry', (done) ->
 #*------------------------------------*\
 #     $RSYNC DOWN
 #*------------------------------------*/
-# sync down
 gulp.task 'rsync:down', (done) ->
   prepareRsync done, 'down', false
 
@@ -62,7 +61,6 @@ gulp.task 'rsync:down', (done) ->
 #*------------------------------------*\
 #     $RSYNC TO PROD DRY RUN
 #*------------------------------------*/
-# dry-run sync to prod
 gulp.task 'rsync:updry', (done) ->
   prepareRsync done, 'up', true, dryRun: true
 
