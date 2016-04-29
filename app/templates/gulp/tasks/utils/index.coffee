@@ -3,11 +3,12 @@ fs      = require 'fs'
 path    = require 'path'
 exports = module.exports
 
-exports.execCommand = (cmd) ->
+exports.execCommand = (cmd, done) ->
   exec cmd, (err, stdout, stderr) ->
     console.log stdout
     console.log stderr
     console.log err if err
+    done() if done and typeof done == 'function'
 
 exports.getNewestFile = (dir) ->
   files = fs.readdirSync(dir)

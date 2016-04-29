@@ -7,7 +7,7 @@ utils  = require './utils'
 # add database credentials to your secrets.coffee
 secrets = require '../secrets'
 
-dbImportFromTo = (fromEnv, toEnv) ->
+dbImportFromTo = (fromEnv, toEnv, done) ->
   dbFromPath = path.resolve(__dirname, '../../database', fromEnv)
   dbEnv = "db_#{toEnv}"
   newestFile = path.resolve(dbFromPath, utils.getNewestFile(dbFromPath))
@@ -22,9 +22,9 @@ dbImportFromTo = (fromEnv, toEnv) ->
 
   gutil.log gutil.colors.green("importing #{newestFile} into #{toEnv}")
 
-  utils.execCommand cmd
+  utils.execCommand cmd, done
 
-dbDropTables = (env) ->
+dbDropTables = (env, done) ->
   dbEnv = "db_#{env}"
   secret = secrets[dbEnv]
   cmd = [
@@ -43,9 +43,9 @@ dbDropTables = (env) ->
     "dropping tables from #{secret.name} database in #{env} environment"
   )
 
-  utils.execCommand cmd
+  utils.execCommand cmd, done
 
-dbDump = (env) ->
+dbDump = (env, done) ->
   path = if env != 'prod' then 'dev' else env
   date = moment()
   dbEnv = "db_#{env}"
@@ -57,23 +57,47 @@ dbDump = (env) ->
     "#{secret.name} > ./database/#{path}/#{date.format('YYYY-MM-DD-HH-mm-ss')}-#{dbEnv}.sql"
   ].join(' ')
 
-  utils.execCommand cmd
+  utils.execCommand cmd, done
 
 
 
 
 
-gulp.task 'db-dump:dev', () ->
-  dbDump('dev')
+#*------------------------------------*\
+#     $DB DUMPS
+#*------------------------------------*/
+gulp.task 'db-dump:dev', (done) ->
+  dbDump('dev', done)
 
-gulp.task 'db-dump:prod', () ->
-  dbDump('prod')
+gulp.task 'db-dump:remote', (done) ->
+  dbDump('remote', done)
 
-gulp.task 'db-droptables:dev', () ->
-  dbDropTables('dev')
+gulp.task 'db-dump:staging', (done) ->
+  dbDump('staging', done)
 
-gulp.task 'db-import:prodtodev', ['db-droptables:dev'], () ->
-  dbImportFromTo('prod', 'dev')
+gulp.task 'db-dump:prod', (done) ->
+  dbDump('prod', done)
 
-gulp.task 'db-import:devtodev', ['db-droptables:dev'], () ->
-  dbImportFromTo('dev', 'dev')
+
+
+
+
+#*------------------------------------*\
+#     $DB DROP TABLES
+#*------------------------------------*/
+gulp.task 'db-droptables:dev', (done) ->
+  dbDropTables('dev', done)
+
+
+
+
+
+#*------------------------------------*\
+#     $DB IMPORTS
+#*------------------------------------*/
+gulp.task 'db-import:prodtodev', ['db-droptables:dev'], (done) ->
+  dbImportFromTo('prod', 'dev', done)
+
+gulp.task 'db-import:devtodev', ['db-droptables:dev'], (done) ->
+  dbImportFromTo('dev', 'dev', done)
+
