@@ -19,6 +19,7 @@ module.exports =
 
   # Exclude React from your bundle
   externals:
+    'jquery': 'jquery'
     'react': 'React'
     'react-dom': 'ReactDOM'
 
