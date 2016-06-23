@@ -1,13 +1,14 @@
 gulp        = require 'gulp'
-assign      = require 'object.assign'
 eslint      = require 'gulp-eslint'
 webpack     = require 'webpack'
 
-path        = require('../gulpconfig').path
-webpackConf = require '../webpack.config.base'
+path           = require('../gulpconfig').path
+webpackDevConf = require '../../webpack.config.dev'
+webpackConf =
+  dev: webpackDevConf
 
 runWebPack = (config, done) ->
-  config = assign config, webpackConf
+  config = Object.assign(config, webpackConf.dev)
 
   webpack(config).run (err, stats) ->
     if err
@@ -50,9 +51,8 @@ gulp.task 'scripts:watch', ['scripts'],  () ->
 #     $SCRIPTS VENDORS
 #*------------------------------------*/
 gulp.task 'scripts:vendors', (done) ->
-  # files = [
-  #   "#{path.dev.js}/vendor.js"
-  # ]
+  # entries =
+  #   "vendor": "./#{path.dev.js}/vendor.js"
 
   # runWebPack(entries, {}, done)
   #
@@ -73,4 +73,3 @@ gulp.task 'scripts:lint',  () ->
   gulp.src(files)
     .pipe(eslint())
     .pipe(eslint.format())
-
