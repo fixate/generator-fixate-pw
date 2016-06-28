@@ -1,6 +1,7 @@
 gulp        = require 'gulp'
 imagemin    = require 'gulp-imagemin'
 regexRename = require 'gulp-regex-rename'
+replace     = require 'gulp-replace'
 pngquant    = require 'imagemin-pngquant'
 
 conf = require '../gulpconfig'
@@ -34,10 +35,10 @@ gulp.task 'images:minify', () ->
 #*------------------------------------*/
 gulp.task 'images:minify:svgpartials', () ->
   gulp.src("./#{conf.path.dev.views}/partials/svg/raw/**/*.svg")
+    .pipe replace(' id=', ' class=')
     .pipe imagemin {
       svgoPlugins: [
         { removeViewBox: false },
-        { cleanupIDs: false },
       ],
     }
     .pipe regexRename(/\.svg/, '.svg.php')
