@@ -1,7 +1,5 @@
 gulp        = require 'gulp'
 gulpif      = require 'gulp-if'
-imagemin    = require 'gulp-imagemin'
-pngquant    = require 'imagemin-pngquant'
 regexRename = require 'gulp-regex-rename'
 rename      = require 'gulp-rename'
 replace     = require 'gulp-replace'
@@ -64,18 +62,8 @@ gulp.task 'rev:fonts', () ->
 #*------------------------------------*\
 #     $REV IMAGES & OPTIMISE
 #*------------------------------------*/
-gulp.task 'rev:images', () ->
+gulp.task 'rev:images', ['images:minify'], () ->
   return gulp.src("#{conf.path.dev.img}/**/*.{jpg,jpeg,png,svg}")
-    .pipe imagemin {
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true,
-      svgoPlugins: [
-        { removeViewBox: false },
-        { cleanupIDs: false },
-      ],
-      use: [pngquant()]
-    }
     .pipe rev()
     .pipe gulp.dest conf.path.prod.img
     .pipe rev.manifest(conf.revManifest.path, conf.revManifest.opts)
@@ -98,3 +86,4 @@ gulp.task 'rev:replace', ['rev:css', 'rev:scripts'], () ->
     .pipe revReplace({ manifest: manifest })
     .pipe replace(/styleCssTmp/g, 'style.css')
     .pipe gulp.dest('./')
+

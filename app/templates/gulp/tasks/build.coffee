@@ -11,7 +11,7 @@ runSequence  = require 'run-sequence'
 gulp.task 'build', () ->
   runSequence(
     'clean:build',
-    'images:svgminify'
+    'images:minify:svgpartials'
     'rev:fonts',
     'rev:images',
     ['rev:replace', 'minify:scripts:vendors']
