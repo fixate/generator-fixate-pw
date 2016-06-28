@@ -25,6 +25,9 @@ site/templates/assets/**/*.map.css
 !site/templates/assets/**/editor.css
 site/templates/assets/**/*bundle.js
 site/templates/assets/**/*.js.map
+site/templates/assets/img/*
+!site/templates/assets/img/raw
+site/templates/views/partials/svg/*
+!site/templates/views/partials/svg/raw
 site/templates/assets/vendor
 site/templates/assets/public
-
