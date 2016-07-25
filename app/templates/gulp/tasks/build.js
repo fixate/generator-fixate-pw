@@ -1,4 +1,4 @@
-const gulp = require('gulp');
+const gulp        = require('gulp');
 const runSequence = require('run-sequence');
 
 
@@ -8,13 +8,17 @@ const runSequence = require('run-sequence');
 //*------------------------------------*\
 //     $BUILD
 //*------------------------------------*/
-gulp.task('build', () =>
+gulp.task('build', done =>
   runSequence(
     'clean:build',
-    'images:minify:svgpartials',
-    'images:minify:inlinesvgicons',
-    'rev:fonts',
-    'rev:images',
-    ['rev:replace', 'minify:scripts:vendors']
+    [
+      'fonts:copy',
+      'images:copy',
+      'scripts:minify',
+      'css:minify',
+      'pug:minify',
+      'favicons:copy',
+    ],
+    done
   )
 );

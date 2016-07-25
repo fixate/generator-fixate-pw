@@ -79,4 +79,3 @@ gulp.task('images:minify:svgpartials', () =>
 gulp.task('images:watch', ["images:minify"], function() {});
 gulp.task('images:watch:svgpartials', ["images:minify:svgpartials"], function() {});
 gulp.task('images:watch:inlinesvgicons', ["images:minify:inlinesvgicons"], function() {});
-

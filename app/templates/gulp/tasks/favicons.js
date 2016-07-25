@@ -4,15 +4,17 @@ const gutil    = require('gulp-util');
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
 
+const conf= require('../gulpconfig');
+
 
 
 
 
 //*------------------------------------*\
-//     FAVICONS
+//     $FAVICONS
 //*------------------------------------*/
-gulp.task('favicons', () =>
-  gulp.src('./src/device-icon-template.png')
+gulp.task('favicons:generate', () =>
+  gulp.src(`${conf.path.dev.app}/device-icon-template.png`)
     .pipe(favicons({
       background: "#fff",
       display: "browser",
@@ -37,5 +39,17 @@ gulp.task('favicons', () =>
       interlaced: true,
       use: [pngquant()]
     }))
-    .pipe(gulp.dest("./src"))
+    .pipe(gulp.dest(conf.path.dist.app))
 );
+
+
+
+
+
+//*------------------------------------*\
+//     $FAVICONS COPY
+//*------------------------------------*/
+gulp.task('favicons:copy', ['favicons:generate'], (done) => {
+  gulp.src(`${conf.path.dev.app}/favicon.ico`)
+    .pipe(gulp.dest(conf.path.dist.app));
+});
