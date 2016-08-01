@@ -89,6 +89,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy ".gitignore_pw",                "src/.gitignore"
       @copy ".gitkeep",                     "database/dev/.gitkeep"
       @copy ".gitkeep",                     "database/prod/.gitkeep"
+      @copy ".tmuxinator.yml",              ".tmuxinator.yml"
       @copy "bower.json",                   "bower.json"
       @copy "gulpfile.js",                  "gulpfile.js"
       @copy "gulp/secrets-sample.js",       "gulp/secrets.js"

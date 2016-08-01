@@ -1,0 +1,13 @@
+name: project name
+root: <%= Dir.pwd %>
+
+windows:
+  - editor:
+      panes:
+        - vim
+  - automation:
+      layout: ceca,272x58,0,0{136x58,0,0,17,135x58,137,0[135x29,137,0,18,135x28,137,30,19]}]
+      panes:
+        -
+        - gulp
+        - cd styleguide && gulp --dev
