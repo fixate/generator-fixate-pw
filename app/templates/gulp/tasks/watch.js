@@ -24,6 +24,8 @@ gulp.task('watch', ['css:watch', 'images:watch', 'images:watch:svgpartials', 'sc
 
 
 
+
+
 /*------------------------------------*\
      $WATCH TESTS
 \*------------------------------------*/
@@ -46,7 +48,7 @@ gulp.task('watch:tests', function() {
         } catch (e) {
           log(`No matching test file for ${basename}.`, 'red');
           log('Running all tests');
-          testFile = `${devPath.app}/**/*_test.js`;
+          testFile = `${devPath.assets}/**/*_test.js`;
         }
       }
 
