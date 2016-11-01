@@ -1,6 +1,6 @@
 {
   "github": {
-    "processwire": "ryancramerdesign/ProcessWire",
+    "processwire": "processwire/processWire",
     "pwBoilerplate": "fixate/pw-boilerplate",
     "pwProfile": "fixate/pw-mvc-boilerplate-site-profile",
     "pwModules": {
