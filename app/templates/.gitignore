@@ -8,7 +8,7 @@ config.rb
 # Node
 node_modules
 npm-debug.log
-gulp/secrets.coffee
+gulp/secrets.js
 
 # Fabricator Symlinked Assets
 styleguide/src/assets/toolkit/assets
