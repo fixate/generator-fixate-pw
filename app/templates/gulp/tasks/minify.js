@@ -33,7 +33,6 @@ gulp.task('minify:css', ['css'], () =>
 gulp.task('minify:scripts', ['scripts'], function() {
   let files = [
     `${conf.path.dev.js}/main.bundle.js`,
-    `${conf.path.dev.js}/map.bundle.js`,
   ];
 
   return gulp.src(files)
