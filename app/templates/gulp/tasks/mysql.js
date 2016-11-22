@@ -48,7 +48,7 @@ const dbDropTables = function(env, done) {
 };
 
 const dbDump = function(env, done) {
-  path = env !== 'prod' ? 'dev' : env;
+  const envPath = env !== 'prod' ? 'dev' : env;
   const date = moment();
   const dbEnv = `db_${env}`;
   const secret = secrets[dbEnv];
@@ -56,7 +56,7 @@ const dbDump = function(env, done) {
     `mysqldump --host=${secret.host}`,
     `--user=${secret.user}`,
     `--password=${secret.pass}`,
-    `${secret.name} > ./database/${path}/${date.format('YYYY-MM-DD-HH-mm-ss')}-${dbEnv}.sql`
+    `${secret.name} > ./database/${envPath}/${date.format('YYYY-MM-DD-HH-mm-ss')}-${dbEnv}.sql`
   ].join(' ');
 
   return utils.execCommand(cmd, done);
