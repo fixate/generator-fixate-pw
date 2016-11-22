@@ -11,14 +11,12 @@ const runSequence = require('run-sequence');
 gulp.task('build', done =>
   runSequence(
     'clean:build',
-    [
-      'fonts:copy',
-      'images:copy',
-      'scripts:minify',
-      'css:minify',
-      'pug:minify',
-      'favicons:copy',
-    ],
+    'images:minify:svgpartials',
+    'images:minify:inlinesvgicons',
+    'rev:fonts',
+    'rev:images',
+    'favicons:generate',
+    ['rev:replace', 'minify:scripts:vendors'],
     done
   )
 );
