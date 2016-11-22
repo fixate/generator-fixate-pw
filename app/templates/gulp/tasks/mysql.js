@@ -4,7 +4,7 @@ const moment = require('moment');
 const path   = require('path');
 const utils  = require('./utils');
 
-// add database credentials to your secrets.coffee
+// add database credentials to your secrets.js
 const secrets = require('../secrets');
 
 const dbImportFromTo = function(fromEnv, toEnv, done) {
