@@ -15,12 +15,13 @@ if (!test('-f', 'bower.json')) {
   echo('bower.json is initialised');
 }
 
-if (test('-f', 'secrets-sample.coffee') && !test('-f', 'secrets.coffee')) {
+
+if (test('-f', 'gulp/secrets-sample.js') && !test('-f', 'gulp/secrets.js')) {
   echo('creating your very own secrets');
-  cp('secrets-sample.coffee', 'secrets.coffee');
-  echo('secrets.coffee created');
+  cp('gulp/secrets-sample.js', 'gulp/secrets.js');
+  echo('secrets.js created');
 } else {
-  echo('secrets.coffee is ready');
+  echo('secrets.js is ready');
 }
 
 if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
