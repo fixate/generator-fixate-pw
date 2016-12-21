@@ -15,7 +15,6 @@ if (!test('-f', 'bower.json')) {
   echo('bower.json is initialised');
 }
 
-
 if (test('-f', 'gulp/secrets-sample.js') && !test('-f', 'gulp/secrets.js')) {
   echo('creating your very own secrets');
   cp('gulp/secrets-sample.js', 'gulp/secrets.js');
@@ -33,3 +32,10 @@ if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
   echo('styleguide correctly symlinked to site assets');
 }
 
+if (!test('-f', 'styleguide/src/views/layouts/includes/inline-icons.svg.html')) {
+  echo('creating empty inline icons partial for styleguide');
+  touch('styleguide/src/views/layouts/Rncludes/inline-icons.svg.html');
+  echo('inline-icons.svg.html created');
+} else {
+  echo('inline-icons.svg.html ready');
+}
