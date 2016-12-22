@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 
-// add your vhost to secrets.coffee to allow for live reloading and css injection
+// add your vhost to secrets.js to allow for live reloading and css injection
 const secrets = require('../secrets');
 
 
