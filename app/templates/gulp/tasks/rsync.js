@@ -4,7 +4,6 @@ const extend = require('extend');
 const rsync  = require('rsyncwrapper');
 
 const conf   = require('../gulpconfig');
-const secret = require('../secrets');
 
 function processRsync(done, rsyncOpts = {}) {
   rsyncOpts = extend({
@@ -27,7 +26,7 @@ function processRsync(done, rsyncOpts = {}) {
 
 function prepareRsync(done, prop, isToRemote = true, rsyncOpts = {}) {
   ['dest', 'src'].forEach(function(curr) {
-    const remoteHost = `${secret.username}@${secret.domain}:`;
+    const remoteHost = `${process.env.PROD_SSH_USERNAME}@${process.env.PROD_DOMAIN}:`;
     rsyncOpts[curr] = rsyncOpts[curr] ? rsyncOpts[curr] : conf.rsync[prop][curr];
 
     if (isToRemote && curr === 'dest') { rsyncOpts[curr] = `${remoteHost}${rsyncOpts[curr]}`; }
@@ -74,4 +73,3 @@ gulp.task('rsync:updry', done => prepareRsync(done, 'up', true, {dryRun: true}))
 //     $RSYNC TO PROD
 //*------------------------------------*/
 gulp.task('rsync:up', done => prepareRsync(done, 'up'));
-
