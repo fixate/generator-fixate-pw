@@ -4,19 +4,17 @@ const moment = require('moment');
 const path   = require('path');
 const utils  = require('./utils');
 
-// add database credentials to your secrets.js
-const secrets = require('../secrets');
+// set database credentials in your environment e.g. with .env
 
 const dbImportFromTo = function(fromEnv, toEnv, done) {
   const dbFromPath = path.resolve(__dirname, '../../database', fromEnv);
-  const dbEnv = `db_${toEnv}`;
+  const dbEnvPrefix = `${toEnv.toUpperCase()}_DB_`;
   const newestFile = path.resolve(dbFromPath, utils.getNewestFile(dbFromPath));
-  const secret = secrets[dbEnv];
 
   const cmd = [
-    `mysql --host=${secret.host} --user=${secrets[dbEnv].user}`,
-    `--password=${secret.pass}`,
-    `${secret.name}`,
+    `mysql --host=${process.env[`${dbEnvPrefix}HOST`]} --user=${process.env[`${dbEnvPrefix}USER`]}`,
+    `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
+    `${process.env[`${dbEnvPrefix}NAME`]}`,
     `< ${newestFile}`
   ].join(' ');
 
@@ -26,22 +24,21 @@ const dbImportFromTo = function(fromEnv, toEnv, done) {
 };
 
 const dbDropTables = function(env, done) {
-  const dbEnv = `db_${env}`;
-  const secret = secrets[dbEnv];
+  const dbEnvPrefix = `${env.toUpperCase()}_DB_`;
   const cmd = [
-    `mysqldump --host=${secret.host}`,
-    `--user=${secret.user}`,
-    `--password=${secret.pass}`,
-    `--add-drop-table --no-data ${secret.name}`,
+    `mysqldump --host=${process.env[`${dbEnvPrefix}HOST`]}`,
+    `--user=${process.env[`${dbEnvPrefix}USER`]}`,
+    `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
+    `--add-drop-table --no-data ${process.env[`${dbEnvPrefix}NAME`]}`,
     "| grep ^DROP",
-    `| mysql --host=${secret.host}`,
-    `--user=${secret.user}`,
-    `--password=${secret.pass}`,
-    `${secret.name}`
+    `| mysql --host=${process.env[`${dbEnvPrefix}HOST`]}`,
+    `--user=${process.env[`${dbEnvPrefix}USER`]}`,
+    `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
+    `${process.env[`${dbEnvPrefix}NAME`]}`
   ].join(' ');
 
   gutil.log(gutil.colors.red(
-    `dropping tables from ${secret.name} database in ${env} environment`
+    `dropping tables from ${process.env[`${dbEnvPrefix}NAME`]} database in ${env} environment`
   ));
 
   return utils.execCommand(cmd, done);
@@ -50,13 +47,12 @@ const dbDropTables = function(env, done) {
 const dbDump = function(env, done) {
   const envPath = env !== 'prod' ? 'dev' : env;
   const date = moment();
-  const dbEnv = `db_${env}`;
-  const secret = secrets[dbEnv];
+  const dbEnvPrefix = `${env.toUpperCase()}_DB_`;
   const cmd = [
-    `mysqldump --host=${secret.host}`,
-    `--user=${secret.user}`,
-    `--password=${secret.pass}`,
-    `${secret.name} > ./database/${envPath}/${date.format('YYYY-MM-DD-HH-mm-ss')}-${dbEnv}.sql`
+    `mysqldump --host=${process.env[`${dbEnvPrefix}HOST`]}`,
+    `--user=${process.env[`${dbEnvPrefix}USER`]}`,
+    `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
+    `${process.env[`${dbEnvPrefix}NAME`]} > ./database/${envPath}/${date.format('YYYY-MM-DD-HH-mm-ss')}-${env}.sql`
   ].join(' ');
 
   return utils.execCommand(cmd, done);
@@ -96,5 +92,3 @@ gulp.task('db-droptables:dev', done => dbDropTables('dev', done));
 gulp.task('db-import:prodtodev', ['db-droptables:dev'], done => dbImportFromTo('prod', 'dev', done));
 
 gulp.task('db-import:devtodev', ['db-droptables:dev'], done => dbImportFromTo('dev', 'dev', done));
-
-

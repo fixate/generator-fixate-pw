@@ -84,12 +84,15 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy ".bowerrc",                     ".bowerrc"
       @copy ".editorconfig",                ".editorconfig"
       @copy ".eslintrc",                    ".eslintrc"
-      @copy ".gitattributes",               ".gitattributes"
       @copy ".agignore",                    ".agignore"
       @copy ".gitignore",                   ".gitignore"
       @copy ".gitignore_pw",                "src/.gitignore"
       @copy ".gitkeep",                     "database/dev/.gitkeep"
       @copy ".gitkeep",                     "database/prod/.gitkeep"
+      @fs.copy(
+        @templatePath(".env.tmpl"),
+        @templatePath(".env.tmpl")
+      )
       @fs.copy(
         @templatePath(".tmuxinator.yml.tmpl"),
         @templatePath(".tmuxinator.yml.tmpl")
