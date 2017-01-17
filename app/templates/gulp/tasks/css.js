@@ -15,7 +15,7 @@ const conf = require('../gulpconfig');
 gulp.task('css', () =>
   gulp.src([`${conf.path.dev.scss}/**/*.{scss,sass}`])
     .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass(conf.sass).on('error', sass.logError))
     .pipe(autoprefixer({browsers: ['last 2 versions']}))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(conf.path.dev.css))

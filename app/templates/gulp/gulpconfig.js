@@ -24,8 +24,20 @@ let config = {
     }
   },
 
-  ssh: {
-    port: 22
+  revManifest: {
+    path: `${assets}/rev-manifest.json`,
+    opts: {
+      merge: true
+    },
+  },
+
+  revReplace: {
+    opts: {
+      'replaceInExtensions': [
+        '.js',
+        '.css'
+      ],
+    },
   },
 
   rsync: {
@@ -53,24 +65,16 @@ let config = {
     down: {
       dest: './src/site/assets',
       src: 'public_html/site/assets/files'
-    }
+    },
   },
 
-  revManifest: {
-    path: `${assets}/rev-manifest.json`,
-    opts: {
-      merge: true
-    }
+  sass: {
+    includePaths: ['node_modules'],
   },
 
-  revReplace: {
-    opts: {
-      'replaceInExtensions': [
-        '.js',
-        '.css'
-      ]
-    }
-  }
+  ssh: {
+    port: 22,
+  },
 };
 
 module.exports = config;
