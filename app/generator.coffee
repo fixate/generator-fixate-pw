@@ -80,31 +80,42 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         'styleguide'
       ]
 
-      @copy ".babelrc",                     ".babelrc"
-      @copy ".bowerrc",                     ".bowerrc"
-      @copy ".editorconfig",                ".editorconfig"
-      @copy ".eslintrc",                    ".eslintrc"
-      @copy ".agignore",                    ".agignore"
-      @copy ".gitignore",                   ".gitignore"
-      @copy ".gitignore_pw",                "src/.gitignore"
-      @copy ".gitkeep",                     "database/dev/.gitkeep"
-      @copy ".gitkeep",                     "database/prod/.gitkeep"
-      @fs.copy(
-        @templatePath(".env.tmpl"),
-        @templatePath(".env.tmpl")
-      )
-      @fs.copy(
-        @templatePath(".tmuxinator.yml.tmpl"),
-        @templatePath(".tmuxinator.yml.tmpl")
-      )
-      @copy "bower.json",                   "bower.json"
-      @copy "gulpfile.js",                  "gulpfile.js"
-      @copy "gulp/secrets-sample.js",       "gulp/secrets.js"
-      @copy "package.json",                 "package.json"
-      @copy "setup.js",                     "setup.js"
-      @copy "webpack.config.base.js",       "webpack.config.base.js"
-      @copy "webpack.config.dev.js",        "webpack.config.dev.js"
-      @directory "gulp",                    "gulp"
+      copyFile = (obj) =>
+        @fs.copy(
+          @templatePath(obj.from),
+          @destinationPath(obj.to)
+        )
+
+      copyTmpl = (obj) =>
+        @fs.copyTmpl(
+          @templatePath(obj.from),
+          @destinationPath(obj.to)
+        )
+
+      [
+        { from: ".babelrc", to: ".babelrc" },
+        { from: ".bowerrc", to: ".bowerrc" },
+        { from: ".editorconfig", to: ".editorconfig" },
+        { from: ".eslintrc", to: ".eslintrc" },
+        { from: ".agignore", to: ".agignore" },
+        { from: ".gitignore", to: ".gitignore" },
+        { from: ".gitignore_pw", to: "src/.gitignore" },
+        { from: ".gitkeep", to: "database/dev/.gitkeep" },
+        { from: ".gitkeep", to: "database/prod/.gitkeep" },
+        { from: ".env.tmpl", to: ".env.tmpl" },
+        { from: ".tmuxinator.yml.tmpl", to: ".tmuxinator.yml.tmpl" },
+        { from: "bower.json", to: "bower.json" },
+        { from: "gulpfile.js", to: "gulpfile.js" },
+        { from: "package.json", to: "package.json" },
+        { from: "setup.js", to: "setup.js" },
+        { from: "gulp/secrets-sample.js", to: "gulp/secrets.js"},
+        { from: "package.json", to: "package.json" },
+        { from: "setup.js", to: "setup.js"},
+        { from: "webpack.config.base.js", to: "webpack.config.base.js"},
+        { from: "webpack.config.dev.js", to: "webpack.config.dev.js"},
+        { from: "gulp", to: "gulp" },
+      ].map(copyFile)
+
       @template "_robots.txt",              "src/robots.txt"
 
 
