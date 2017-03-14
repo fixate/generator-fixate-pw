@@ -51,9 +51,9 @@
     "run-sequence": "^1.2.1",
     "shelljs": "^0.7.0",
     "updtr": "^0.1.15",
+    "gulp-if": "^2.0.1"
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "gulp-if": "^2.0.1"
   }
 }
