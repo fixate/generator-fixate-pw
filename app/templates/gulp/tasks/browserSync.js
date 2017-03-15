@@ -14,9 +14,9 @@ gulp.task('browser-sync', () =>
   global.browserSync.init({
     proxy: secrets.browserSyncProxy,
     injectchanges: true,
-    open: false
-    // notify: false
-    // tunnel: true
+    open: false,
+    // notify: false,
+    // tunnel: true,
   })
 );
 
