@@ -22,20 +22,3 @@ if (test('-f', 'gulp/secrets-sample.js') && !test('-f', 'gulp/secrets.js')) {
 } else {
   echo('secrets.js is ready');
 }
-
-if (!test('-L', 'styleguide/src/assets/toolkit/assets')) {
-  echo('symlinking styleguide assets to site assets');
-  cd('styleguide/src/assets/toolkit');
-  ln('-s', '../../../../src/site/templates/assets', 'assets');
-  echo('assets symlinked');
-} else {
-  echo('styleguide correctly symlinked to site assets');
-}
-
-if (!test('-f', 'styleguide/src/views/layouts/includes/inline-icons.svg.html')) {
-  echo('creating empty inline icons partial for styleguide');
-  touch('styleguide/src/views/layouts/includes/inline-icons.svg.html');
-  echo('inline-icons.svg.html created');
-} else {
-  echo('inline-icons.svg.html ready');
-}
