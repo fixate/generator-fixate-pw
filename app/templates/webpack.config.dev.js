@@ -15,7 +15,7 @@ const config = {
 
   externals: webpackBase.externals,
 
-  devtool: 'source-map',
+  devtool: 'eval',
 
   plugins:
     [].concat.apply([
