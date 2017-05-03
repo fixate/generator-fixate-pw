@@ -18,11 +18,13 @@ const conf = require('../gulpconfig');
 gulp.task('images:minify:inlinesvgicons', () =>
   gulp.src(`${conf.path.dev.img}/raw/svg/inline-icons/*.svg`)
     .pipe(rename({ prefix: 'icon-' }))
-    .pipe(imagemin({
-      svgoPlugins: [
-        { removeViewBox: false },
-      ],
-    }))
+    .pipe(imagemin([
+      imagemin.svgo({
+        plugins: [
+          { removeViewBox: false },
+        ],
+      })
+    ]))
     .pipe(svgstore())
     .pipe(regexRename(/\.svg/, '.svg.php'))
     .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`))
@@ -37,19 +39,19 @@ gulp.task('images:minify:inlinesvgicons', () =>
 //*------------------------------------*/
 gulp.task('images:minify', () =>
   gulp.src(`${conf.path.dev.img}/raw/**/*.{jpg,jpeg,png,svg}`)
-    .pipe(imagemin({
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true,
-      svgoPlugins: [
-        { removeViewBox: false },
-        { cleanupIDs: false },
-      ],
-      use: [pngquant()]
-    }))
+    .pipe(imagemin([
+      imagemin.gifsicle({ interlaced: true }),
+      imagemin.jpegtran({ progressive: true }),
+      imagemin.optipng({ optimizationLevel: 3 }),
+      imagemin.svgo({
+        plugins: [
+          { removeViewBox: false },
+          { cleanupIDs: false },
+        ],
+      })
+    ]))
     .pipe(gulp.dest(conf.path.dev.img))
 );
-
 
 
 
@@ -60,11 +62,13 @@ gulp.task('images:minify', () =>
 gulp.task('images:minify:svgpartials', () =>
   gulp.src(`./${conf.path.dev.views}/partials/svg/raw/**/*.svg`)
     .pipe(replace('<g id=', '<g class='))
-    .pipe(imagemin({
-      svgoPlugins: [
-        { removeViewBox: false },
-      ],
-    }))
+    .pipe(imagemin([
+      imagemin.svgo({
+        plugins: [
+          { removeViewBox: false },
+        ],
+      })
+    ]))
     .pipe(regexRename(/\.svg/, '.svg.php'))
     .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`))
 );
