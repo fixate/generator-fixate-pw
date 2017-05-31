@@ -25,7 +25,7 @@ gulp.task('images:minify:inlinesvgicons', () =>
         ],
       })
     ]))
-    .pipe(svgstore())
+    .pipe(svgstore({ inlineSvg: true }))
     .pipe(regexRename(/\.svg/, '.svg.php'))
     .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`))
 );
