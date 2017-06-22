@@ -4,7 +4,7 @@
     "pwBoilerplate": "fixate/pw-boilerplate",
     "pwProfile": "fixate/pw-mvc-boilerplate-site-profile",
     "pwModules": {
-      "ProcessRedirects": "apeisa/ProcessRedirects",
+      "Jumplinks": "rockettpw/jumplinks",
       "MarkupSimpleNavigation": "somatonic/MarkupSimpleNavigation",
       "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML",
       "ProcessWireUpgrade": "ryancramerdesign/ProcessWireUpgrade"
