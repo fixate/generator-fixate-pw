@@ -8,6 +8,9 @@
     'no-use-before-define': 0,
     'object-curly-spacing': 0,
     'no-nested-ternary': 0,
+    'no-param-reassign': [2, {
+      'props': false
+    }],
   },
   'globals': {
     '$': true,
