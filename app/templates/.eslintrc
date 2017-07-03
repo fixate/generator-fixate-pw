@@ -6,12 +6,10 @@
     'no-floating-decimal': 0,
     'no-multiple-empty-lines': 0,
     'no-use-before-define': 0,
-    'no-param-reassign': [2, {
-      'props': false
-    }]
+    'object-curly-spacing': 0,
+    'no-nested-ternary': 0,
   },
   'globals': {
     '$': true,
   }
 }
-
