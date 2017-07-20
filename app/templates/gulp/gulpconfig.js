@@ -1,42 +1,39 @@
 const templates = 'src/site/templates';
-const assets    = `${templates}/assets`;
+const assets = `${templates}/assets`;
 
 let config = {
   path: {
     db_backup: 'database',
     dev: {
       assets: `${assets}`,
-      css:    `${assets}/css`,
-      js:     `${assets}/js`,
-      img:    `${assets}/img`,
-      fnt:    `${assets}/fnt`,
-      scss:   `${assets}/css/scss`,
+      css: `${assets}/css`,
+      js: `${assets}/js`,
+      img: `${assets}/img`,
+      fnt: `${assets}/fnt`,
+      scss: `${assets}/css/scss`,
       coffee: `${assets}/js/coffee`,
-      php:    `${templates}`,
-      views:  `${templates}/views`
+      php: `${templates}`,
+      views: `${templates}/views`,
     },
     prod: {
       assets: `${assets}/public`,
-      css:    `${assets}/public/css`,
-      fnt:    `${assets}/public/fnt`,
-      img:    `${assets}/public/img`,
-      js:     `${assets}/public/js`
-    }
+      css: `${assets}/public/css`,
+      fnt: `${assets}/public/fnt`,
+      img: `${assets}/public/img`,
+      js: `${assets}/public/js`,
+    },
   },
 
   revManifest: {
     path: `${assets}/rev-manifest.json`,
     opts: {
-      merge: true
+      merge: true,
     },
   },
 
   revReplace: {
     opts: {
-      'replaceInExtensions': [
-        '.js',
-        '.css'
-      ],
+      replaceInExtensions: ['.js', '.css'],
     },
   },
 
@@ -59,12 +56,12 @@ let config = {
         'assets/cache',
         'assets/files',
         'assets/logs',
-        'assets/sessions'
-      ]
+        'assets/sessions',
+      ],
     },
     down: {
       dest: './src/site/assets',
-      src: 'public_html/site/assets/files'
+      src: 'public_html/site/assets/files',
     },
   },
 
@@ -78,4 +75,3 @@ let config = {
 };
 
 module.exports = config;
-

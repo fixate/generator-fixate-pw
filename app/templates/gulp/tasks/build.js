@@ -1,9 +1,5 @@
-const gulp        = require('gulp');
+const gulp = require('gulp');
 const runSequence = require('run-sequence');
-
-
-
-
 
 //*------------------------------------*\
 //     $BUILD

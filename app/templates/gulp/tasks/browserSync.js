@@ -3,10 +3,6 @@ const gulp = require('gulp');
 // add your vhost to secrets.js to allow for live reloading and css injection
 const secrets = require('../secrets');
 
-
-
-
-
 //*------------------------------------*\
 //     BROWSER-SYNC
 //*------------------------------------*/
@@ -19,10 +15,6 @@ gulp.task('browser-sync', () =>
     // tunnel: true,
   })
 );
-
-
-
-
 
 //*------------------------------------*\
 //     BROWSER-SYNC RELOAD
