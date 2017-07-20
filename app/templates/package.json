@@ -7,6 +7,7 @@
     "update": "./node_modules/.bin/updtr"
   },
   "devDependencies": {
+    "autoprefixer": "^7.1.2",
     "babel-core": "^6.9.0",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
@@ -15,6 +16,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "browser-sync": "^2.12.10",
     "coffee-script": "~1.10.0",
+    "colorguard": "^1.2.0",
     "del": "^2.1.0",
     "eslint": "^2.11.0",
     "eslint-config-airbnb": "^9.0.1",
@@ -30,7 +32,9 @@
     "gulp-eslint": "^2.0.0",
     "gulp-exec": "^2.1.2",
     "gulp-favicons": "^2.2.6",
+    "gulp-if": "^2.0.1",
     "gulp-imagemin": "^3.0.1",
+    "gulp-postcss": "^7.0.0",
     "gulp-regex-rename": "^0.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "~0.5.3",
@@ -51,9 +55,7 @@
     "run-sequence": "^1.2.1",
     "shelljs": "^0.7.0",
     "updtr": "^0.1.15",
-    "gulp-if": "^2.0.1",
     "webpack": "^1.13.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
