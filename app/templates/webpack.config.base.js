@@ -6,24 +6,24 @@ const config = {
   output: {
     path: path.join(__dirname, conf.path.dev.js),
     publicPath: '/assets/js/',
-    filename: '[name].bundle.js'
+    filename: '[name].bundle.js',
   },
 
   externals: {
-    'jQuery': 'jQuery'
+    jQuery: 'jQuery',
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['babel']
-      }
-    ]
+        use: ['babel-loader'],
+      },
+    ],
   },
 
-  plugins: []
+  plugins: [],
 };
 
 module.exports = config;

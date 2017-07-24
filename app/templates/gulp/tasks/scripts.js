@@ -15,7 +15,9 @@ function runWebPack(config, done) {
     if (err) {
       console.log('Error', err);
     } else {
-      console.log(stats.toString({chunks: false}));
+      console.log(
+        stats.toString({chunks: false, modules: false, colors: true})
+      );
     }
 
     return done();
@@ -27,7 +29,9 @@ function runWebPack(config, done) {
 //*------------------------------------*/
 gulp.task('scripts', function(done) {
   // entries compile to [name].bundle.js
-  const entries = {main: `./${path.dev.js}/main.js`};
+  const entries = {
+    main: `./${path.dev.js}/main.js`,
+  };
 
   return runWebPack({entry: entries}, done);
 });
