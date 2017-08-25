@@ -1,9 +1,9 @@
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
 
-//*------------------------------------*\
-//     $BUILD
-//*------------------------------------*/
+/*------------------------------------*\
+     $BUILD
+\*------------------------------------*/
 gulp.task('build', done =>
   runSequence(
     'clean:build',

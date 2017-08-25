@@ -19,23 +19,23 @@ const revMinifiedFiles = (files, dest) =>
     .pipe(rev.manifest(conf.revManifest.path, conf.revManifest.opts))
     .pipe(gulp.dest('./'));
 
-//*------------------------------------*\
-//     $REV CSS
-//*------------------------------------*/
-gulp.task('rev:css', ['minify:css'], () =>
+/*------------------------------------*\
+     $REV CSS
+\*------------------------------------*/
+gulp.task('rev:css', ['css:minify'], () =>
   revMinifiedFiles([`${conf.path.prod.css}/*.min.css`], conf.path.prod.css)
 );
 
-//*------------------------------------*\
-//     $REV SCRIPTS
-//*------------------------------------*/
-gulp.task('rev:scripts', ['minify:scripts'], () =>
+/*------------------------------------*\
+     $REV SCRIPTS
+\*------------------------------------*/
+gulp.task('rev:scripts', ['scripts:minify'], () =>
   revMinifiedFiles([`${conf.path.prod.js}/*.bundle.min.js`], conf.path.prod.js)
 );
 
-//*------------------------------------*\
-//     $REV FONTS
-//*------------------------------------*/
+/*------------------------------------*\
+     $REV FONTS
+\*------------------------------------*/
 gulp.task('rev:fonts', function() {
   const files = ['eot', 'woff', 'woff2', 'ttf', 'svg'].map(
     curr => `${conf.path.dev.fnt}/**/*${curr}`
@@ -49,9 +49,9 @@ gulp.task('rev:fonts', function() {
     .pipe(gulp.dest('./'));
 });
 
-//*------------------------------------*\
-//     $REV IMAGES & OPTIMISE
-//*------------------------------------*/
+/*------------------------------------*\
+     $REV IMAGES & OPTIMISE
+\*------------------------------------*/
 gulp.task('rev:images', ['images:minify'], () =>
   gulp
     .src(`${conf.path.dev.img}/**/*.{jpg,jpeg,png,svg}`)
@@ -61,9 +61,9 @@ gulp.task('rev:images', ['images:minify'], () =>
     .pipe(gulp.dest('./'))
 );
 
-//*------------------------------------*\
-//     $REV REPLACE
-//*------------------------------------*/
+/*------------------------------------*\
+     $REV REPLACE
+\*------------------------------------*/
 gulp.task('rev:replace', ['rev:css', 'rev:scripts'], function() {
   const manifest = gulp.src(`./${conf.revManifest.path}`);
 
