@@ -3,15 +3,19 @@ const eslint = require('gulp-eslint');
 const webpack = require('webpack');
 
 const path = require('../gulpconfig').path;
-const webpackDevConf = require('../../webpack.config.dev');
-const webpackConf = {
-  dev: webpackDevConf,
-};
+const webpackConfDev = require('../../webpack.config.dev');
+const webpackConfProd = require('../../webpack.config.prod');
 
-function runWebPack(config, done) {
-  config = Object.assign(config, webpackConf.dev);
+const runWebPack = (done, env = 'development') => {
+  const webpackConf = env === 'development' ? webpackConfDev : webpackConfProd;
+  const entry = {
+    main: `./${path.dev.js}/main.js`,
+    dot: `./${path.dev.js}/dot.js`,
+  };
 
-  return webpack(config).run(function(err, stats) {
+  const cfg = Object.assign({}, {entry}, webpackConf);
+
+  return webpack(cfg).run(function(err, stats) {
     if (err) {
       console.log('Error', err);
     } else {
@@ -22,19 +26,17 @@ function runWebPack(config, done) {
 
     return done();
   });
-}
+};
 
 //*------------------------------------*\
 //     $SCRIPTS
 //*------------------------------------*/
-gulp.task('scripts', function(done) {
-  // entries compile to [name].bundle.js
-  const entries = {
-    main: `./${path.dev.js}/main.js`,
-  };
+gulp.task('scripts', done => runWebPack(done));
 
-  return runWebPack({entry: entries}, done);
-});
+//*------------------------------------*\
+//     $SCRIPTS MINIFY
+//*------------------------------------*/
+gulp.task('scripts:minify', done => runWebPack(done, 'production'));
 
 //*------------------------------------*\
 //     $SCRIPTS WATCH

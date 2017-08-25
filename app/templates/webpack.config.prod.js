@@ -5,7 +5,11 @@ const conf = require('./gulp/gulpconfig');
 const webpackBase = require('./webpack.config.base');
 
 const config = {
-  output: webpackBase.output,
+  output: Object.assign({}, webpackBase.output, {
+    filename: '[name].bundle.min.js',
+    path: path.join(__dirname, conf.path.prod.js),
+    publicPath: '/assets/public/js/',
+  }),
 
   module: {
     rules: webpackBase.module.rules.concat(
@@ -17,11 +21,13 @@ const config = {
 
   externals: webpackBase.externals,
 
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
+
+  plugins: webpackBase.plugins.concat([]),
 
   stats: webpackBase.stats,
 
-  plugins: webpackBase.plugins.concat([]),
+  node: webpackBase.node,
 };
 
 module.exports = config;

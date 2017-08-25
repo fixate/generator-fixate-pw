@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const conf = require('./gulp/gulpconfig');
 
@@ -10,7 +11,7 @@ const config = {
   },
 
   externals: {
-    jQuery: 'jQuery',
+    // jQuery: 'jQuery',
   },
 
   module: {
@@ -23,7 +24,15 @@ const config = {
     ],
   },
 
-  plugins: [],
-};
+  plugins: [new webpack.NoEmitOnErrorsPlugin()],
 
-module.exports = config;
+  stats: {
+    colors: true,
+    chunks: false,
+    modules: false,
+  },
+
+  node: {
+    Buffer: false,
+  },
+};
