@@ -10,7 +10,6 @@ const runWebPack = (done, env = 'development') => {
   const webpackConf = env === 'development' ? webpackConfDev : webpackConfProd;
   const entry = {
     main: `./${path.dev.js}/main.js`,
-    dot: `./${path.dev.js}/dot.js`,
   };
 
   const cfg = Object.assign({}, {entry}, webpackConf);
