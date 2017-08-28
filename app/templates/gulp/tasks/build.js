@@ -12,7 +12,7 @@ gulp.task('build', done =>
     'rev:fonts',
     'rev:images',
     'favicons:generate',
-    ['rev:replace', 'minify:scripts:vendors'],
+    ['rev:replace'],
     done
   )
 );

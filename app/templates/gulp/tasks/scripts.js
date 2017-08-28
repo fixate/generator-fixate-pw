@@ -44,16 +44,6 @@ gulp.task('scripts:minify', done => runWebPack(done, 'production'));
 gulp.task('scripts:watch', ['scripts'], () => global.browserSync.reload());
 
 //*------------------------------------*\
-//     $SCRIPTS VENDORS
-//*------------------------------------*/
-gulp.task('scripts:vendors', function(done) {});
-// entries =
-//   "vendor": "./#{path.dev.js}/vendor.js"
-
-// runWebPack(entries, {}, done)
-//
-
-//*------------------------------------*\
 //     $LINT
 //*------------------------------------*/
 gulp.task('scripts:lint', function() {
