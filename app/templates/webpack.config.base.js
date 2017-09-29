@@ -36,3 +36,5 @@ const config = {
     Buffer: false,
   },
 };
+
+module.exports = config;
