@@ -66,7 +66,7 @@ let config = {
   },
 
   sass: {
-    includePaths: ['node_modules'],
+    includePaths: ['node_modules/normalize.css'],
   },
 
   ssh: {
