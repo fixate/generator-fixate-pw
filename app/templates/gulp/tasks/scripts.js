@@ -19,7 +19,7 @@ const runWebPack = (done, env = 'development') => {
       console.log('Error', err);
     } else {
       console.log(
-        stats.toString({chunks: false, modules: false, colors: true})
+        stats.toString({chunks: false, modules: false, colors: true}),
       );
     }
 
@@ -35,7 +35,7 @@ gulp.task('scripts', done => runWebPack(done));
 //*------------------------------------*\
 //     $SCRIPTS MINIFY
 //*------------------------------------*/
-gulp.task('scripts:minify', done => runWebPack(done, 'production'));
+gulp.task('scripts:minify', done => runWebPack(done));
 
 //*------------------------------------*\
 //     $SCRIPTS WATCH
@@ -48,5 +48,8 @@ gulp.task('scripts:watch', ['scripts'], () => global.browserSync.reload());
 gulp.task('scripts:lint', function() {
   const files = [`${path.dev.js}/**/!(*.bundle).js`, `${path.dev.js}/**/*.jsx`];
 
-  return gulp.src(files).pipe(eslint()).pipe(eslint.format());
+  return gulp
+    .src(files)
+    .pipe(eslint())
+    .pipe(eslint.format());
 });
