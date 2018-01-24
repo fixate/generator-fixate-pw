@@ -35,7 +35,7 @@ gulp.task('scripts', done => runWebPack(done));
 //*------------------------------------*\
 //     $SCRIPTS MINIFY
 //*------------------------------------*/
-gulp.task('scripts:minify', done => runWebPack(done));
+gulp.task('scripts:minify', done => runWebPack(done, 'production'));
 
 //*------------------------------------*\
 //     $SCRIPTS WATCH
