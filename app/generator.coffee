@@ -114,6 +114,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: "setup.js", to: "setup.js"},
         { from: "webpack.config.base.js", to: "webpack.config.base.js"},
         { from: "webpack.config.dev.js", to: "webpack.config.dev.js"},
+        { from: "webpack.config.prod.js", to: "webpack.config.prod.js"},
         { from: "gulp", to: "gulp" },
       ].map(copyFile)
 
