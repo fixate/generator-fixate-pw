@@ -96,7 +96,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: ".babelrc", to: ".babelrc" },
         { from: ".bowerrc", to: ".bowerrc" },
         { from: ".editorconfig", to: ".editorconfig" },
-        { from: ".eslintrc", to: ".eslintrc" },
+        { from: ".eslintrc.json", to: ".eslintrc.json" },
         { from: ".agignore", to: ".agignore" },
         { from: ".gitignore", to: ".gitignore" },
         { from: ".gitignore_pw", to: "src/.gitignore" },
