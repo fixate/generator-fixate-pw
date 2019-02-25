@@ -4,6 +4,7 @@
   "name": "project-name",
   "scripts": {
     "postinstall": "node setup.js",
+    "start": "gulp",
     "update": "./node_modules/.bin/updtr"
   },
   "devDependencies": {
