@@ -1,0 +1,60 @@
+version: "3.3"
+services:
+  php:
+    build: './docker/php'
+    networks:
+      - backend
+    volumes:
+      - ./src/:/var/www/html/
+      - ./docker/php/configs/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    # restart: always
+
+  apache:
+    build: './docker/apache/'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    extra_hosts:
+      - '${APACHE_HOSTNAME}:127.0.0.1'
+    ports:
+      - "8080:80"
+      # make virtualhost available without :8080
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www/html
+      # mount non-SSL .htaccess
+      - ./docker/apache/.htaccess:/var/www/html/.htaccess
+    # restart: always
+    # from .env
+    environment:
+      - HOSTNAME=${APACHE_HOSTNAME}
+
+  mysql:
+    build: "./docker/mysql"
+    networks:
+      - backend
+    ports:
+      - "3306:3306"
+    # restart: always
+    # from .env
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+
+  mailhog:
+      image: mailhog/mailhog:v1.0.0
+      networks:
+        - backend
+      ports:
+        - "1025:1025"
+        - "8025:8025"
+
+networks:
+  backend:
+  frontend:

@@ -102,9 +102,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: ".gitignore_pw", to: "src/.gitignore" },
         { from: ".gitkeep", to: "database/dev/.gitkeep" },
         { from: ".gitkeep", to: "database/prod/.gitkeep" },
-        { from: ".env.tmpl", to: ".env.tmpl" },
+        { from: ".env.example", to: ".env.example" },
         { from: ".prettierrc", to: ".prettierrc" },
-        { from: ".tmuxinator.yml.tmpl", to: ".tmuxinator.yml.tmpl" },
+        { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml.example" },
         { from: "bower.json", to: "bower.json" },
         { from: "gulpfile.js", to: "gulpfile.js" },
         { from: "package.json", to: "package.json" },
@@ -116,6 +116,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: "webpack.config.dev.js", to: "webpack.config.dev.js"},
         { from: "webpack.config.prod.js", to: "webpack.config.prod.js"},
         { from: "gulp", to: "gulp" },
+        { from: "docker", to: "docker" },
+        { from: "docker-compose.yml", to: "docker-compose.yml" },
       ].map(copyFile)
 
       @template "_robots.txt",              "src/robots.txt"
