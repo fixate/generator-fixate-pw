@@ -222,11 +222,10 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #   $STYLEGUIDE
     #*------------------------------------*/
     setupStyleguide = () =>
-      @log.info "Installing styleguide / UI toolkit"
+      @log.info "run `npx -p @storybook/cli sb init` to initialise styleguide"
       styleguideFolder = 'styleguide'
       mkdirp styleguideFolder
       shell.pushd styleguideFolder
-      shell.exec 'npx -p @storybook/cli sb init'
       shell.popd()
 
       @log.ok('OK')
@@ -264,6 +263,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     setupRepo()
     setupProcesswire()
     setupProcessWireModules()
-    setupStyleguide()
     setupCSSFramework()
     setupGit()
+    setupStyleguide()

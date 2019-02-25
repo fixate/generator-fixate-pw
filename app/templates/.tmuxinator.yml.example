@@ -11,6 +11,11 @@ windows:
         -
         - npm start
         - cd styleguide && gulp --dev
+  - styleguide:
+      root: <%= Dir.pwd %>/styleguide
+      panes:
+        -
+        - npm run storybook
   - backend:
       panes:
         - docker-compose up
