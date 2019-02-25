@@ -9,5 +9,8 @@ windows:
       layout: 91de,272x58,0,0{136x58,0,0,4,135x58,137,0[135x29,137,0,5,135x28,137,30,6]}
       panes:
         -
-        - gulp
+        - npm start
         - cd styleguide && gulp --dev
+  - backend:
+      panes:
+        - docker-compose up
