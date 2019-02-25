@@ -9,7 +9,7 @@
       "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML",
       "ProcessWireUpgrade": "ryancramerdesign/ProcessWireUpgrade"
     },
-    "styleguide": "fixate/fixate-fabricator",
+    "styleguide": "storybooks/storybook",
     "cssFramework": "larrybotha/styleguide"
   }
 }
