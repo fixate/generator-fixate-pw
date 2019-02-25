@@ -93,8 +93,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         )
 
       [
-        { from: ".babelrc", to: ".babelrc" },
-        { from: ".bowerrc", to: ".bowerrc" },
+        { from: ".babelrc.js", to: ".babelrc.js" },
         { from: ".editorconfig", to: ".editorconfig" },
         { from: ".eslintrc.json", to: ".eslintrc.json" },
         { from: ".agignore", to: ".agignore" },
@@ -105,7 +104,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: ".env.example", to: ".env.example" },
         { from: ".prettierrc", to: ".prettierrc" },
         { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml.example" },
-        { from: "bower.json", to: "bower.json" },
         { from: "gulpfile.js", to: "gulpfile.js" },
         { from: "package.json", to: "package.json" },
         { from: "setup.js", to: "setup.js" },
