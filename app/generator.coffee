@@ -222,10 +222,12 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #   $STYLEGUIDE
     #*------------------------------------*/
     setupStyleguide = () =>
-      @log.info "Installing fabricator styleguide / UI toolkit"
-      repo_path = GitUtils.cacheRepo github(@settings.github.styleguide)
-      mkdirp 'styleguide'
-      GitUtils.export repo_path, dest('styleguide/')
+      @log.info "Installing styleguide / UI toolkit"
+      styleguideFolder = 'styleguide'
+      mkdirp styleguideFolder
+      shell.pushd styleguideFolder
+      shell.exec 'npx -p @storybook/cli sb init'
+      shell.popd()
 
       @log.ok('OK')
 

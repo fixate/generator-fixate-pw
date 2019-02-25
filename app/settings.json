@@ -9,7 +9,6 @@
       "MarkupSitemapXML": "Notanotherdotcom/MarkupSitemapXML",
       "ProcessWireUpgrade": "ryancramerdesign/ProcessWireUpgrade"
     },
-    "styleguide": "storybooks/storybook",
     "cssFramework": "larrybotha/styleguide"
   }
 }
