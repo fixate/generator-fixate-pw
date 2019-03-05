@@ -1,5 +1,6 @@
 const secrets = {
-  browserSyncProxy: 'localsite.dev', // update to use your vhost for browserSync to update on changes
+  // proxy docker-exposed port
+  browserSyncProxy: 'localhost:8080',
 };
 
 module.exports = secrets;
