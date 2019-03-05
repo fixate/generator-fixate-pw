@@ -4,6 +4,8 @@ const moment = require('moment');
 const path = require('path');
 const utils = require('./utils');
 
+require('dotenv').config();
+
 // set database credentials in your environment e.g. with .env
 
 const dbImportFromTo = function(fromEnv, toEnv, done) {
@@ -12,9 +14,9 @@ const dbImportFromTo = function(fromEnv, toEnv, done) {
   const newestFile = path.resolve(dbFromPath, utils.getNewestFile(dbFromPath));
 
   const cmd = [
-    `mysql --host=${process.env[`${dbEnvPrefix}HOST`]} --user=${process.env[
-      `${dbEnvPrefix}USER`
-    ]}`,
+    `mysql --host=${process.env[`${dbEnvPrefix}HOST`]} --user=${
+      process.env[`${dbEnvPrefix}USER`]
+    }`,
     `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
     `${process.env[`${dbEnvPrefix}NAME`]}`,
     `< ${newestFile}`,
@@ -41,10 +43,10 @@ const dbDropTables = function(env, done) {
 
   gutil.log(
     gutil.colors.red(
-      `dropping tables from ${process.env[
-        `${dbEnvPrefix}NAME`
-      ]} database in ${env} environment`
-    )
+      `dropping tables from ${
+        process.env[`${dbEnvPrefix}NAME`]
+      } database in ${env} environment`,
+    ),
   );
 
   return utils.execCommand(cmd, done);
@@ -59,7 +61,7 @@ const dbDump = function(env, done) {
     `--user=${process.env[`${dbEnvPrefix}USER`]}`,
     `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
     `${process.env[`${dbEnvPrefix}NAME`]} > ./database/${envPath}/${date.format(
-      'YYYY-MM-DD-HH-mm-ss'
+      'YYYY-MM-DD-HH-mm-ss',
     )}-${env}.sql`,
   ].join(' ');
 
@@ -86,9 +88,9 @@ gulp.task('db-droptables:dev', done => dbDropTables('dev', done));
 //     $DB IMPORTS
 //*------------------------------------*/
 gulp.task('db-import:prodtodev', ['db-droptables:dev'], done =>
-  dbImportFromTo('prod', 'dev', done)
+  dbImportFromTo('prod', 'dev', done),
 );
 
 gulp.task('db-import:devtodev', ['db-droptables:dev'], done =>
-  dbImportFromTo('dev', 'dev', done)
+  dbImportFromTo('dev', 'dev', done),
 );
