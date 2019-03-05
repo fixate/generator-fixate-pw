@@ -7,7 +7,6 @@ services:
     volumes:
       - ./src/:/var/www/html/
       - ./docker/php/configs/custom.ini:/usr/local/etc/php/conf.d/custom.ini
-    # restart: always
 
   apache:
     build: './docker/apache/'
@@ -27,8 +26,7 @@ services:
     volumes:
       - ./src:/var/www/html
       # mount non-SSL .htaccess
-      - ./docker/apache/.htaccess:/var/www/html/.htaccess
-    # restart: always
+      # - ./docker/apache/.htaccess:/var/www/html/.htaccess
     # from .env
     environment:
       - HOSTNAME=${APACHE_HOSTNAME}
@@ -39,7 +37,6 @@ services:
       - backend
     ports:
       - "3306:3306"
-    # restart: always
     # from .env
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
