@@ -6,16 +6,18 @@ windows:
       panes:
         - vim
   - automation:
-      layout: 91de,272x58,0,0{136x58,0,0,4,135x58,137,0[135x29,137,0,5,135x28,137,30,6]}
+      layout: main-vertical
       panes:
         -
         - npm start
-        -
   - styleguide:
       root: <%= Dir.pwd %>/styleguide
+      layout: main-vertical
       panes:
         -
         - npm run storybook
   - backend:
+      layout: main-vertical
       panes:
         - docker-compose up
+        -
