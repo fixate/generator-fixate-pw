@@ -37,6 +37,8 @@ services:
       - backend
     ports:
       - "3306:3306"
+    # allow zero-formatted dates for installation
+    command: mysqld --sql_mode=""
     # from .env
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}

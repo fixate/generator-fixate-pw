@@ -170,6 +170,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         shell.rm '-rf', "site-blank"
         shell.rm '-rf', "site-classic"
         shell.rm '-rf', "site-languages"
+        shell.rm '-rf', "site-regular"
 
       # ensure processwire assets are committed
       at dest('src/site/'), () =>
