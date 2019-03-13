@@ -14,11 +14,11 @@ function processRsync(done, rsyncOpts = {}) {
       compareMode: 'checksum',
       args: ['--verbose'],
     },
-    rsyncOpts
+    rsyncOpts,
   );
 
   gutil.log(
-    gutil.colors.green(`Rsyncing from ${rsyncOpts.src} to ${rsyncOpts.dest}`)
+    gutil.colors.green(`Rsyncing from ${rsyncOpts.src} to ${rsyncOpts.dest}`),
   );
 
   return rsync(rsyncOpts, function(error, stdout, stderr, cmd) {
@@ -33,8 +33,9 @@ function processRsync(done, rsyncOpts = {}) {
 
 function prepareRsync(done, prop, isToRemote = true, rsyncOpts = {}) {
   ['dest', 'src'].forEach(function(curr) {
-    const remoteHost = `${process.env.PROD_SSH_USERNAME}@${process.env
-      .PROD_DOMAIN}:`;
+    const remoteHost = `${process.env.PROD_SSH_USERNAME}@${
+      process.env.PROD_DOMAIN
+    }:`;
     rsyncOpts[curr] = rsyncOpts[curr]
       ? rsyncOpts[curr]
       : conf.rsync[prop][curr];
@@ -55,23 +56,32 @@ function prepareRsync(done, prop, isToRemote = true, rsyncOpts = {}) {
 //*------------------------------------*\
 //     $RSYNC DOWN DRY RUN
 //*------------------------------------*/
-gulp.task('rsync:downdry', done =>
-  prepareRsync(done, 'down', false, {dryRun: true})
+const rsyncDownDry = gulp.task('rsync:downdry', done =>
+  prepareRsync(done, 'down', false, {dryRun: true}),
 );
 
 //*------------------------------------*\
 //     $RSYNC DOWN
 //*------------------------------------*/
-gulp.task('rsync:down', done => prepareRsync(done, 'down', false));
+const rsyncDown = gulp.task('rsync:down', done =>
+  prepareRsync(done, 'down', false),
+);
 
 //*------------------------------------*\
 //     $RSYNC TO PROD DRY RUN
 //*------------------------------------*/
-gulp.task('rsync:updry', done =>
-  prepareRsync(done, 'up', true, {dryRun: true})
+const rsyncUpDry = gulp.task('rsync:updry', done =>
+  prepareRsync(done, 'up', true, {dryRun: true}),
 );
 
 //*------------------------------------*\
 //     $RSYNC TO PROD
 //*------------------------------------*/
-gulp.task('rsync:up', done => prepareRsync(done, 'up'));
+const rsyncUp = gulp.task('rsync:up', done => prepareRsync(done, 'up'));
+
+module.exports = {
+  rsyncDown,
+  rsyncDownDry,
+  rsyncUp,
+  rsyncUpDry,
+};

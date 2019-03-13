@@ -6,18 +6,24 @@
 // Simply add a new task there, and it will be automatically available as a gulp
 // task for your project
 const gulp = require('gulp');
-const requireDir = require('require-dir');
-const browserSync  = require('browser-sync').create();
+// const requireDir = require('require-dir');
+const browserSync = require('browser-sync').create();
 
 global.browserSync = browserSync;
 
-requireDir('./gulp/tasks', {recurse: false});
-
-
-
-
+require('./gulp/tasks/browser-sync');
+require('./gulp/tasks/build');
+require('./gulp/tasks/clean');
+require('./gulp/tasks/css');
+require('./gulp/tasks/favicons');
+require('./gulp/tasks/images');
+require('./gulp/tasks/mysql');
+require('./gulp/tasks/rev');
+require('./gulp/tasks/rsync');
+require('./gulp/tasks/scripts');
+require('./gulp/tasks/watch');
 
 //*------------------------------------*\
 //     $TASKS
 //*------------------------------------*/
-gulp.task('default', ['watch']);
+exports.default = gulp.task('default', gulp.series('watch', done => done()));

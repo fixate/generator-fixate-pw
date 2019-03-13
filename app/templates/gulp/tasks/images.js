@@ -11,26 +11,31 @@ const conf = require('../gulpconfig');
 //*------------------------------------*\
 //     $SVG INLINE ICONS
 //*------------------------------------*/
-gulp.task('images:minify:inlinesvgicons', () =>
-  gulp
-    .src(`${conf.path.dev.img}/raw/svg/inline-icons/*.svg`)
-    .pipe(rename({prefix: 'icon-'}))
-    .pipe(
-      imagemin([
-        imagemin.svgo({
-          plugins: [{removeViewBox: false}],
-        }),
-      ])
-    )
-    .pipe(svgstore({inlineSvg: true}))
-    .pipe(regexRename(/\.svg/, '.svg.php'))
-    .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`))
+const imagesMinifyInlineSvgIcons = gulp.task(
+  'images:minify:inlinesvgicons',
+  done => {
+    gulp
+      .src(`${conf.path.dev.img}/raw/svg/inline-icons/*.svg`)
+      .pipe(rename({prefix: 'icon-'}))
+      .pipe(
+        imagemin([
+          imagemin.svgo({
+            plugins: [{removeViewBox: false}],
+          }),
+        ]),
+      )
+      .pipe(svgstore({inlineSvg: true}))
+      .pipe(regexRename(/\.svg/, '.svg.php'))
+      .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`));
+
+    return done();
+  },
 );
 
 //*------------------------------------*\
 //     $MINIFY IMAGES
 //*------------------------------------*/
-gulp.task('images:minify', () =>
+const imagesMinify = gulp.task('images:minify', done => {
   gulp
     .src(`${conf.path.dev.img}/raw/**/*.{jpg,jpeg,png,svg}`)
     .pipe(
@@ -41,40 +46,54 @@ gulp.task('images:minify', () =>
         imagemin.svgo({
           plugins: [{removeViewBox: false}, {cleanupIDs: false}],
         }),
-      ])
+      ]),
     )
-    .pipe(gulp.dest(conf.path.dev.img))
-);
+    .pipe(gulp.dest(conf.path.dev.img));
+
+  return done();
+});
 
 //*------------------------------------*\
 //     $OPTIMISE SVG PARTIALS
 //*------------------------------------*/
-gulp.task('images:minify:svgpartials', () =>
-  gulp
-    .src(`./${conf.path.dev.views}/partials/svg/raw/**/*.svg`)
-    .pipe(replace('<g id=', '<g class='))
-    .pipe(
-      imagemin([
-        imagemin.svgo({
-          plugins: [{removeViewBox: false}],
-        }),
-      ])
-    )
-    .pipe(regexRename(/\.svg/, '.svg.php'))
-    .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`))
+const imagesMinifiySvgPartials = gulp.task(
+  'images:minify:svgpartials',
+  done => {
+    gulp
+      .src(`./${conf.path.dev.views}/partials/svg/raw/**/*.svg`)
+      .pipe(replace('<g id=', '<g class='))
+      .pipe(
+        imagemin([
+          imagemin.svgo({
+            plugins: [{removeViewBox: false}],
+          }),
+        ]),
+      )
+      .pipe(regexRename(/\.svg/, '.svg.php'))
+      .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`));
+
+    return done();
+  },
 );
 
 //*------------------------------------*\
 //     $IMAGES WATCH
 //*------------------------------------*/
-gulp.task('images:watch', ['images:minify'], function() {});
+const imagesWatch = gulp.task(
+  'images:watch',
+  gulp.series('images:minify', done => done()),
+);
 gulp.task(
   'images:watch:svgpartials',
-  ['images:minify:svgpartials'],
-  function() {}
+  gulp.series('images:minify:svgpartials', done => done()),
 );
 gulp.task(
   'images:watch:inlinesvgicons',
-  ['images:minify:inlinesvgicons'],
-  function() {}
+  gulp.series('images:minify:inlinesvgicons', done => done()),
 );
+
+module.exports = {
+  imagesMinifyInlineSvgIcons,
+  imagesMinifiySvgPartials,
+  imagesWatch,
+};

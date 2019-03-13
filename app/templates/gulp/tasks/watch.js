@@ -1,44 +1,56 @@
 const gulp = require('gulp');
-const watch = require('gulp-watch');
+const gulpWatch = require('gulp-watch');
 
 const conf = require('../gulpconfig');
 const devPath = conf.path.dev;
 
+require('./browser-sync');
+require('./css');
+require('./images');
+require('./scripts');
+
 /*------------------------------------*\
      $CSS WATCH
 \*------------------------------------*/
-gulp.task(
+const watch = gulp.task(
   'watch',
-  [
+  gulp.series(
     'css:watch',
     'images:watch',
     'images:watch:svgpartials',
     'scripts:watch',
     'browser-sync',
-  ],
-  function() {
-    gulp.watch(`${conf.path.dev.scss}/**/*.scss`, ['css:watch']);
-    gulp.watch(
-      [`${conf.path.dev.js}/**/!(*.bundle).js`, `${conf.path.dev.js}/**/*.jsx`],
-      ['scripts:lint', 'scripts:watch']
-    );
-    gulp.watch(`${conf.path.dev.php}/**/*.php`, ['bs-reload']);
-    gulp.watch(`${conf.path.dev.img}/raw/**/*.{jpeg,jpg,png,gif,svg,ico}`, [
-      'images:watch',
-    ]);
-    gulp.watch(`${conf.path.dev.img}/raw/svg/inline-icons/*.svg`, [
-      'images:watch:inlinesvgicons',
-    ]);
-    return gulp.watch(`${conf.path.dev.views}/partials/svg/raw/**/*.svg`, [
-      'images:watch:svgpartials',
-    ]);
-  }
+
+    function watcher(done) {
+      gulp.watch(`${conf.path.dev.scss}/**/*.scss`, gulp.series('css:watch'));
+      gulp.watch(
+        [
+          `${conf.path.dev.js}/**/!(*.bundle).js`,
+          `${conf.path.dev.js}/**/*.jsx`,
+        ],
+        gulp.series('scripts:lint', 'scripts:watch'),
+      );
+      gulp.watch(`${conf.path.dev.php}/**/*.php`, gulp.series('bs-reload'));
+      gulp.watch(
+        `${conf.path.dev.img}/raw/**/*.{jpeg,jpg,png,gif,svg,ico}`,
+        gulp.series('images:watch'),
+      );
+      gulp.watch(
+        `${conf.path.dev.img}/raw/svg/inline-icons/*.svg`,
+        gulp.series('images:watch:inlinesvgicons'),
+      );
+      return gulp.watch(
+        `${conf.path.dev.views}/partials/svg/raw/**/*.svg`,
+        gulp.series('images:watch:svgpartials'),
+      );
+    },
+  ),
 );
 
 /*------------------------------------*\
      $WATCH TESTS
 \*------------------------------------*/
-gulp.task('watch:tests', function() {
+const watchTests = gulp.task('watch:tests', function() {
   gulp.watch([`${devPath.js}/**/*.js`]).on('change', file => {
     const basename = path.basename(file.path);
     const isTestFile = /_test/.test(basename);
@@ -74,3 +86,5 @@ gulp.task('watch:tests', function() {
       .on('error', () => {});
   }
 });
+
+module.exports = {watch, watchTests};

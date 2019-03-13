@@ -17,6 +17,7 @@ const runWebPack = (done, env = 'development') => {
   return webpack(cfg).run(function(err, stats) {
     if (err) {
       console.log('Error', err);
+      return done();
     } else {
       console.log(
         stats.toString({chunks: false, modules: false, colors: true}),
@@ -30,26 +31,44 @@ const runWebPack = (done, env = 'development') => {
 //*------------------------------------*\
 //     $SCRIPTS
 //*------------------------------------*/
-gulp.task('scripts', done => runWebPack(done));
+const scripts = gulp.task('scripts', done => runWebPack(done));
 
 //*------------------------------------*\
 //     $SCRIPTS MINIFY
 //*------------------------------------*/
-gulp.task('scripts:minify', done => runWebPack(done, 'production'));
+const scriptsMinify = gulp.task('scripts:minify', done =>
+  runWebPack(done, 'production'),
+);
 
 //*------------------------------------*\
 //     $SCRIPTS WATCH
 //*------------------------------------*/
-gulp.task('scripts:watch', ['scripts'], () => global.browserSync.reload());
+const scriptsWatch = gulp.task(
+  'scripts:watch',
+  gulp.series('scripts', done => {
+    global.browserSync.reload();
+
+    return done();
+  }),
+);
 
 //*------------------------------------*\
 //     $LINT
 //*------------------------------------*/
-gulp.task('scripts:lint', function() {
+const scriptsLint = gulp.task('scripts:lint', done => {
   const files = [`${path.dev.js}/**/!(*.bundle).js`, `${path.dev.js}/**/*.jsx`];
 
-  return gulp
+  gulp
     .src(files)
     .pipe(eslint())
     .pipe(eslint.format());
+
+  return done();
 });
+
+module.exports = {
+  scripts,
+  scriptsLint,
+  scriptsMinify,
+  scriptsWatch,
+};

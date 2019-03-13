@@ -12,7 +12,7 @@ const conf = require('../gulpconfig');
 /*------------------------------------*\
      $CSS
 \*------------------------------------*/
-gulp.task('css', () => {
+const css = gulp.task('css', () => {
   const postcssPlugins = [
     autoprefixer({browsers: ['last 2 versions']}),
     colorguard({allowEquivalentNotation: true}),
@@ -30,15 +30,31 @@ gulp.task('css', () => {
 /*------------------------------------*\
      $MINIFY CSS
 \*------------------------------------*/
-gulp.task('css:minify', ['css'], () =>
-  gulp
-    .src([`${conf.path.dev.css}/style.css`])
-    .pipe(cssnano())
-    .pipe(regexRename(/\.css/, '.min.css'))
-    .pipe(gulp.dest(conf.path.prod.css))
+const cssMinify = gulp.task(
+  'css:minify',
+  gulp.series('css', () => {
+    return gulp
+      .src(`${conf.path.dev.css}/style.css`)
+      .pipe(cssnano())
+      .pipe(regexRename(/\.css/, '.min.css'))
+      .pipe(gulp.dest(conf.path.prod.css));
+  }),
 );
 
 /*------------------------------------*\
      $WATCH CSS
 \*------------------------------------*/
-gulp.task('css:watch', ['css'], () => global.browserSync.reload('*.css'));
+const cssWatch = gulp.task(
+  'css:watch',
+  gulp.series('css', done => {
+    global.browserSync.reload('*.css');
+
+    return done();
+  }),
+);
+
+module.exports = {
+  css,
+  cssMinify,
+  cssWatch,
+};
