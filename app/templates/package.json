@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "node setup.js",
     "start": "gulp",
-    "update": "./node_modules/.bin/updtr"
+    "start": "gulp build",
+    "update": "npx npm-check-updates -u && npm i"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.38",
