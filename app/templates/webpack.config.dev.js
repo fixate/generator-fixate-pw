@@ -5,14 +5,14 @@ const conf = require('./gulp/gulpconfig');
 const webpackBase = require('./webpack.config.base');
 
 const config = {
+  mode: 'development',
+
   output: webpackBase.output,
 
   module: {
-    rules: webpackBase.module.rules.concat(
-      [
-        // dev loaders
-      ]
-    ),
+    rules: webpackBase.module.rules.concat([
+      // dev loaders
+    ]),
   },
 
   externals: webpackBase.externals,

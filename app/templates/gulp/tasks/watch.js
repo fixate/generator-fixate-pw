@@ -15,13 +15,15 @@ require('./scripts');
 const watch = gulp.task(
   'watch',
   gulp.series(
-    'css:watch',
-    'images:watch',
-    'images:watch:svgpartials',
-    'scripts:watch',
-    'browser-sync',
+    gulp.parallel(
+      'css:watch',
+      'images:watch',
+      'images:watch:svgpartials',
+      'scripts:watch',
+      'browser-sync',
+    ),
 
-    function watcher(done) {
+    function watcher() {
       gulp.watch(`${conf.path.dev.scss}/**/*.scss`, gulp.series('css:watch'));
       gulp.watch(
         [

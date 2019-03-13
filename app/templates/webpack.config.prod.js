@@ -6,6 +6,8 @@ const conf = require('./gulp/gulpconfig');
 const webpackBase = require('./webpack.config.base');
 
 const config = {
+  mode: 'production',
+
   output: {
     path: path.join(__dirname, conf.path.prod.js),
     publicPath: '/assets/public/js/',
