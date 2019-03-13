@@ -52,7 +52,6 @@
     "rsyncwrapper": "~2.0.1",
     "run-sequence": "^2.2.1",
     "shelljs": "^0.8.1",
-    "updtr": "^2.0.0",
     "webpack": "^3.11.0"
   }
 }
