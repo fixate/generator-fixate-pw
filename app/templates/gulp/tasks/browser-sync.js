@@ -21,7 +21,10 @@ const browserSync = gulp.task('browser-sync', done => {
 //*------------------------------------*\
 //     BROWSER-SYNC RELOAD
 //*------------------------------------*/
-const bsReload = gulp.task('bs-reload', () => global.browserSync.reload());
+const bsReload = gulp.task('bs-reload', done => {
+  global.browserSync.reload();
+  done();
+});
 
 module.exports = {
   browserSync,
