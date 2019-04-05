@@ -6,7 +6,7 @@ services:
       - backend
     volumes:
       - app-src:/var/www/html
-      - ./docker/php/configs/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - php-config:/usr/local/etc/php/conf.d/custom.ini
 
   apache:
     build: './docker/apache/'
@@ -64,4 +64,9 @@ volumes:
       type: none
       # use ./src as the volume's host source directory
       device: "$PWD/src"
+      o: bind
+  php-config:
+    driver_opts:
+      type: none
+      device: "$PWD/docker/php/configs/custom.ini"
       o: bind
