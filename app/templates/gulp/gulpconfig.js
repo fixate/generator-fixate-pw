@@ -1,3 +1,5 @@
+const Fiber = require('fibers');
+
 const templates = 'src/site/templates';
 const assets = `${templates}/assets`;
 
@@ -66,6 +68,7 @@ let config = {
   },
 
   sass: {
+    fiber: Fiber,
     includePaths: ['node_modules/normalize.css'],
   },
 

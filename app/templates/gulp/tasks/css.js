@@ -9,6 +9,8 @@ const regexRename = require('gulp-regex-rename');
 
 const conf = require('../gulpconfig');
 
+sass.compiler = require('sass');
+
 /*------------------------------------*\
      $CSS
 \*------------------------------------*/
