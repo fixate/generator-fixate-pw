@@ -31,14 +31,17 @@ function processRsync(done, rsyncOpts = {}) {
   });
 }
 
-function prepareRsync(done, prop, isToRemote = true, rsyncOpts = {}) {
+function prepareRsync(
+  done,
+  {configPropName, isToRemote = true, rsyncOpts = {}},
+) {
   ['dest', 'src'].forEach(function(curr) {
     const remoteHost = `${process.env.PROD_SSH_USERNAME}@${
       process.env.PROD_DOMAIN
     }:`;
     rsyncOpts[curr] = rsyncOpts[curr]
       ? rsyncOpts[curr]
-      : conf.rsync[prop][curr];
+      : conf.rsync[configPropName][curr];
 
     if (isToRemote && curr === 'dest') {
       rsyncOpts[curr] = `${remoteHost}${rsyncOpts[curr]}`;
@@ -48,40 +51,50 @@ function prepareRsync(done, prop, isToRemote = true, rsyncOpts = {}) {
     }
   });
 
-  rsyncOpts.exclude = conf.rsync[prop].exclude || '';
+  rsyncOpts.exclude = conf.rsync[configPropName].exclude || '';
 
   return processRsync(done, rsyncOpts);
 }
 
 //*------------------------------------*\
-//     $RSYNC DOWN DRY RUN
+//     $RSYNC PROD DOWN DRY RUN
 //*------------------------------------*/
-const rsyncDownDry = gulp.task('rsync:downdry', done =>
-  prepareRsync(done, 'down', false, {dryRun: true}),
+const rsyncProdDownDry = gulp.task('rsync:prod:downdry', done =>
+  prepareRsync(done, {
+    configPropName: 'prodDown',
+    isToRemote: false,
+    rsyncOpts: {dryRun: true},
+  }),
 );
 
 //*------------------------------------*\
-//     $RSYNC DOWN
+//     $RSYNC PROD DOWN
 //*------------------------------------*/
-const rsyncDown = gulp.task('rsync:down', done =>
-  prepareRsync(done, 'down', false),
+const rsyncProdDown = gulp.task('rsync:prod:down', done =>
+  prepareRsync(done, {configPropName: 'prodDown', isToRemote: false}),
 );
 
 //*------------------------------------*\
 //     $RSYNC TO PROD DRY RUN
 //*------------------------------------*/
-const rsyncUpDry = gulp.task('rsync:updry', done =>
-  prepareRsync(done, 'up', true, {dryRun: true}),
+const rsyncProdUpDry = gulp.task('rsync:prod:updry', done =>
+  prepareRsync(done, {
+    configPropName: 'prodUp',
+    isToRemote: true,
+    rsyncOpts: {dryRun: true},
+  }),
 );
 
 //*------------------------------------*\
 //     $RSYNC TO PROD
 //*------------------------------------*/
-const rsyncUp = gulp.task('rsync:up', done => prepareRsync(done, 'up'));
+const rsyncProdUp = gulp.task('rsync:prod:up', done =>
+  prepareRsync(done, {configPropName: 'prodUp'}),
+);
 
 module.exports = {
-  rsyncDown,
-  rsyncDownDry,
-  rsyncUp,
-  rsyncUpDry,
+  rsyncProdDown,
+  rsyncProdDownDry,
+  rsyncProdUp,
+  rsyncProdUpDry,
 };

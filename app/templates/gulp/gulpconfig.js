@@ -3,7 +3,25 @@ const Fiber = require('fibers');
 const templates = 'src/site/templates';
 const assets = `${templates}/assets`;
 
-let config = {
+const rsyncExcludes = [
+  '.git*',
+  '.DS_Store',
+  'node_modules',
+  'config-dev.php',
+  '.sass-cache',
+  '*.scss',
+  '*.css.map',
+  'assets/css/style.css',
+  'assets/js/main.js',
+  '*.js.map',
+  '*.coffee',
+  'assets/cache',
+  'assets/files',
+  'assets/logs',
+  'assets/sessions',
+];
+
+const config = {
   path: {
     db_backup: 'database',
     dev: {
@@ -40,28 +58,12 @@ let config = {
   },
 
   rsync: {
-    up: {
+    prodUp: {
       dest: 'public_html',
       src: './src/',
-      exclude: [
-        '.git*',
-        '.DS_Store',
-        'node_modules',
-        'config-dev.php',
-        '.sass-cache',
-        '*.scss',
-        '*.css.map',
-        'assets/css/style.css',
-        'assets/js/main.js',
-        '*.js.map',
-        '*.coffee',
-        'assets/cache',
-        'assets/files',
-        'assets/logs',
-        'assets/sessions',
-      ],
+      exclude: rsyncExcludes,
     },
-    down: {
+    prodDown: {
       dest: './src/site/assets',
       src: 'public_html/site/assets/files',
     },
