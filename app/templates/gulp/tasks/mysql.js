@@ -54,14 +54,13 @@ const dbDropTables = function(env, done) {
 };
 
 const dbDump = function(env, done) {
-  const envPath = env !== 'prod' ? 'dev' : env;
   const date = moment();
   const dbEnvPrefix = `${env.toUpperCase()}_DB_`;
   const cmd = [
     `mysqldump --host=${process.env[`${dbEnvPrefix}HOST`]}`,
     `--user=${process.env[`${dbEnvPrefix}USER`]}`,
     `--password=${process.env[`${dbEnvPrefix}PASS`]}`,
-    `${process.env[`${dbEnvPrefix}NAME`]} > ./database/${envPath}/${date.format(
+    `${process.env[`${dbEnvPrefix}NAME`]} > ./database/${env}/${date.format(
       'YYYY-MM-DD-HH-mm-ss',
     )}-${env}.sql`,
   ].join(' ');

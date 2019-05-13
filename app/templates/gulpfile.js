@@ -6,7 +6,6 @@
 // Simply add a new task there, and it will be automatically available as a gulp
 // task for your project
 const gulp = require('gulp');
-// const requireDir = require('require-dir');
 const browserSync = require('browser-sync').create();
 
 global.browserSync = browserSync;
