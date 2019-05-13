@@ -2,9 +2,6 @@
 //     $GULPFILE
 //*------------------------------------*/
 // All tasks are configured in ./gulp/tasks
-//
-// Simply add a new task there, and it will be automatically available as a gulp
-// task for your project
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 
