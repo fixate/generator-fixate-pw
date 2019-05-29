@@ -3,7 +3,7 @@ RUN apk update; apk upgrade;
 RUN apk add freetype-dev libjpeg-turbo-dev libpng-dev zziplib-utils msmtp
 
 # fix iconv issue: https://github.com/docker-library/php/issues/240#issuecomment-327992638
-RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 RUN docker-php-ext-install mysqli pdo_mysql zip \
