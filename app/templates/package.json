@@ -2,6 +2,9 @@
   "author": "Fixate",
   "version": "0.0.0",
   "name": "project-name",
+  "description": "A ProcessWire website",
+  "repository": "todo",
+  "license": "private",
   "scripts": {
     "postinstall": "node setup.js",
     "dev": "gulp",
