@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const imagemin = require('gulp-imagemin');
-const regexRename = require('gulp-regex-rename');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const pngquant = require('imagemin-pngquant');
@@ -25,7 +24,7 @@ const imagesMinifyInlineSvgIcons = gulp.task(
         ]),
       )
       .pipe(svgstore({inlineSvg: true}))
-      .pipe(regexRename(/\.svg/, '.svg.php'))
+      .pipe(rename({extname: '.svg.php'}))
       .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`));
 
     return done();
@@ -69,7 +68,7 @@ const imagesMinifiySvgPartials = gulp.task(
           }),
         ]),
       )
-      .pipe(regexRename(/\.svg/, '.svg.php'))
+      .pipe(rename({extname: '.svg.php'}))
       .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`));
 
     return done();

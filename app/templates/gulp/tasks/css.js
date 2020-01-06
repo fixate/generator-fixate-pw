@@ -5,7 +5,7 @@ const colorguard = require('colorguard');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
-const regexRename = require('gulp-regex-rename');
+const rename = require('gulp-rename');
 
 const conf = require('../gulpconfig');
 
@@ -38,7 +38,7 @@ const cssMinify = gulp.task(
     return gulp
       .src(`${conf.path.dev.css}/style.css`)
       .pipe(cssnano())
-      .pipe(regexRename(/\.css/, '.min.css'))
+      .pipe(rename({extname: '.min.css'}))
       .pipe(gulp.dest(conf.path.prod.css));
   }),
 );

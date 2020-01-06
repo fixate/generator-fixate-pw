@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const regexRename = require('gulp-regex-rename');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const rev = require('gulp-rev');
@@ -14,10 +13,10 @@ require('./css');
 const revMinifiedFiles = (files, dest) => {
   return gulp
     .src(files)
-    .pipe(regexRename(/\.min/, ''))
+    .pipe(rename(path => ({extname: path.extname.replace('.min', '')})))
     .pipe(replace(/templates\/assets/g, 'templates/assets/public'))
     .pipe(rev())
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename(path => ({extname: `.min${path.extname}`})))
     .pipe(gulp.dest(dest))
     .pipe(rev.manifest(conf.revManifest.path, conf.revManifest.opts))
     .pipe(gulp.dest('./'));
