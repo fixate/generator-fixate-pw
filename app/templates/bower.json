@@ -2,11 +2,9 @@
   "name": "project-name",
   "description": "",
   "main": "",
-  "authors": [
-    "Fixate"
-  ],
+  "authors": ["Fixate"],
   "license": "MIT",
-  "homepage": "example.com",
+  "homepage": "https://example.com",
   "moduleType": [],
   "private": true,
   "ignore": [
