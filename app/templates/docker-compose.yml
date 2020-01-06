@@ -6,7 +6,7 @@ services:
       - backend
     volumes:
       - app-src:/var/www/html
-      - php-config:/usr/local/etc/php/conf.d/custom.ini
+      - php-config:/usr/local/etc/php/conf.d
 
   apache:
     build: './docker/apache/'
@@ -68,5 +68,5 @@ volumes:
   php-config:
     driver_opts:
       type: none
-      device: "$PWD/docker/php/configs/custom.ini"
+      device: "$PWD/docker/php/configs"
       o: bind
