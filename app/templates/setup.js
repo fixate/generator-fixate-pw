@@ -1,10 +1,14 @@
-var shell = require('shelljs/global'),
-  exec = require('child_process').exec;
+var shell = require('shelljs');
 
-if (test('-f', 'gulp/secrets-sample.js') && !test('-f', 'gulp/secrets.js')) {
-  echo('creating your very own secrets');
-  cp('gulp/secrets-sample.js', 'gulp/secrets.js');
-  echo('secrets.js created');
+if (!shell.test('-f', 'styleguide/package.json')) {
+  shell.echo('******************************************************');
+  shell.echo('Styleguide not initialized');
+  shell.echo('Run the following command to initialize the styleguide:\n');
+
+  shell.echo(
+    'cd styleguide && npm init -y && npx -p @storybook/cli sb init --type react\n',
+  );
+  shell.echo('******************************************************');
 } else {
-  echo('secrets.js is ready');
+  shell.echo('Everything is configured!');
 }
