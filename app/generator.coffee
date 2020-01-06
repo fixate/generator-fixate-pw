@@ -98,36 +98,35 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         )
 
       [
+        { from: ".agignore", to: ".agignore" },
         { from: ".babelrc.js", to: ".babelrc.js" },
         { from: ".editorconfig", to: ".editorconfig" },
         { from: ".eslintrc.json", to: ".eslintrc.json" },
-        { from: ".agignore", to: ".agignore" },
         { from: ".gitignore", to: ".gitignore" },
         { from: ".gitignore_pw", to: "src/.gitignore" },
         { from: ".gitkeep", to: "database/dev/.gitkeep" },
         { from: ".gitkeep", to: "database/prod/.gitkeep" },
         { from: ".prettierrc", to: ".prettierrc" },
         { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml.example" },
-	{ from: "device-icon-template.png", to: "src/device-icon-template.png" },
+        { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml" },
+        { from: "device-icon-template.png", to: "src/device-icon-template.png" },
+        { from: "docker", to: "docker" },
+        { from: "docker-compose.yml", to: "docker-compose.yml" },
+        { from: "gulp", to: "gulp" },
         { from: "gulpfile.js", to: "gulpfile.js" },
-        { from: "package.json", to: "package.json" },
-        { from: "setup.js", to: "setup.js" },
-        { from: "gulp/secrets-sample.js", to: "gulp/secrets.js"},
         { from: "package.json", to: "package.json" },
         { from: "setup.js", to: "setup.js"},
         { from: "webpack.config.base.js", to: "webpack.config.base.js"},
         { from: "webpack.config.dev.js", to: "webpack.config.dev.js"},
         { from: "webpack.config.prod.js", to: "webpack.config.prod.js"},
-        { from: "gulp", to: "gulp" },
-        { from: "docker", to: "docker" },
-        { from: "docker-compose.yml", to: "docker-compose.yml" },
       ].map(copyFile)
 
-      @template "_robots.txt",              "src/robots.txt"
+      @template "_robots.txt"                      , "src/robots.txt"
       @template "_.env.example"                    , ".env.example"
       @template "_.env.example"                    , ".env"
       @template "docker/apache/_local.apache.conf" , "docker/apache/local.apache.conf"
 
+      shell.rm "-f", "docker/apache/_local.apache.conf"
 
 
 
@@ -195,6 +194,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       @copy ".gitkeep", "src/site/assets/sessions/.gitkeep"
       @copy ".gitkeep", "src/site/assets/files/.gitkeep"
       @copy ".gitkeep", "src/site/assets/logs/.gitkeep"
+      @copy ".gitkeep", "src/site/templates/assets/img/raw/.gitkeep"
+      @copy ".gitkeep", "src/site/templates/assets/img/raw/svg/inline-icons/.gitkeep"
 
       # setup for ProcessWire install
       at dest('src/'), () =>
@@ -231,13 +232,19 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     #   $STYLEGUIDE
     #*------------------------------------*/
     setupStyleguide = () =>
-      @log.info "run `npx -p @storybook/cli sb init` to initialise styleguide"
       styleguideFolder = 'styleguide'
       mkdirp styleguideFolder
       shell.pushd styleguideFolder
       shell.popd()
 
+      shell.exec 'npm install', (code, stdout, stderr) ->
+        console.log('Exit code:', code)
+        console.log('Program output:', stdout)
+
+        if stderr then console.log('Program stderr:', stderr)
+
       @log.ok('OK')
+
 
 
 
@@ -267,6 +274,25 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
 
 
     #*------------------------------------*\
+    #   $INSTALL NODE MODULES
+    #*------------------------------------*/
+    installNodeModules = () =>
+      @log.ok('Installing node modules...')
+
+      shell.exec 'npm install', (code, stdout, stderr) ->
+        console.log('Exit code:', code)
+        console.log('Program output:', stdout)
+
+        if stderr then console.log('Program stderr:', stderr)
+
+      @log.ok('OK')
+
+
+
+
+
+
+    #*------------------------------------*\
     #   $DO IT
     #*------------------------------------*/
     setupRepo()
@@ -275,3 +301,4 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     setupCSSFramework()
     setupGit()
     setupStyleguide()
+    installNodeModules()
