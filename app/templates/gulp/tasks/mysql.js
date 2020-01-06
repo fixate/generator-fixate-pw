@@ -1,5 +1,6 @@
 const gulp = require('gulp');
-const gutil = require('gulp-util');
+const fancyLog = require('fancy-log');
+const colors = require('ansi-colors');
 const moment = require('moment');
 const path = require('path');
 
@@ -23,7 +24,7 @@ const dbImportFromTo = function(fromEnv, toEnv, done) {
     `< ${newestFile}`,
   ].join(' ');
 
-  gutil.log(gutil.colors.green(`importing ${newestFile} into ${toEnv}`));
+  fancyLog(colors.green(`importing ${newestFile} into ${toEnv}`));
 
   return utils.execCommand(cmd, done);
 };
@@ -42,8 +43,8 @@ const dbDropTables = function(env, done) {
     `${process.env[`${dbEnvPrefix}NAME`]}`,
   ].join(' ');
 
-  gutil.log(
-    gutil.colors.red(
+  fancyLog(
+    colors.red(
       `dropping tables from ${
         process.env[`${dbEnvPrefix}NAME`]
       } database in ${env} environment`,

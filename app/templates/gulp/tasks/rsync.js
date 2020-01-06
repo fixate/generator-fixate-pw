@@ -1,5 +1,6 @@
 const gulp = require('gulp');
-const gutil = require('gulp-util');
+const fancyLog = require('fancy-log');
+const colors = require('ansi-colors');
 const extend = require('extend');
 const rsync = require('rsyncwrapper');
 
@@ -17,16 +18,14 @@ function processRsync(done, rsyncOpts = {}) {
     rsyncOpts,
   );
 
-  gutil.log(
-    gutil.colors.green(`Rsyncing from ${rsyncOpts.src} to ${rsyncOpts.dest}`),
-  );
+  fancyLog(colors.green(`Rsyncing from ${rsyncOpts.src} to ${rsyncOpts.dest}`));
 
   return rsync(rsyncOpts, function(error, stdout, stderr, cmd) {
     if (error) {
-      gutil.log(gutil.colors.red(error));
+      fancyLog(colors.red(error));
     }
-    gutil.log('Command: \n', cmd);
-    gutil.log(stderr, stdout);
+    fancyLog('Command: \n', cmd);
+    fancyLog(stderr, stdout);
     return done();
   });
 }
@@ -36,9 +35,7 @@ function prepareRsync(
   {configPropName, isToRemote = true, rsyncOpts = {}},
 ) {
   ['dest', 'src'].forEach(function(curr) {
-    const remoteHost = `${process.env.PROD_SSH_USERNAME}@${
-      process.env.PROD_DOMAIN
-    }:`;
+    const remoteHost = `${process.env.PROD_SSH_USERNAME}@${process.env.PROD_DOMAIN}:`;
     rsyncOpts[curr] = rsyncOpts[curr]
       ? rsyncOpts[curr]
       : conf.rsync[configPropName][curr];

@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const createFavicons = require('gulp-favicons');
-const gutil = require('gulp-util');
+const fancyLog = require('fancy-log');
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
 
@@ -30,7 +30,7 @@ const favicons = gulp.task('favicons:generate', done => {
           windows: true,
           yandex: false,
         },
-      }).on('error', gutil.log),
+      }).on('error', fancyLog),
     )
     .pipe(
       imagemin({
