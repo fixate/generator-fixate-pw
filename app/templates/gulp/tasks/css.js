@@ -1,6 +1,7 @@
 const gulp = require('gulp');
-const cssnano = require('gulp-cssnano');
+const cleanCss = require('gulp-clean-css');
 const autoprefixer = require('autoprefixer');
+const fancyLog = require('fancy-log');
 const colorguard = require('colorguard');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
@@ -14,9 +15,9 @@ sass.compiler = require('sass');
 /*------------------------------------*\
      $CSS
 \*------------------------------------*/
-const css = gulp.task('css', () => {
+const css = gulp.task('css', function css() {
   const postcssPlugins = [
-    autoprefixer({browsers: ['last 2 versions']}),
+    autoprefixer({overrideBrowserslist: ['last 2 versions']}),
     colorguard({allowEquivalentNotation: true}),
   ];
 
@@ -34,10 +35,15 @@ const css = gulp.task('css', () => {
 \*------------------------------------*/
 const cssMinify = gulp.task(
   'css:minify',
-  gulp.series('css', () => {
+  gulp.series('css', function cssMinify() {
     return gulp
       .src(`${conf.path.dev.css}/style.css`)
-      .pipe(cssnano())
+      .pipe(
+        cleanCss({}, result => {
+          fancyLog('CSS minification results:');
+          fancyLog(JSON.stringify(result, null, 2));
+        }),
+      )
       .pipe(rename({extname: '.min.css'}))
       .pipe(gulp.dest(conf.path.prod.css));
   }),
