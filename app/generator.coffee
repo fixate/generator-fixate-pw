@@ -38,9 +38,14 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       default: 'inuit'
 
     prompts.push
-      name: "domain"
+      name: "prodDomain"
       message: "What is the domain name for the production website (without protocol)?"
       default: "example.com"
+
+    prompts.push
+      name: "devHostname"
+      message: "What is the local apache hostname for the website (without .localhost)?"
+      default: "processwire"
 
     prompts.push
       type: 'checkbox',
@@ -101,7 +106,6 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: ".gitignore_pw", to: "src/.gitignore" },
         { from: ".gitkeep", to: "database/dev/.gitkeep" },
         { from: ".gitkeep", to: "database/prod/.gitkeep" },
-        { from: ".env.example", to: ".env.example" },
         { from: ".prettierrc", to: ".prettierrc" },
         { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml.example" },
         { from: "gulpfile.js", to: "gulpfile.js" },
@@ -119,6 +123,9 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       ].map(copyFile)
 
       @template "_robots.txt",              "src/robots.txt"
+      @template "_.env.example"                    , ".env.example"
+      @template "_.env.example"                    , ".env"
+      @template "docker/apache/_local.apache.conf" , "docker/apache/local.apache.conf"
 
 
 
