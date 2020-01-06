@@ -89,16 +89,17 @@ Once installed, you can start a server for the styleguide that will automaticall
 
 ```shell
 # from styleguide/
-$ gulp --dev
+$ npm run storybook
 ```
 
 #### 3. Work On ProcessWire
 
-Gulp will compile coffee and scss files when updated, and reload your browser via Browser Sync at the URL it specifies when starting Gulp (make sure to update the browserSyncProxy property in the generated [secrets.coffee](https://github.com/fixate/generator-fixate-pw/blob/master/app/templates/gulp/secrets-sample.coffee#L4) with your local site's URL)
+Gulp will compile coffee and scss files when updated, and reload your browser via
+Browser Sync at the hostname specified in `.env`.
 
 ```shell
 # from project root
-$ gulp
+$ npm run dev
 ```
 
 #### 4. Change Template Alternate Filename
