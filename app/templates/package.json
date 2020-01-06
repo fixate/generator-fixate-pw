@@ -4,7 +4,8 @@
   "name": "project-name",
   "scripts": {
     "postinstall": "node setup.js",
-    "start": "gulp build",
+    "dev": "gulp",
+    "build": "gulp build",
     "update": "npx npm-check-updates -u && npm i"
   },
   "devDependencies": {

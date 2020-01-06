@@ -1,21 +1,24 @@
-name: project name
+name: project-name
 root: <%= Dir.pwd %>
 
 windows:
   - editor:
       panes:
         - vim
+
   - automation:
       layout: main-vertical
       panes:
         -
-        - npm start
+        - npm run dev
+
   - styleguide:
       root: <%= Dir.pwd %>/styleguide
       layout: main-vertical
       panes:
         -
         - npm run storybook
+
   - backend:
       layout: main-vertical
       panes:
