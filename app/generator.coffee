@@ -108,6 +108,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: ".gitkeep", to: "database/prod/.gitkeep" },
         { from: ".prettierrc", to: ".prettierrc" },
         { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml.example" },
+	{ from: "device-icon-template.png", to: "src/device-icon-template.png" },
         { from: "gulpfile.js", to: "gulpfile.js" },
         { from: "package.json", to: "package.json" },
         { from: "setup.js", to: "setup.js" },
