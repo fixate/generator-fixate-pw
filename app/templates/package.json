@@ -55,5 +55,8 @@
     "sass": "1.18.0",
     "shelljs": "^0.8.3",
     "webpack": "^4.29.6"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }
