@@ -1,12 +1,13 @@
-version: "3.3"
+version: "3.7"
 services:
   php:
     build: './docker/php'
     networks:
       - backend
     volumes:
-      - app-src:/var/www/html
-      - php-config:/usr/local/etc/php/conf.d
+      - app-src-dir:/var/www/html
+      - ${PWD}/docker/php/configs/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ${PWD}/docker/php/configs/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   apache:
     build: './docker/apache/'
@@ -24,7 +25,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - app-src:/var/www/html
+      - app-src-dir:/var/www/html
       # mount non-SSL .htaccess
       # - ./docker/apache/.htaccess:/var/www/html/.htaccess
     # from .env
@@ -59,14 +60,10 @@ networks:
   frontend:
 
 volumes:
-  app-src:
+  app-src-dir:
     driver_opts:
       type: none
       # use ./src as the volume's host source directory
       device: "$PWD/src"
       o: bind
-  php-config:
-    driver_opts:
-      type: none
-      device: "$PWD/docker/php/configs"
-      o: bind
+
