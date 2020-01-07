@@ -1,4 +1,5 @@
-FROM php:7.2.7-fpm-alpine3.7
+FROM php:7.3-fpm-alpine
+
 RUN apk update; apk upgrade;
 RUN apk add freetype-dev libjpeg-turbo-dev libpng-dev zziplib-utils msmtp
 
@@ -6,7 +7,11 @@ RUN apk add freetype-dev libjpeg-turbo-dev libpng-dev zziplib-utils msmtp
 RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
-RUN docker-php-ext-install mysqli pdo_mysql zip \
+RUN apk add --no-cache libpng-dev zlib-dev libzip-dev \
+  && docker-php-ext-configure zip --with-libzip \
+  && docker-php-ext-install zip
+
+RUN docker-php-ext-install mysqli pdo_mysql \
   # allow for image uploads inside container
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install gd
@@ -18,4 +23,9 @@ RUN go get github.com/mailhog/mhsendmail && mv ${GOPATH}/bin/mhsendmail /usr/bin
 RUN rm -rf ${GOPATH} && apk del go git musl-dev
 COPY mail.ini $PHP_INI_DIR/conf.d/
 
-# TODO: install XDebug: https://codereviewvideos.com/course/docker-tutorial-for-beginners/video/docker-php-7-tutorial-7-7-1-and-higher
+# install Xdebug: https://gist.github.com/patricknelson/57ae24986cb13613314fb1f3c00a95d7
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
+  && pecl install xdebug \
+  && docker-php-ext-enable xdebug \
+  # Clean up
+  && apk del .phpize-deps
