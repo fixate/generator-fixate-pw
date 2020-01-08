@@ -28,6 +28,11 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     console.log @yeoman
     prompts = []
     prompts.push
+      name: "projectName"
+      message: "What do you want to call this project?"
+      default: "A Processwire website"
+
+    prompts.push
       name: "pwBranch"
       message: "Which branch of ProcessWire would you like to use?"
       default: "master"
@@ -122,6 +127,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       ].map(copyFile)
 
       @template "_robots.txt"                      , "src/robots.txt"
+      @template "_README.md"                      , "README.md"
       @template "_.env.example"                    , ".env.example"
       @template "_.env.example"                    , ".env"
       @template "docker/apache/_local.apache.conf" , "docker/apache/local.apache.conf"
