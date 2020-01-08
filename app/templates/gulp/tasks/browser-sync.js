@@ -5,7 +5,7 @@ const gulp = require('gulp');
 //*------------------------------------*/
 const browserSync = gulp.task('browser-sync', done => {
   global.browserSync.init({
-    proxy: process.env.APACHE_HOSTNAME,
+    proxy: 'localhost:8080',
     injectchanges: true,
     open: true,
     notify: false,
