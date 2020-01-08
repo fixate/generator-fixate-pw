@@ -127,7 +127,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
       ].map(copyFile)
 
       @template "_robots.txt"                      , "src/robots.txt"
-      @template "_README.md"                      , "README.md"
+      @template "_README.md"                       , "README.md"
       @template "_.env.example"                    , ".env.example"
       @template "_.env.example"                    , ".env"
       @template "docker/apache/_local.apache.conf" , "docker/apache/local.apache.conf"
