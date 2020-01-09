@@ -42,10 +42,10 @@ services:
     command: mysqld --sql_mode=""
     # from .env
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_DATABASE=${MYSQL_DEV_NAME}
+      - MYSQL_PASSWORD=${MYSQL_DEV_PASS}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_DEV_ROOT_PASS}
+      - MYSQL_USER=${MYSQL_DEV_USER}
 
   mailhog:
     image: mailhog/mailhog:v1.0.0
@@ -66,4 +66,3 @@ volumes:
       # use ./src as the volume's host source directory
       device: "$PWD/src"
       o: bind
-
