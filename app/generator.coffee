@@ -115,6 +115,8 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
         { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml.example" },
         { from: ".tmuxinator.yml.example", to: ".tmuxinator.yml" },
         { from: "database", to: "database" },
+        { from: "database/cnf/.my.cnf.example", to: "database/cnf/.my.cnf.dev" },
+        { from: "database/cnf/.my.cnf.example", to: "database/cnf/.my.cnf.prod" },
         { from: "device-icon-template.png", to: "src/device-icon-template.png" },
         { from: "docker", to: "docker" },
         { from: "docker-compose.yml", to: "docker-compose.yml" },
