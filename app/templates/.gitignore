@@ -23,3 +23,7 @@ styleguide/src/views/layouts/includes/inline-icons.svg.html
 # MySQL cnfs
 .my.cnf.*
 !.my.cnf.example
+
+# Composer
+composer.phar
+src/vendor/
