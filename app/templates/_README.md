@@ -21,6 +21,10 @@ $ npm install
 Open `.env` and configure your local database credentials (these are used by Docker
 to initialise your database and expose a virtual host).
 
+Open `database/cnf/.my.cnf.{dev, prod}` and add your dev and production database
+credentials so that MySQL Gulp tasks don't expose your credentials on the
+command line.
+
 ### 3. Run Docker
 
 A `docker-compose.yml` containerises the application with the following:
@@ -89,28 +93,31 @@ If you're cloning this project, you can follow these steps:
     cp .env{.example,}
     ```
 
-3. Add MySQL and Apache hostname environment variables for Docker in `.env`
+3. Add MySQL user and password credentials to `database/cnf/.my.cnf.{dev, prod}`
+   for Gulp automation
 
-4. Create a dev copy of `src/config.php` for local development:
+4. Add MySQL and Apache hostname environment variables for Docker in `.env`
+
+5. Create a dev copy of `src/config.php` for local development:
 
     ```bash
     $ cp src/site/config{,-dev}.php
     ```
 
-5. Open `src/site/config-dev.php`, enable debug, and update your database
+6. Open `src/site/config-dev.php`, enable debug, and update your database
    credentials
 
     ```php
     $debug -> true;
     ```
 
-6. Start the Docker containers
+7. Start the Docker containers
 
     ```bash
     $ docker-compose up
     ```
 
-7. Import the most recent dev database (assuming an export has been committed):
+8. Import the most recent dev database (assuming an export has been committed):
 
     ```bash
     $ $(npm bin)/gulp db-import:devtodev
