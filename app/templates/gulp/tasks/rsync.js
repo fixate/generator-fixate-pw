@@ -35,7 +35,13 @@ function prepareRsync(
   {configPropName, isToRemote = true, rsyncOpts = {}},
 ) {
   ['dest', 'src'].forEach(function(curr) {
-    const remoteHost = `${process.env.PROD_SSH_USERNAME}@${process.env.PROD_DOMAIN}:`;
+    const {PROD_SSH_USERNAME, PROD_DOMAIN} = process.env.PROD_SSH_USERNAME;
+
+    if (!PROD_SSH_USERNAME || !PROD_DOMAIN) {
+      throw new Error('No ssh username or domain set in .env');
+    }
+
+    const remoteHost = `${PROD_SSH_USERNAME}@${PROD_DOMAIN}:`;
     rsyncOpts[curr] = rsyncOpts[curr]
       ? rsyncOpts[curr]
       : conf.rsync[configPropName][curr];
