@@ -5,7 +5,7 @@ services:
     networks:
       - backend
     volumes:
-      - app-src-dir:/var/www/html
+      - app-src-dir:/var/www/html:delegated
       - ${PWD}/docker/php/configs/custom.ini:/usr/local/etc/php/conf.d/custom.ini
       - ${PWD}/docker/php/configs/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
@@ -25,7 +25,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - app-src-dir:/var/www/html
+      - app-src-dir:/var/www/html:delegated
       # mount non-SSL .htaccess
       # - ./docker/apache/.htaccess:/var/www/html/.htaccess
     # from .env
