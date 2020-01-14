@@ -1,5 +1,11 @@
 FROM php:7.2.7-fpm-alpine3.7
 
+# set the APK repos explicitly because dl-cdn.alpinelinux.org is unreliable
+# TODO: evaluate if https://github.com/gliderlabs/docker-alpine/issues/386#issuecomment-437698540
+# fixes the issue
+RUN echo "https://uk.alpinelinux.org/alpine/v3.7/main" > /etc/apk/repositories \
+  && echo "https://uk.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories
+
 RUN apk update; apk upgrade; apk add \
   freetype-dev \
   libjpeg-turbo-dev \

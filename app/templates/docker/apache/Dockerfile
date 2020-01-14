@@ -1,4 +1,11 @@
 FROM httpd:2.4.35-alpine
+
+# set the APK repos explicitly because dl-cdn.alpinelinux.org is unreliable
+# TODO: evaluate if https://github.com/gliderlabs/docker-alpine/issues/386#issuecomment-437698540
+# fixes the issue
+RUN echo "https://uk.alpinelinux.org/alpine/v3.7/main" > /etc/apk/repositories \
+  && echo "https://uk.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories
+
 RUN apk update; apk upgrade;
 
 # copy host apache config to proxy php requests to php-fpm container
