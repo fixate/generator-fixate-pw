@@ -38,8 +38,8 @@ services:
       - backend
     ports:
       - "3306:3306"
-    # allow zero-formatted dates for installation
-    command: mysqld --sql_mode=""
+    # allow zero-formatted dates for installation, speed up queries
+    command: mysqld --sql_mode="" --skip-name-resolve
     # from .env
     environment:
       - MYSQL_DATABASE=${MYSQL_DEV_NAME}
