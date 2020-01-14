@@ -5,8 +5,6 @@ const colors = require('ansi-colors');
 const moment = require('moment');
 const path = require('path');
 
-require('dotenv').config();
-
 const utils = require('./utils');
 
 // set database credentials in .env
