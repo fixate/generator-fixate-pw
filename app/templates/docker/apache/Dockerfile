@@ -24,12 +24,12 @@ RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.co
 # https://github.com/InAnimaTe/docker-httpd-ssl/blob/master/Dockerfile
 RUN apk add openssl
 COPY gen-certs.sh /usr/local/apache2/conf/
-RUN chmod +x /usr/local/apache2/conf/gen-certs.sh
-RUN cd conf && ./gen-certs.sh && cd ..
-RUN sed -i \
-        -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' \
-        -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
-        -e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' \
-        conf/httpd.conf
+RUN chmod +x /usr/local/apache2/conf/gen-certs.sh \
+  cd conf && ./gen-certs.sh && cd .. \
+  sed -i \
+    -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' \
+    -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
+    -e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' \
+    conf/httpd.conf
 
 RUN apk del openssl
