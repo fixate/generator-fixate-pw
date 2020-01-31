@@ -25,7 +25,7 @@ RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.co
 RUN apk add openssl
 COPY gen-certs.sh /usr/local/apache2/conf/
 RUN chmod +x /usr/local/apache2/conf/gen-certs.sh \
-  cd conf && ./gen-certs.sh && cd .. \
+  cd conf && ./gen-certs.sh && cd .. && \
   sed -i \
     -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' \
     -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
