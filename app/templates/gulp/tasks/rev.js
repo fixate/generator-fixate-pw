@@ -15,14 +15,14 @@ const revMinifiedFiles = (files, dest) => {
     .src(files)
     .pipe(
       rename(path => {
-        path.extname = path.extname.replace('.min', '');
+        path.basename = path.basename.replace(/\.min/g, '');
       }),
     )
     .pipe(replace(/templates\/assets/g, 'templates/assets/public'))
     .pipe(rev())
     .pipe(
       rename(path => {
-        path.extname = `.min${path.extname}`;
+        path.basename = `${path.basename}.min`;
       }),
     )
     .pipe(gulp.dest(dest))
