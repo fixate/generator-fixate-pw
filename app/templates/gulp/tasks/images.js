@@ -40,7 +40,7 @@ const imagesMinify = gulp.task('images:minify', done => {
     .pipe(
       imagemin([
         imagemin.gifsicle({interlaced: true}),
-        imagemin.jpegtran({progressive: true}),
+        imagemin.mozjpeg({progressive: true}),
         imagemin.optipng({optimizationLevel: 3}),
         imagemin.svgo({
           plugins: [{removeViewBox: false}, {cleanupIDs: false}],

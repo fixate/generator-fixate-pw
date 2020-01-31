@@ -13,10 +13,18 @@ require('./css');
 const revMinifiedFiles = (files, dest) => {
   return gulp
     .src(files)
-    .pipe(rename(path => ({extname: path.extname.replace('.min', '')})))
+    .pipe(
+      rename(path => {
+        path.extname = path.extname.replace('.min', '');
+      }),
+    )
     .pipe(replace(/templates\/assets/g, 'templates/assets/public'))
     .pipe(rev())
-    .pipe(rename(path => ({extname: `.min${path.extname}`})))
+    .pipe(
+      rename(path => {
+        path.extname = `.min${path.extname}`;
+      }),
+    )
     .pipe(gulp.dest(dest))
     .pipe(rev.manifest(conf.revManifest.path, conf.revManifest.opts))
     .pipe(gulp.dest('./'));
