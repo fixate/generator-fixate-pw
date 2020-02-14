@@ -64,7 +64,7 @@ const imagesMinifiySvgPartials = gulp.task(
       .pipe(
         imagemin([
           imagemin.svgo({
-            plugins: [{removeViewBox: false}],
+            plugins: [{removeViewBox: false}, {cleanupIDs: {prefix: 'svgo-'}}],
           }),
         ]),
       )
