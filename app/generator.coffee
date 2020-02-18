@@ -40,7 +40,7 @@ module.exports = class FixatePwGenerator extends yeoman.generators.Base
     prompts.push
       name: "cssBranch"
       message: "Which branch of the CSS Framework would you like to use?"
-      default: 'inuit'
+      default: 'master'
 
     prompts.push
       name: "prodDomain"
