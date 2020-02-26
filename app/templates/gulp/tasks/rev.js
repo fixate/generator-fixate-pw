@@ -1,3 +1,4 @@
+const path = require('path');
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const rename = require('gulp-rename');
@@ -11,23 +12,31 @@ require('./scripts');
 require('./css');
 
 const revMinifiedFiles = (files, dest) => {
-  return gulp
-    .src(files)
-    .pipe(
-      rename(path => {
-        path.basename = path.basename.replace(/\.min/g, '');
-      }),
-    )
-    .pipe(replace(/templates\/assets/g, 'templates/assets/public'))
-    .pipe(rev())
-    .pipe(
-      rename(path => {
-        path.basename = `${path.basename}.min`;
-      }),
-    )
-    .pipe(gulp.dest(dest))
-    .pipe(rev.manifest(conf.revManifest.path, conf.revManifest.opts))
-    .pipe(gulp.dest('./'));
+  return (
+    gulp
+      .src(files)
+      /**
+       * remove .min from basename
+       */
+      .pipe(rename(file => (file.basename = file.basename.replace('.min', ''))))
+      /**
+       * rewrite filename with hash
+       */
+      .pipe(rev())
+      /**
+       * add .min back into extension
+       */
+      .pipe(rename(file => (file.basename = `${file.basename}.min`)))
+      /**
+       * write to destination
+       */
+      .pipe(gulp.dest(dest))
+      /**
+       * write filenames to manifest
+       */
+      .pipe(rev.manifest(conf.revManifest.path, conf.revManifest.opts))
+      .pipe(gulp.dest('./'))
+  );
 };
 
 /*------------------------------------*\
