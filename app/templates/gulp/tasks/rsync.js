@@ -62,7 +62,7 @@ function prepareRsync(
 //*------------------------------------*\
 //     $RSYNC PROD DOWN DRY RUN
 //*------------------------------------*/
-const rsyncProdDownDry = gulp.task('rsync:prod:downdry', done =>
+const rsyncProdDownDry = gulp.task('rsync:prod:down:dry', done =>
   prepareRsync(done, {
     configPropName: 'prodDown',
     isToRemote: false,
@@ -80,7 +80,7 @@ const rsyncProdDown = gulp.task('rsync:prod:down', done =>
 //*------------------------------------*\
 //     $RSYNC TO PROD DRY RUN
 //*------------------------------------*/
-const rsyncProdUpDry = gulp.task('rsync:prod:updry', done =>
+const rsyncProdUpDry = gulp.task('rsync:prod:up:dry', done =>
   prepareRsync(done, {
     configPropName: 'prodUp',
     isToRemote: true,
