@@ -4,21 +4,24 @@ const templates = 'src/site/templates';
 const assets = `${templates}/assets`;
 
 const rsyncExcludes = [
-  '.git*',
-  '.DS_Store',
-  'node_modules',
-  'config-dev.php',
-  '.sass-cache',
-  '*.scss',
-  '*.css.map',
-  'assets/css/style.css',
-  'assets/js/main.js',
-  '*.js.map',
   '*.coffee',
+  '*.css.map',
+  '*.js.map',
+  '*.scss',
+  '.DS_Store',
+  '.git*',
+  '.sass-cache',
   'assets/cache',
+  'assets/css',
   'assets/files',
+  'assets/js',
+  'assets/fnt',
+  'assets/img',
   'assets/logs',
   'assets/sessions',
+  'config-dev.php',
+  'node_modules',
+  'src/info.php',
 ];
 
 const config = {
