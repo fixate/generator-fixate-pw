@@ -6,9 +6,10 @@
   "repository": "todo",
   "license": "private",
   "scripts": {
-    "postinstall": "node setup.js",
-    "dev": "gulp",
+    "audit-html": "npx site-validator-cli http://localhost --local --verbose",
     "build": "gulp build",
+    "dev": "gulp",
+    "postinstall": "node setup.js",
     "update": "npx npm-check-updates -u && npm i"
   },
   "devDependencies": {
