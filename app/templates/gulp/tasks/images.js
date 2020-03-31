@@ -55,25 +55,22 @@ const imagesMinify = gulp.task('images:minify', done => {
 //*------------------------------------*\
 //     $OPTIMISE SVG PARTIALS
 //*------------------------------------*/
-const imagesMinifiySvgPartials = gulp.task(
-  'images:minify:svgpartials',
-  done => {
-    gulp
-      .src(`./${conf.path.dev.views}/partials/svg/raw/**/*.svg`)
-      .pipe(replace('<g id=', '<g class='))
-      .pipe(
-        imagemin([
-          imagemin.svgo({
-            plugins: [{removeViewBox: false}, {cleanupIDs: {prefix: 'svgo-'}}],
-          }),
-        ]),
-      )
-      .pipe(rename({extname: '.svg.php'}))
-      .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`));
+const imagesMinifySvgPartials = gulp.task('images:minify:svgpartials', done => {
+  gulp
+    .src(`./${conf.path.dev.views}/partials/svg/raw/**/*.svg`)
+    .pipe(replace('<g id=', '<g class='))
+    .pipe(
+      imagemin([
+        imagemin.svgo({
+          plugins: [{removeViewBox: false}, {cleanupIDs: {prefix: 'svgo-'}}],
+        }),
+      ]),
+    )
+    .pipe(rename({extname: '.svg.php'}))
+    .pipe(gulp.dest(`${conf.path.dev.views}/partials/svg`));
 
-    return done();
-  },
-);
+  return done();
+});
 
 //*------------------------------------*\
 //     $IMAGES WATCH
@@ -93,6 +90,6 @@ gulp.task(
 
 module.exports = {
   imagesMinifyInlineSvgIcons,
-  imagesMinifiySvgPartials,
+  imagesMinifySvgPartials,
   imagesWatch,
 };
