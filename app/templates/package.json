@@ -8,6 +8,7 @@
   "scripts": {
     "audit-html": "npx site-validator-cli http://localhost --local --verbose",
     "build": "gulp build",
+    "deploy": "npm run build && gulp rsync:up:prod",
     "dev": "gulp",
     "postinstall": "node setup.js",
     "update": "npx npm-check-updates -u && npm i"
