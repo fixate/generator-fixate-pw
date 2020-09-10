@@ -1,6 +1,9 @@
 name: project-name
 root: <%= Dir.pwd %>
 
+on_project_exit:
+  - docker-compose stop
+
 windows:
   - editor:
       panes:
