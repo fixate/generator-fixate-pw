@@ -1,4 +1,3 @@
-const {exec, spawn} = require('child_process');
 const gulp = require('gulp');
 const fancyLog = require('fancy-log');
 const colors = require('ansi-colors');
@@ -9,13 +8,13 @@ const utils = require('./utils');
 
 // set database credentials in .env
 
-const getCnfFilePath = env => {
+const getCnfFilePath = (env) => {
   const pathParts = [__dirname, '..', '..', 'database', 'cnf'];
 
   return `${path.resolve(...pathParts)}/.my.cnf.${env}`;
 };
 
-const getDbCredentials = env => {
+const getDbCredentials = (env) => {
   const envSuffixes = ['name', 'host', 'pass', 'user'];
   const credentials = envSuffixes.reduce((acc, suffix) => {
     const envVar =
@@ -30,7 +29,7 @@ const getDbCredentials = env => {
 const dbImportFromTo = function(fromEnv, toEnv, done) {
   const dbFromPath = path.resolve(__dirname, '../../database', fromEnv);
   const newestFile = path.resolve(dbFromPath, utils.getNewestFile(dbFromPath));
-  const {host, user, pass, name} = getDbCredentials(toEnv);
+  const {host, name} = getDbCredentials(toEnv);
 
   const cmd = [
     `mysql`,
@@ -44,7 +43,7 @@ const dbImportFromTo = function(fromEnv, toEnv, done) {
     colors.green(`Importing ${newestFile} into ${toEnv} db "${name}"...`),
   );
 
-  return utils.execCommand(cmd, done, code => {
+  return utils.execCommand(cmd, done, (code) => {
     if (code === 0) {
       fancyLog(
         colors.green(`Imported ${newestFile} into db ${toEnv} "${name}"`),
@@ -58,8 +57,7 @@ const dbImportFromTo = function(fromEnv, toEnv, done) {
 };
 
 const dbDropTables = function(env, done) {
-  const dbEnvPrefix = `${env.toUpperCase()}_DB_`;
-  const {host, user, name, pass} = getDbCredentials(env);
+  const {host, name} = getDbCredentials(env);
 
   const cmd = [
     `mysqldump`,
@@ -77,7 +75,7 @@ const dbDropTables = function(env, done) {
     colors.yellow(`[Warning] Dropping tables from ${env} db "${name}"...`),
   );
 
-  return utils.execCommand(cmd, done, code => {
+  return utils.execCommand(cmd, done, (code) => {
     if (code === 0) {
       fancyLog(colors.green(`Dropped ${env} db "${name}" tables`));
     } else {
@@ -88,7 +86,7 @@ const dbDropTables = function(env, done) {
 
 const dbDump = function(env, done) {
   const date = moment();
-  const {host, user, name, pass} = getDbCredentials(env);
+  const {host, name} = getDbCredentials(env);
   const filename = `./database/${env}/${date.format(
     'YYYY-MM-DD-HH-mm-ss',
   )}-${env}.sql`;
@@ -100,7 +98,7 @@ const dbDump = function(env, done) {
     `${name} > ${filename}`,
   ].join(' ');
 
-  return utils.execCommand(cmd, done, code => {
+  return utils.execCommand(cmd, done, (code) => {
     if (code === 0) {
       fancyLog(colors.green(`Created db dump ${filename} for db "${name}"`));
     } else {
