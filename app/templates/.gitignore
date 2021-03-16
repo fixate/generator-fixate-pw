@@ -10,10 +10,6 @@ node_modules
 npm-debug.log
 gulp/secrets.js
 
-# Fabricator
-styleguide/src/assets/toolkit/assets
-styleguide/src/views/layouts/includes/inline-icons.svg.html
-
 # tmux
 .tmuxinator.yml
 
