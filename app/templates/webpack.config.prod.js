@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
 const conf = require('./gulp/gulpconfig');
@@ -24,7 +24,12 @@ const config = {
 
   stats: webpackBase.stats,
 
-  plugins: webpackBase.plugins.concat([new MinifyPlugin()]),
+  plugins: webpackBase.plugins,
+
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
 };
 
 module.exports = config;
