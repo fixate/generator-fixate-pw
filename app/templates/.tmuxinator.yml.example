@@ -2,7 +2,7 @@ name: project-name
 root: <%= Dir.pwd %>
 
 on_project_exit:
-  - docker-compose stop
+  - docker compose stop
 
 windows:
   - editor:
@@ -25,5 +25,5 @@ windows:
   - backend:
       layout: main-vertical
       panes:
-        - docker-compose up
+        - docker compose up
         -
