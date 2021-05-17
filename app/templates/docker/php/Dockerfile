@@ -1,15 +1,10 @@
-FROM php:7.2.7-fpm-alpine3.7
-
-# set the APK repos explicitly because dl-cdn.alpinelinux.org is unreliable
-# TODO: evaluate if https://github.com/gliderlabs/docker-alpine/issues/386#issuecomment-437698540
-# fixes the issue
-RUN echo "https://uk.alpinelinux.org/alpine/v3.7/main" > /etc/apk/repositories \
-  && echo "https://uk.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories
+FROM php:7.4.19-fpm-alpine3.13
 
 RUN apk update; apk upgrade; apk add \
   freetype-dev \
   libjpeg-turbo-dev \
   libpng-dev \
+  libzip-dev \
   msmtp \
   zziplib-utils
 
@@ -19,7 +14,9 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 RUN docker-php-ext-install mysqli pdo_mysql zip \
   # allow for image uploads inside container
-  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+  && docker-php-ext-configure gd \
+    --with-jpeg \
+    --with-freetype \
   && docker-php-ext-install gd
 
 # install Mailhog's mhsendmail
@@ -35,3 +32,4 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
   && docker-php-ext-enable xdebug \
   # Clean up
   && apk del .phpize-deps
+
