@@ -12,7 +12,6 @@ RUN apk update; apk upgrade; apk add \
 RUN apk add --upgrade gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-
 RUN docker-php-ext-install mysqli pdo_mysql zip \
   # allow for image uploads inside container
   && docker-php-ext-configure gd \
@@ -27,10 +26,13 @@ RUN apk add --no-cache go git musl-dev \
   && rm -rf ${GOPATH} && apk del go git musl-dev
 COPY mail.ini $PHP_INI_DIR/conf.d/
 
-# install Xdebug: https://gist.github.com/patricknelson/57ae24986cb13613314fb1f3c00a95d7
-RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
-  && pecl install xdebug \
-  && docker-php-ext-enable xdebug \
-  # Clean up
-  && apk del .phpize-deps
+# install Xdebug: https://github.com/aschmelyun/docker-compose-laravel/pull/10/commits/c836d85b33302b49d5c4b540f40513316490756d
+RUN apk --no-cache add --virtual .build-deps \
+        g++ \
+        autoconf \
+        make && \
+    pecl install xdebug-2.9.2 && \
+    docker-php-ext-enable xdebug && \
+    apk del .build-deps && \
+    rm -r /tmp/pear/*
 
