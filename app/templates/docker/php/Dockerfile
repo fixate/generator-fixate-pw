@@ -8,9 +8,10 @@ RUN apk update; apk upgrade; apk add \
   msmtp \
   zziplib-utils
 
-# fix iconv issue: https://github.com/docker-library/php/issues/240#issuecomment-327992638
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community gnu-libiconv
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+# fix iconv issue: https://github.com/nunomaduro/phpinsights/issues/43#issuecomment-498108857
+RUN apk add --upgrade gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+
 
 RUN docker-php-ext-install mysqli pdo_mysql zip \
   # allow for image uploads inside container
