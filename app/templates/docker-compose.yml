@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 services:
   php:
     build: './docker/php'
@@ -6,7 +6,7 @@ services:
       - backend
     volumes:
       - app-src-dir:/var/www/html:delegated
-      - ${PWD}/docker/php/configs/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ${PWD}/docker/php/configs/user.ini:/usr/local/etc/php/conf.d/user.ini
       - ${PWD}/docker/php/configs/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   apache:
@@ -20,10 +20,10 @@ services:
     extra_hosts:
       - '${APACHE_HOSTNAME}:127.0.0.1'
     ports:
-      - "8080:80"
+      - '8080:80'
       # make virtualhost available without :8080
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - app-src-dir:/var/www/html:delegated
       # mount non-SSL .htaccess
@@ -33,11 +33,11 @@ services:
       - HOSTNAME=${APACHE_HOSTNAME}
 
   mysql:
-    image: "mysql:5.7"
+    image: 'mysql:5.7'
     networks:
       - backend
     ports:
-      - "3306:3306"
+      - '3306:3306'
     # allow zero-formatted dates for installation, speed up queries
     command: mysqld --sql_mode="" --skip-name-resolve
     # from .env
@@ -52,8 +52,8 @@ services:
     networks:
       - backend
     ports:
-      - "1025:1025"
-      - "8025:8025"
+      - '1025:1025'
+      - '8025:8025'
 
 networks:
   backend:
@@ -64,5 +64,5 @@ volumes:
     driver_opts:
       type: none
       # use ./src as the volume's host source directory
-      device: "$PWD/src"
+      device: '$PWD/src'
       o: bind
