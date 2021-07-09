@@ -10,16 +10,16 @@ A Processwire website with the following features:
 
 1. Install development dependencies:
 
-```bash
-$ npm install && (cd src && composer install)
-$ cd styleguide && npm install
-```
+   ```bash
+   $ npm install && (cd src && composer install)
+   $ cd styleguide && npm install
+   ```
 
 2. Create a copy of `.env.example`:
 
-```bash
-cp .env{.example,}
-```
+   ```bash
+   cp .env{.example,}
+   ```
 
 3. Add MySQL user and password credentials to `database/cnf/.my.cnf.{dev, prod}`
    for Gulp automating database tasks
@@ -28,27 +28,27 @@ cp .env{.example,}
 
 5. Create a dev copy of `src/config.php` for local development:
 
-```bash
-$ cp src/site/config{,-dev}.php
-```
+   ```bash
+   $ cp src/site/config{,-dev}.php
+   ```
 
 6. Open `src/site/config-dev.php`, enable debugging, and set your database
    credentials
 
-```php
-$debug->true;
+   ```php
+   $debug->true;
 
-//...
+   //...
 
-$config->dbHost = 'mysql'; // use docker service name for host if using docker
-// local db configs, as defined in .env
-```
+   $config->dbHost = 'mysql'; // use docker service name for host if using docker
+   // local db configs, as defined in .env
+   ```
 
 7. Start the Docker containers
 
-```bash
-$ docker compose up
-```
+   ```bash
+   $ docker compose up
+   ```
 
 8. Install a new ProcessWire instance, or import an existing database export
 
@@ -78,16 +78,16 @@ the provided `.tmuxinator.yml` to automate the running of all the services:
 
 1. Create a copy of the `.tmuxinator.yml.example`:
 
-```bash
-cp .tmuxinator.yml{.example,}
-```
+   ```bash
+   cp .tmuxinator.yml{.example,}
+   ```
 
 2. Install tmux and tmuxinator
 3. Start the tmux session from the project root:
 
-```bash
-$ tmuxinator
-```
+   ```bash
+   $ tmuxinator
+   ```
 
 ### Docker
 
