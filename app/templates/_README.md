@@ -115,7 +115,7 @@ Before being able to use asset compilation make sure you've enabled debugging in
 `src/site/config-dev.php`:
 
 ```php
-`$debug->true`;
+$debug->true;
 ```
 
 Assets are compiled with Gulp and Webpack. To start the dev server:
