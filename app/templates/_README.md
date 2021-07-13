@@ -147,7 +147,8 @@ To build, optimise, and rev assets:
 $ npm run build
 ```
 
-Assets can be rsynced to production with the following commands:
+Once SSH details are added to `.env`, updates can be rsynced to production with
+the following commands:
 
 ```bash
 # dry run
@@ -167,8 +168,12 @@ There are a number of useful Gulp tasks are available:
   - dumping timestamped dev / production database
   - importing the latest dev / production dump
 - Rsync:
-
   - deploying changes to production / staging
   - sync'ing production uploads to your local environment
 
-    To see all available Gulp tasks, visit [./gulp/tasks](./gulp/tasks), or on the
+To see all available Gulp tasks, visit [./gulp/tasks](./gulp/tasks), or use the
+following to list them from the command line:
+
+```bash
+$ $(npm bin)/gulp --tasks-simple
+```
