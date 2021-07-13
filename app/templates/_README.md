@@ -15,24 +15,32 @@ A Processwire website with the following features:
    $ cd styleguide && npm install
    ```
 
-2. Create a copy of `.env.example`:
+1. Create a copy of `.env.example`:
 
    ```bash
-   cp .env{.example,}
+   $ cp .env{.example,}
+   $ cat .env
    ```
 
-3. Add MySQL user and password credentials to `database/cnf/.my.cnf.{dev, prod}`
+1. Add MySQL and Apache hostname environment variables for Docker in `.env`
+
+1. Add MySQL user and password credentials to `database/cnf/.my.cnf.{dev, prod}`
    for Gulp automating database tasks
 
-4. Add MySQL and Apache hostname environment variables for Docker in `.env`
+   ```bash
+   $ cp database/cnf/.my.cnf.{example,dev,prod}
 
-5. Create a dev copy of `src/config.php` for local development:
+   # ensure credentials in .my.cnf.dev match those in .env
+   $ cat database/cnf/.my.cnf.dev
+   ```
+
+1. Create a dev copy of `src/config.php` for local development:
 
    ```bash
    $ cp src/site/config{,-dev}.php
    ```
 
-6. Open `src/site/config-dev.php`, enable debugging, and set your database
+1. Open `src/site/config-dev.php`, enable debugging, and set your database
    credentials
 
    ```php
@@ -44,13 +52,13 @@ A Processwire website with the following features:
    // local db configs, as defined in .env
    ```
 
-7. Start the Docker containers
+1. Start the Docker containers
 
    ```bash
    $ docker compose up
    ```
 
-8. Install a new ProcessWire instance, or import an existing database export
+1. Install a new ProcessWire instance, or import an existing database export
 
    - if this is a new project, visit [http://localhost/install.php](http://localhost/install.php)
    - if this is an existing project with database exports in [./database/dev](./database/dev):
@@ -59,7 +67,7 @@ A Processwire website with the following features:
      $ $(npm bin)/gulp db-import:devtodev
      ```
 
-9. Watch and rebuild changes to SCSS, Javascript, and images:
+1. Watch and rebuild changes to SCSS, Javascript, and images:
 
    ```bash
    $ npm run dev
