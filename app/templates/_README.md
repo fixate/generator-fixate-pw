@@ -161,9 +161,9 @@ To evaluate the assets that are generated from `npm run build`, temporarily add
 // ...
 
 $environment = array(
-'env' => 'production',
+   'env' => 'production',
 
-// ...
+   // ...
 );
 ```
 
