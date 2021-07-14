@@ -141,11 +141,38 @@ $ $(npm bin)/gulp --tasks-simple
 
 ### Building and deploying
 
-To build, optimise, and rev assets:
+To build, optimise, and rev CSS, Javascript, and images for production, run the
+following:
 
 ```bash
 $ npm run build
 ```
+
+#### Previewing built assets locally
+
+To evaluate the assets that are generated from `npm run build`, temporarily add
+`"env" => "production"` to the `$environment` array in
+[./src/site/templates/config/environment.php](./src/site/templates/config/environment.php).
+
+```php
+<?php
+// ./src/site/templates/config/environment.php
+
+// ...
+
+$environment = array(
+'env' => 'production',
+
+// ...
+);
+```
+
+This will force the site to load the minified assets.
+
+**NOTE**: do not commit this change! Local changes to SCSS and JS are not
+visible while this setting is active, which can take time to debug!
+
+#### Deploying with `rsync`
 
 Once SSH details are added to `.env`, updates can be rsynced to production with
 the following commands:
