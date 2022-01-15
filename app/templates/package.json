@@ -58,7 +58,7 @@
     "rsyncwrapper": "~3.0.1",
     "run-sequence": "^2.2.1",
     "sass": "1.32.12",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "terser-webpack-plugin": "^5.1.1",
     "webpack": "^5.36.2"
   },
