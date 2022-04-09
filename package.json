@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.10.0",
-    "moment": "^2.9.0"
+    "moment": "^2.29.2"
   },
   "devDependencies": {
     "babel-loader": "^7.1.1",
