@@ -36,7 +36,7 @@
     "require-dir": "^0.3.0",
     "shelljs": "^0.8.5",
     "webpack": "^3.3.0",
-    "yeoman-generator": "~0.21.1"
+    "yeoman-generator": "~5.7.0"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"
