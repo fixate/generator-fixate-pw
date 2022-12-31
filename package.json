@@ -25,7 +25,7 @@
     "moment": "^2.29.4"
   },
   "devDependencies": {
-    "babel-loader": "^7.1.1",
+    "babel-loader": "^9.1.0",
     "coffee": "^3.2.1",
     "gulp": "^4.0.2",
     "gulp-bump": "~1.0.0",
@@ -35,7 +35,7 @@
     "npm-check-updates": "^16.3.16",
     "require-dir": "^0.3.0",
     "shelljs": "^0.8.5",
-    "webpack": "^3.3.0",
+    "webpack": "^5.75.0",
     "yeoman-generator": "~5.7.0"
   },
   "peerDependencies": {
